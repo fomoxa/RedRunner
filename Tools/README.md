@@ -1,6 +1,6 @@
 # Checking the port from WSL
 
-These scripts run the Unity Editor installed on Windows against this project while the repository lives in WSL. The Windows Editor refuses to open a project on the case-sensitive WSL file system, so `unity-windows.sh` copies the project to `C:\Users\<user>\redrunner-unity-check\RedRunner` and runs Unity there in batch mode. The `com.fomoxa.unity` package is copied next to it, to `redrunner-unity-check\fomoxa-unity\com.fomoxa.unity`, so the `file:../../fomoxa-unity/com.fomoxa.unity` entry in `Packages/manifest.json` resolves in the copy as well.
+These scripts run the Unity Editor installed on Windows against this project while the repository lives in WSL. The Windows Editor refuses to open a project on the case-sensitive WSL file system, so `unity-windows.sh` copies the project to `C:\Users\<user>\redrunner-unity-check\RedRunner` and runs Unity there in batch mode. The `com.fomoxa.unity` package from the `unity` repository is copied next to it, to `redrunner-unity-check\unity\com.fomoxa.unity`. `Packages/manifest.json` in this repository installs the package from its Git URL; in the copy, the script replaces that entry with `file:../../unity/com.fomoxa.unity` and drops the package from `packages-lock.json`, so the checks run against your local package, including changes you have not pushed. The two package files are not copied back.
 
 You do not need any of this to play or build the game. Open the project in the Unity Editor as usual.
 
@@ -8,7 +8,7 @@ You do not need any of this to play or build the game. Open the project in the U
 
 - Unity 6000.5.7f1 installed through Unity Hub on Windows. Change `UNITY_VERSION` at the top of the script for another version.
 - The Windows user name in `WIN_USER` (default `admin`).
-- The `fomoxa-unity` repository cloned next to this one.
+- The `unity` repository cloned next to this one.
 
 ## Commands
 
@@ -53,7 +53,7 @@ After Unity exits, the script copies every file whose content changed in the Win
 
 `PathLog.cs`, `BotPlayer.cs` and `ScreenshotTaker.cs` are the scripts in `Tools/PortChecks` that are not editor-only. They end up in the player build made from the Windows copy and do nothing unless the player starts with `-log-paths`, `-bot` or `-screenshot`.
 
-`shots` takes the screenshots of the guide from the last player build, without opening the Editor. It starts a server, one bot without graphics and three players in batch mode with graphics: one stays on the start screen, two join as bots, and each writes a 1280 × 720 PNG after a few seconds (`-screenshot <file> -screenshot-after <seconds>`). The script copies them to `docs/.gitbook/assets/`.
+`shots` takes the screenshots used by the guide from the last player build, without opening the Editor. It starts a server, one bot without graphics and three players in batch mode with graphics: one stays on the start screen, two join as bots, and each writes a 1280 × 720 PNG after a few seconds (`-screenshot <file> -screenshot-after <seconds>`). The script copies them to `docs/.gitbook/assets/`.
 
 A component that drives a Play Mode check must stay out of any `Editor` folder. Unity drops a MonoBehaviour from an Editor-only assembly out of the scene when it reloads the domain on entering Play Mode, without logging an error. The checks wrap their whole file in `#if UNITY_EDITOR` instead, and each check class sits in a file of the same name, which Unity needs to find a MonoBehaviour's script after the reload.
 

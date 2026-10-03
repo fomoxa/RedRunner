@@ -1,40 +1,28 @@
 # Red Runner online with Fomoxa
 
-This guide turns Red Runner, a single-player 2D platformer, into an online game built on the `com.fomoxa.unity` package. Each chapter is one commit on the `feature/fomoxa-port` branch of this repository, so you can follow a chapter in the Editor and compare your project with that commit.
-
-## The game you end up with
-
-One dedicated server runs the game. A player opens the client, types the server address on the start screen and is placed in the level straight away; there are no lobbies or rooms. Every player runs through the same level, which the server and each client build from a seed the server picks. The level has a start block, about twenty middle blocks and an end block. Reaching the end block sends the player back to the start.
-
-The server decides when a player dies. Saws, spikes, water and the mace kill on the server, and the client shows the skeleton when the server says so, then the player respawns at the start. Coins and chests stay on each client as decoration and there is no score. Players pass through each other.
-
-Your own character moves as soon as you press a key: the client predicts it with `Rigidbody2D` physics and corrects it when the server's state arrives. Other players are interpolated from the server.
+This repository turns Red Runner, a single-player 2D platformer by Bayat Games, into an online game built on the [`com.fomoxa.unity`](https://github.com/fomoxa/com.fomoxa.unity) package. The guide to the port is part of the package documentation: [Examples > Red Runner](https://github.com/fomoxa/com.fomoxa.unity/blob/HEAD/Documentation~/examples/redrunner/README.md). It describes the offline game, the nine steps of the migration with the commit of each step, the finished architecture and troubleshooting.
 
 ![Two players running near the start of a seeded level](.gitbook/assets/two-players.png)
 
-## Chapters
+## Run the game
 
-1. [Install the package and add a NetworkManager](setup.md)
-2. [Build the level from a seed](level.md)
-3. [Join a server](joining.md)
-4. [Move the player online](player.md)
-5. [Death, respawn and the end of the level](lives.md)
-6. [Move the mace with the server's tick](mace.md)
-7. [Play with two clients](crowd.md)
-
-## Run the finished game
-
-Check out the `feature/fomoxa-port` branch, open the project in Unity 6000.5 and build a Windows player with `Play.unity`. Start a dedicated server, then start clients and click Play with the server's address in the field under the buttons:
+1. Clone this repository and open it with Unity 6000.5 or later on Windows x64 or Linux x64. Package Manager installs `com.fomoxa.unity` from its Git URL.
+2. Build a player with `Assets/Scenes/Play.unity` as its only scene.
+3. Start a dedicated server, then start clients and click Play with the server's address in the field under the buttons:
 
 ```
 RedRunner.exe -batchmode -nographics -server -port 7777 -logFile server.log
 RedRunner.exe
 ```
 
-`RedRunner.exe -host` runs a server and a client in one process. Run with the left and right arrow keys, jump with Space, W or the up arrow, and roll with Shift.
+`RedRunner.exe -host` runs a server and a client in one process. In the Editor, press Play and join a server the same way.
 
-## Before you start
+Run with the left and right arrow keys, jump with Space, W or the up arrow, and roll with Shift.
 
-- Unity 6000.5 or later. `com.fomoxa.unity` needs 6000.5, and Red Runner's `master` branch is on 6000.2.
-- Red Runner's `master` branch, which is the original single-player game.
-- Some experience with the Unity Editor and C#. The guide covers the networking and assumes you know your way around the Editor.
+## The original game
+
+Commit `2b675b5` is the single-player game as it is on [BayatGames/RedRunner](https://github.com/BayatGames/RedRunner). The commits after it are the port.
+
+## Checks
+
+`Tools/README.md` describes the automated Play Mode checks of the port, which run a Windows Unity Editor from WSL.

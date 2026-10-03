@@ -4,6 +4,8 @@ Red Runner, Awesome Platformer Game.
 
 It is now free and open source and always will be. :clap: :tada:
 
+This fork is the online version of Red Runner, built on the [`com.fomoxa.unity`](https://github.com/fomoxa/com.fomoxa.unity) networking package: a dedicated server, several players in the same seeded level, client-side prediction and server-side deaths. [docs/README.md](docs/README.md) explains how to run it and links to the step-by-step guide of the port. The original single-player game is commit `2b675b5` and [BayatGames/RedRunner](https://github.com/BayatGames/RedRunner).
+
 | [:sparkles: Getting Started](#getting-started) | [:rocket: Download](#download) | [:camera: Screenshots](#screenshots) |
 | --------------- | -------- | ----------- |
 
@@ -27,22 +29,22 @@ Follow the below instructions to get started with Red Runner source code:
 
 Make sure you have the below requirements before starting:
 
-- [Unity Game Engine](https://unity3d.com) version **6000.2.6f2 (Unity 6)**
+- [Unity Game Engine](https://unity3d.com) version **6000.5 or later**, on Windows x64 or Linux x64 for the package's code generator
 - Basic Knowledge about Unity and C#
 
 ## Download
 
 You can get access to Red Runner source code by using one of the following ways:
 
-- [:sparkles: Download Source Code](https://github.com/BayatGames/RedRunner/archive/master.zip)
-- [:fire: Download Source Code from Itch.io](https://bayat.itch.io/red-runner)
+- [:sparkles: Download Source Code](https://github.com/fomoxa/RedRunner/archive/refs/heads/master.zip)
+- [:fire: Download the original single-player source code from Itch.io](https://bayat.itch.io/red-runner)
 - Clone the repository locally:
 
 ```bash
-git clone https://github.com/BayatGames/RedRunner.git
+git clone https://github.com/fomoxa/RedRunner.git
 ```
 
-Also you can the build version of the Red Runner using the following ways:
+The single-player build of the original game is available here:
 
 - [:star: Download from Itch.io](https://bayat.itch.io/red-runner)
 
