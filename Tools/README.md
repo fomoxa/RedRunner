@@ -16,9 +16,10 @@ You do not need any of this to play or build the game. Open the project in the U
 ./Tools/unity-windows.sh check
 ./Tools/unity-windows.sh run RedRunner.PortChecks.PortSetup.Networking
 ./Tools/unity-windows.sh play RedRunner.PortChecks.PortPlay.Connection
+./Tools/unity-windows.sh play-server RedRunner.PortChecks.PortPlay.Join
 ```
 
-`check` opens the project, compiles it and quits. `run` calls an Editor method and quits. `play` calls an Editor method that enters Play Mode; the check running in Play Mode quits the Editor itself, and the script stops it after 180 seconds if it does not.
+`check` opens the project, compiles it and quits. `run` calls an Editor method and quits. `play` calls an Editor method that enters Play Mode; the check running in Play Mode quits the Editor itself, and the script stops it after 180 seconds if it does not. `play-server` first starts the player built by `PortBuild.Player` as a dedicated server (`-batchmode -nographics -server -port 7777`, log in `server.log`), waits for its `server listening` line, runs the Play Mode check, then stops the server and copies its log to `Logs/unity-windows-server.log`.
 
 Each command writes the Unity log to `Logs/unity-windows-<command>.log` and prints the compile errors and the `PORT-CHECK` lines it finds there. Exit code 0 with a `PORT-CHECK ... PASS` line means the check passed.
 
@@ -32,12 +33,16 @@ After Unity exits, the script copies every file whose content changed in the Win
 |---|---|
 | `PortSetup.Networking` | Creates the `FomoxaSettings` asset, runs the Fomoxa generator, puts `Play.unity` in the build scene list and adds the `Network Manager` object with a UDP transport to `Play.unity` |
 | `PortSetup.Level` | Sets the generation settings to 20 middle blocks and the start block as the end block, and adds the `Network Level` object to `Play.unity` |
+| `PortSetup.Joining` | Adds `NetworkObject`, `NetworkTransform` and `NetworkPlayer` to `RedRunner.prefab`, assigns prefab ids, removes the scene character, sets the `NetworkManager` to 50 ticks, physics simulation and 3 reconnect retries, stores the collected prefab and scene lists in the scene, adds `NetworkGame` and the address field, and wires the start and pause screens |
+| `PortBuild.Player` | Builds a Windows player of `Play.unity` into `Builds/Windows/RedRunner.exe` in the Windows copy |
 | `PortDump.Project` | Writes the `Play.unity` hierarchy, the prefabs, the generation settings, the 2D layer matrix and the input axes to `port-dump.txt`, for reading binary assets from WSL |
 | `PortPlay.Connection` | Opens `Play.unity`, starts a server on the scene's `NetworkManager`, connects a second `NetworkManager` as a client over UDP on `127.0.0.1` and passes once the server sees one peer |
 | `PortPlay.Level` | Starts a server in `Play.unity` and checks that the level is empty before, then holds the 22 blocks of `Layout(seed)` at their positions, that the layout depends only on the seed, and that a second `Build` adds nothing |
+| `PortPlay.Host` | Starts a host from `NetworkGame` and checks that the level is built, the local character spawns, is owned and stands on the start block |
+| `PortPlay.Join` | Run with `play-server`: joins the server process at `127.0.0.1` and checks the same, plus that the client's seed matches the seed in the server log |
 
-A component that drives a Play Mode check must stay out of any `Editor` folder. Unity drops a MonoBehaviour from an Editor-only assembly out of the scene when it reloads the domain on entering Play Mode, without logging an error. The checks wrap their whole file in `#if UNITY_EDITOR` instead.
+A component that drives a Play Mode check must stay out of any `Editor` folder. Unity drops a MonoBehaviour from an Editor-only assembly out of the scene when it reloads the domain on entering Play Mode, without logging an error. The checks wrap their whole file in `#if UNITY_EDITOR` instead, and each check class sits in a file of the same name, which Unity needs to find a MonoBehaviour's script after the reload.
 
 ## When the copy is locked
 
-If a run is interrupted, `Unity.exe` can stay alive on Windows and keep `Temp/UnityLockfile`, and the next copy fails with `Permission denied`. The script stops any `Unity.exe` whose command line contains `redrunner-unity-check` before each run and again after a run that timed out. Other Unity windows are left alone.
+If a run is interrupted, `Unity.exe` or the server `RedRunner.exe` can stay alive on Windows and keep `Temp/UnityLockfile`, and the next copy fails with `Permission denied`. The script stops any `Unity.exe` or `RedRunner.exe` whose command line contains `redrunner-unity-check` before each run, after a `play-server` run and after a run that timed out. Other Unity windows are left alone.

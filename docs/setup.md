@@ -62,9 +62,9 @@ Open `Play.unity` and create an empty GameObject at the root of the scene named 
 1. `UdpNetworkTransport`, which carries the connection over UDP.
 2. `NetworkManager`. Drag the `UdpNetworkTransport` component into its Transport field.
 
-`NetworkManager` would add a UDP transport by itself when it starts without one, but assigning it in the scene shows which transport the game uses. Leave the other fields at their defaults for now: Tick Rate 30, Timing Mode Tick, Simulate Physics off. The chapter on player movement turns on physics simulation.
+`NetworkManager` would add a UDP transport by itself when it starts without one, but assigning it in the scene shows which transport the game uses. Leave the other fields at their defaults for now: Tick Rate 30, Timing Mode Tick, Simulate Physics off. The chapter on joining a server changes the tick rate and turns on physics simulation.
 
-The Collected Prefabs and Collected Scenes fields stay empty in the scene. The package fills them from the generated lists when it builds the scene for Play Mode or for a player build.
+The Collected Prefabs and Collected Scenes fields can stay empty for now. The chapter on joining a server fills them with the generated lists.
 
 Save the scene. A `NetworkManager` does nothing until code calls `ServerManager.StartConnection` or `ClientManager.StartConnection`, so the game still plays as before.
 

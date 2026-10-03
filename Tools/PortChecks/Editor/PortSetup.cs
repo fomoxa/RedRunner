@@ -8,6 +8,9 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using RedRunner.Characters;
+using RedRunner.UI;
 
 namespace RedRunner.PortChecks
 {
@@ -23,6 +26,8 @@ namespace RedRunner.PortChecks
         public const string GenerationSettingsPath = "Assets/Generation Settings.asset";
         public const string StartBlockPath = "Assets/Prefabs/Blocks/Start.prefab";
         public const int MiddleBlocks = 20;
+        public const string PlayerPrefabPath = "Assets/Prefabs/RedRunner.prefab";
+        public const int TickRate = 50;
 
         public static void Networking()
         {
@@ -99,6 +104,106 @@ namespace RedRunner.PortChecks
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log($"PORT-CHECK level setup: PASS scene object id {level.GetComponent<NetworkObject>().SceneObjectId:X}");
+        }
+
+        public static void Joining()
+        {
+            GameObject prefab = PrefabUtility.LoadPrefabContents(PlayerPrefabPath);
+            if (prefab.GetComponent<NetworkObject>() == null)
+            {
+                prefab.AddComponent<NetworkObject>();
+            }
+
+            NetworkTransform networkTransform = prefab.GetComponent<NetworkTransform>() ?? prefab.AddComponent<NetworkTransform>();
+            var transformSerialized = new SerializedObject(networkTransform);
+            transformSerialized.FindProperty("syncRotation").boolValue = false;
+            transformSerialized.FindProperty("syncScale").boolValue = true;
+            transformSerialized.ApplyModifiedPropertiesWithoutUndo();
+            if (prefab.GetComponent<NetworkPlayer>() == null)
+            {
+                prefab.AddComponent<NetworkPlayer>();
+            }
+
+            PrefabUtility.SaveAsPrefabAsset(prefab, PlayerPrefabPath);
+            PrefabUtility.UnloadPrefabContents(prefab);
+            FomoxaPrefabStep.RunAndLog();
+
+            Scene scene = EditorSceneManager.OpenScene(PlayScene, OpenSceneMode.Single);
+            foreach (GameObject root in scene.GetRootGameObjects())
+            {
+                if (root.GetComponent<Character>() != null)
+                {
+                    Object.DestroyImmediate(root);
+                }
+            }
+
+            NetworkManager manager = FindInScene<NetworkManager>(scene);
+            var managerSerialized = new SerializedObject(manager);
+            managerSerialized.FindProperty("tickRate").intValue = TickRate;
+            managerSerialized.FindProperty("simulatePhysics").boolValue = true;
+            managerSerialized.FindProperty("maxReconnectRetries").intValue = 3;
+            managerSerialized.ApplyModifiedPropertiesWithoutUndo();
+
+            FomoxaPrefabStep.AssignCollected(scene, FomoxaPrefabStep.FindList());
+            FomoxaSceneStep.AssignCollected(scene, FomoxaSceneStep.FindList());
+
+            NetworkGame game = manager.GetComponent<NetworkGame>() ?? manager.gameObject.AddComponent<NetworkGame>();
+            var gameSerialized = new SerializedObject(game);
+            gameSerialized.FindProperty("m_Manager").objectReferenceValue = manager;
+            gameSerialized.FindProperty("m_PlayerPrefab").objectReferenceValue = AssetDatabase.LoadAssetAtPath<NetworkObject>(PlayerPrefabPath);
+            gameSerialized.ApplyModifiedPropertiesWithoutUndo();
+
+            StartScreen startScreen = FindInScene<StartScreen>(scene);
+            InputField address = startScreen.GetComponentInChildren<InputField>(true);
+            if (address == null)
+            {
+                address = CreateAddressField(startScreen.transform, startScreen.GetComponentInParent<Canvas>().GetComponentsInChildren<Text>(true).First().font);
+            }
+
+            var startSerialized = new SerializedObject(startScreen);
+            startSerialized.FindProperty("AddressField").objectReferenceValue = address;
+            startSerialized.FindProperty("Network").objectReferenceValue = game;
+            startSerialized.ApplyModifiedPropertiesWithoutUndo();
+
+            var pauseSerialized = new SerializedObject(FindInScene<PauseScreen>(scene));
+            pauseSerialized.FindProperty("Network").objectReferenceValue = game;
+            pauseSerialized.ApplyModifiedPropertiesWithoutUndo();
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log($"PORT-CHECK joining setup: PASS player prefab id {AssetDatabase.LoadAssetAtPath<NetworkObject>(PlayerPrefabPath).PrefabId:X8}");
+        }
+
+        private static InputField CreateAddressField(Transform parent, Font font)
+        {
+            var resources = new DefaultControls.Resources
+            {
+                standard = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd"),
+                inputField = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/InputFieldBackground.psd"),
+            };
+            GameObject fieldObject = DefaultControls.CreateInputField(resources);
+            fieldObject.name = "Address Field";
+            fieldObject.layer = parent.gameObject.layer;
+            foreach (Transform child in fieldObject.transform)
+            {
+                child.gameObject.layer = parent.gameObject.layer;
+            }
+
+            var rect = (RectTransform)fieldObject.transform;
+            rect.SetParent(parent, false);
+            rect.anchoredPosition = new Vector2(0f, 45f);
+            rect.sizeDelta = new Vector2(320f, 48f);
+            InputField field = fieldObject.GetComponent<InputField>();
+            field.text = "localhost";
+            foreach (Text text in fieldObject.GetComponentsInChildren<Text>(true))
+            {
+                text.font = font;
+                text.fontSize = 26;
+                text.alignment = TextAnchor.MiddleCenter;
+            }
+
+            ((Text)field.placeholder).text = "Server address";
+            return field;
         }
 
         private static T FindInScene<T>(Scene scene) where T : Component =>

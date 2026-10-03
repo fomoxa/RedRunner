@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-using UnityStandardAssets.CrossPlatformInput;
-
 using RedRunner.Utilities;
 
 namespace RedRunner.Characters
@@ -297,48 +295,9 @@ namespace RedRunner.Characters
 				m_CurrentRunSpeed = Mathf.SmoothDamp ( m_Speed.x, m_MaxRunSpeed, ref m_CurrentSmoothVelocity, m_RunSmoothTime );
 			}
 
-			// Input Processing
-			Move ( CrossPlatformInputManager.GetAxis ( "Horizontal" ) );
-			if ( CrossPlatformInputManager.GetButtonDown ( "Jump" ) )
-			{
-				Jump ();
-			}
 			if ( IsDead.Value && !m_ClosingEye )
 			{
 				StartCoroutine ( CloseEye () );
-			}
-			if ( CrossPlatformInputManager.GetButtonDown ( "Guard" ) )
-			{
-				m_Guard = !m_Guard;
-			}
-			if ( m_Guard )
-			{
-				if ( CrossPlatformInputManager.GetButtonDown ( "Fire" ) )
-				{
-					m_Animator.SetTrigger ( m_Actions [ m_CurrentActionIndex ] );
-					if ( m_CurrentActionIndex < m_Actions.Length - 1 )
-					{
-						m_CurrentActionIndex++;
-					}
-					else
-					{
-						m_CurrentActionIndex = 0;
-					}
-				}
-			}
-
-			if ( Input.GetButtonDown ( "Roll" ) )
-			{
-				Vector2 force = new Vector2 ( 0f, 0f );
-				if ( transform.localScale.z > 0f )
-				{
-					force.x = m_RollForce;
-				}
-				else if ( transform.localScale.z < 0f )
-				{
-					force.x = -m_RollForce;
-				}
-				m_Rigidbody2D.AddForce ( force );
 			}
 		}
 
@@ -351,10 +310,6 @@ namespace RedRunner.Characters
 			m_Animator.SetBool ( "IsDead", IsDead.Value );
 			m_Animator.SetBool ( "Block", m_Block );
 			m_Animator.SetBool ( "Guard", m_Guard );
-			if ( Input.GetButtonDown ( "Roll" ) )
-			{
-				m_Animator.SetTrigger ( "Roll" );
-			}
 		}
 
 		//		void OnCollisionEnter2D ( Collision2D collision2D )

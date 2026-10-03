@@ -25,6 +25,7 @@ namespace RedRunner.Networking
         public override void OnStartServer()
         {
             m_State.Seed = (uint)new System.Random().Next(1, int.MaxValue);
+            Debug.Log($"[RedRunner] level seed {m_State.Seed}");
             Build();
         }
 

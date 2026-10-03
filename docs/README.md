@@ -14,6 +14,7 @@ Your own character moves as soon as you press a key: the client predicts it with
 
 1. [Install the package and add a NetworkManager](setup.md)
 2. [Build the level from a seed](level.md)
+3. [Join a server](joining.md)
 
 ## Before you start
 

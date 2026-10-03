@@ -163,8 +163,11 @@ namespace RedRunner
 
         private void Start()
         {
-            m_MainCharacter.IsDead.AddEventAndFire(UpdateDeathEvent, this);
-            m_StartScoreX = m_MainCharacter.transform.position.x;
+            if (m_MainCharacter != null)
+            {
+                m_MainCharacter.IsDead.AddEventAndFire(UpdateDeathEvent, this);
+                m_StartScoreX = m_MainCharacter.transform.position.x;
+            }
             Init();
         }
 
@@ -177,7 +180,7 @@ namespace RedRunner
 
         void Update()
         {
-            if (m_GameRunning)
+            if (m_GameRunning && m_MainCharacter != null)
             {
                 if (m_MainCharacter.transform.position.x > m_StartScoreX && m_MainCharacter.transform.position.x > m_Score)
                 {
@@ -237,13 +240,11 @@ namespace RedRunner
         public void StopGame()
         {
             m_GameRunning = false;
-            Time.timeScale = 0f;
         }
 
         public void ResumeGame()
         {
             m_GameRunning = true;
-            Time.timeScale = 1f;
         }
 
         public void EndGame()

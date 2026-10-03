@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using RedRunner.Networking;
 
 namespace RedRunner.UI
 {
@@ -15,6 +16,8 @@ namespace RedRunner.UI
         protected Button SoundButton = null;
         [SerializeField]
         protected Button ExitButton = null;
+        [SerializeField]
+        protected NetworkGame Network = null;
 
         private void Start()
         {
@@ -27,6 +30,7 @@ namespace RedRunner.UI
 
             HomeButton.SetButtonAction(() =>
             {
+                Network.Leave();
                 GameManager.Singleton.Init();
             });
         }
