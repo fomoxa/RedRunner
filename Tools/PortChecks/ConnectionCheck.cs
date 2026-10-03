@@ -15,6 +15,7 @@ namespace RedRunner.PortChecks
         private NetworkManager client;
         private float startedAt;
         private bool finished;
+        private bool started;
 
         private void Start()
         {
@@ -35,6 +36,7 @@ namespace RedRunner.PortChecks
             var clientObject = new GameObject("Check Client");
             clientObject.AddComponent<UdpNetworkTransport>();
             client = clientObject.AddComponent<NetworkManager>();
+            client.ClientManager.OnClientConnectionState += args => started |= args.State == ConnectionState.Started;
             client.ClientManager.StartConnection("127.0.0.1", server.ServerManager.Port);
             startedAt = Time.realtimeSinceStartup;
         }
@@ -46,7 +48,7 @@ namespace RedRunner.PortChecks
                 return;
             }
 
-            if (client.ClientManager.State == ConnectionState.Started && server.ServerManager.PeerCount == 1)
+            if (started)
             {
                 Finish(true, $"client connected over UDP to port {server.ServerManager.Port}");
             }

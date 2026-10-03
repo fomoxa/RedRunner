@@ -22,19 +22,14 @@ namespace RedRunner.Enemies
 		void OnTriggerEnter2D (Collider2D other)
 		{
 			Character character = other.GetComponent<Character> ();
-			if (character != null) {
+			if (character != null && character.DecidesDeath) {
 				Kill (character);
 			}
 		}
 
 		public override void Kill (Character target)
 		{
-			target.Die ();
-			Vector3 spawnPosition = target.transform.position;
-			spawnPosition.y += -1f;
-			ParticleSystem particle = Instantiate<ParticleSystem> (target.WaterParticleSystem, spawnPosition, Quaternion.identity);
-			Destroy (particle.gameObject, particle.main.duration);
-			AudioManager.Singleton.PlayWaterSplashSound (transform.position);
+			target.Die (DeathCause.Water);
 		}
 
 	}

@@ -294,11 +294,6 @@ namespace RedRunner.Characters
 				return;
 			}
 
-			if ( transform.position.y < 0f )
-			{
-				Die ();
-			}
-
 			if ( IsDead.Value && !m_ClosingEye )
 			{
 				StartCoroutine ( CloseEye () );
@@ -470,16 +465,17 @@ namespace RedRunner.Characters
 
 		public override void Die ()
 		{
-			Die ( false );
+			Die ( DeathCause.Fall );
 		}
 
-		public override void Die ( bool blood )
+		public override void Die ( DeathCause cause )
 		{
 			if ( !IsDead.Value )
 			{
+				DeathCause = cause;
                 IsDead.Value = true;
 				m_Skeleton.SetActive ( true, m_Rigidbody2D.linearVelocity );
-				if ( blood )
+				if ( cause == DeathCause.Saw || cause == DeathCause.Spike || cause == DeathCause.Mace )
 				{
 					ParticleSystem particle = Instantiate<ParticleSystem> (
 						                          m_BloodParticleSystem,
@@ -487,7 +483,22 @@ namespace RedRunner.Characters
 						                          Quaternion.identity );
 					Destroy ( particle.gameObject, particle.main.duration );
 				}
-				CameraController.Singleton.fastMove = true;
+				if ( cause == DeathCause.Spike || cause == DeathCause.Mace )
+				{
+					AudioManager.Singleton.PlaySpikeSound ( transform.position );
+				}
+				if ( cause == DeathCause.Water )
+				{
+					Vector3 spawnPosition = transform.position;
+					spawnPosition.y += -1f;
+					ParticleSystem particle = Instantiate<ParticleSystem> ( m_WaterParticleSystem, spawnPosition, Quaternion.identity );
+					Destroy ( particle.gameObject, particle.main.duration );
+					AudioManager.Singleton.PlayWaterSplashSound ( transform.position );
+				}
+				if ( CameraController.Singleton != null && CameraController.Singleton.Followee == transform )
+				{
+					CameraController.Singleton.fastMove = true;
+				}
 			}
 		}
 

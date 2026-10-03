@@ -59,7 +59,7 @@ namespace RedRunner.Collectables
 		public override void OnTriggerEnter2D (Collider2D other)
 		{
 			Character character = other.GetComponent<Character> ();
-			if (m_UseOnTriggerEnter2D && character != null) {
+			if (m_UseOnTriggerEnter2D && character != null && character.CollectsItems) {
 				Collect ();
 			}
 		}
@@ -67,7 +67,7 @@ namespace RedRunner.Collectables
 		public override void OnCollisionEnter2D (Collision2D collision2D)
 		{
 			Character character = collision2D.collider.GetComponent<Character> ();
-			if (!m_UseOnTriggerEnter2D && character != null) {
+			if (!m_UseOnTriggerEnter2D && character != null && character.CollectsItems) {
 				Collect ();
 			}
 		}

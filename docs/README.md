@@ -16,6 +16,7 @@ Your own character moves as soon as you press a key: the client predicts it with
 2. [Build the level from a seed](level.md)
 3. [Join a server](joining.md)
 4. [Move the player online](player.md)
+5. [Death, respawn and the end of the level](lives.md)
 
 ## Before you start
 

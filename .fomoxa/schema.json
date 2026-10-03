@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "fingerprint": "sha256:e2afcea57bcef40f9f0f4e6e87d285d078fa803b4a8b2b99293223e296c664f6",
-  "fingerprint_u64": "0xE2AFCEA57BCEF40F",
+  "fingerprint": "sha256:4869a82bd93279f14d967fa2d542b386e6273ab67329fdd1e058b8776a9bade3",
+  "fingerprint_u64": "0x4869A82BD93279F1",
   "models": {
     "AnimatorState": {
       "source": "FomoxaSystemModels/AnimatorState.cs",
@@ -822,6 +822,54 @@
             {
               "name": "RunSmoothVelocity",
               "type": "f32"
+            }
+          ]
+        }
+      }
+    },
+    "PlayerState": {
+      "source": "Assets/Scripts/RedRunner/Networking/Models/PlayerState.cs",
+      "fingerprint": "sha256:4caa6632be242ca28e6e51c8650a78de843ef3d2f6ae762f769ed24b9283174f",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Dead",
+          "type": "bool",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Cause",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x2AF26471",
+          "fingerprint": "sha256:3a80b150290b08c5190b88dc3ab832231e89506186f08bc58362364584cf2cd2",
+          "fingerprint_u64": "0x3A80B150290B08C5",
+          "prefixes": [
+            "sha256:f1556b558c6796cc30828824946836d1035e0d2933732573b3cb1b5690138c90",
+            "sha256:3a80b150290b08c5190b88dc3ab832231e89506186f08bc58362364584cf2cd2"
+          ],
+          "prefixes_u64": [
+            "0xF1556B558C6796CC",
+            "0x3A80B150290B08C5"
+          ],
+          "fields": [
+            {
+              "name": "Dead",
+              "type": "bool"
+            },
+            {
+              "name": "Cause",
+              "type": "u8"
             }
           ]
         }

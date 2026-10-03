@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "schema_fingerprint": "sha256:e2afcea57bcef40f9f0f4e6e87d285d078fa803b4a8b2b99293223e296c664f6",
+  "schema_fingerprint": "sha256:4869a82bd93279f14d967fa2d542b386e6273ab67329fdd1e058b8776a9bade3",
   "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
   "sources": {
     "Assets/Scripts/RedRunner/Networking/Models/LevelState.cs": {
@@ -43,6 +43,20 @@
           "codec": "net",
           "fingerprint": "sha256:3d93acdaaa551f1c0db1c6cbe72165a41bb65d91dbec2dc4aaf3e31c1322e665",
           "sha256": "24ef4f54cd1f75ac4f2d4f4ad84655386222409eb158a48274e696b1e5611d0a"
+        }
+      ]
+    },
+    "Assets/Scripts/RedRunner/Networking/Models/PlayerState.cs": {
+      "models": [
+        "PlayerState"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/PlayerStateNetCodec.cs",
+          "model": "PlayerState",
+          "codec": "net",
+          "fingerprint": "sha256:3a80b150290b08c5190b88dc3ab832231e89506186f08bc58362364584cf2cd2",
+          "sha256": "ac9499ee896b870710d0f93216d14b660c1abca4c75e3d24a4433031aa19cbbf"
         }
       ]
     },
@@ -330,12 +344,12 @@
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/Handshake.cs",
       "kind": "handshake",
-      "sha256": "920528869d68005a45e5c2634b440820dc3e10ffbd5d2a1477fbebb1ac25f577"
+      "sha256": "fc2f0c8211950795f77171286aa6a0ddfe975e74875e36f2e564b588e1e6d448"
     },
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/NetSchema.cs",
       "kind": "net_schema",
-      "sha256": "9175d83559c245c02f5f4b54617b247d170cdb5004a6a62410e5c983086ce764"
+      "sha256": "136b15d02a3398eed9efff7cfbe72e47848bfd4b40a8e209f33ea322027cc2f7"
     }
   ]
 }

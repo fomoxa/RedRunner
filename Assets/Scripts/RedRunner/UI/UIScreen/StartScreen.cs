@@ -35,20 +35,27 @@ namespace RedRunner.UI
                     GameManager.Singleton.StartGame();
                 }
             });
-            Network.ClientStateChanged += state =>
-            {
-                if (state == ConnectionState.Stopped && GameManager.Singleton.gameStarted)
-                {
-                    GameManager.Singleton.EndGame();
-                    UIManager.Singleton.OpenScreen(this);
-                }
-            };
+            Network.ClientStateChanged += Network_ClientStateChanged;
 
             ExitButton.SetButtonAction(() =>
             {
                 GameManager.Singleton.ExitGame();
             });
         }
+        private void OnDestroy()
+        {
+            Network.ClientStateChanged -= Network_ClientStateChanged;
+        }
+
+        private void Network_ClientStateChanged(ConnectionState state)
+        {
+            if (state == ConnectionState.Stopped && GameManager.Singleton.gameStarted)
+            {
+                GameManager.Singleton.EndGame();
+                UIManager.Singleton.OpenScreen(this);
+            }
+        }
+
         public override void UpdateScreenStatus(bool open)
         {
             base.UpdateScreenStatus(open);

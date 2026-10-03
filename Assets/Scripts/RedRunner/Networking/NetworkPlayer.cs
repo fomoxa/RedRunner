@@ -4,6 +4,7 @@ using Fomoxa.Unity.Simulation;
 using Generated;
 using RedRunner.Characters;
 using RedRunner.Networking.Models;
+using RedRunner.TerrainGeneration;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
@@ -15,12 +16,19 @@ namespace RedRunner.Networking
         private const float PositionTolerance = 0.01f;
         private const float VelocityTolerance = 0.05f;
 
+        [SerializeField]
+        private float m_RespawnDelay = 2f;
+
+        private readonly PlayerState m_State = new PlayerState();
         private RedCharacter m_Character;
         private NetworkGame m_Game;
         private bool m_JumpPressed;
         private bool m_RollPressed;
+        private uint m_RespawnTick;
 
         public RedCharacter Character => m_Character;
+
+        public bool IsDead => m_State.Dead;
 
         private void Awake()
         {
@@ -34,8 +42,32 @@ namespace RedRunner.Networking
             input.Reconcile(PlayerMotionNetAdapter.Instance, Capture, Restore, Matches);
         }
 
+        protected override void OnRegisterState(NetworkState state)
+        {
+            state.Use(PlayerStateNetAdapter.Instance, m_State, previous => ShowState());
+        }
+
+        public override void OnStartServer()
+        {
+            m_Character.DecidesDeath = true;
+            m_Character.CollectsItems = false;
+            m_Game.Manager.TimeManager.OnTick += ServerTick;
+        }
+
+        public override void OnStopServer()
+        {
+            m_Game.Manager.TimeManager.OnTick -= ServerTick;
+        }
+
         public override void OnStartClient()
         {
+            m_Character.CollectsItems = NetworkObject.IsOwner;
+            if (!m_Game.IsServer)
+            {
+                m_Character.DecidesDeath = false;
+                ShowState();
+            }
+
             if (NetworkObject.IsOwner)
             {
                 m_Game.SetLocalPlayer(this);
@@ -73,6 +105,68 @@ namespace RedRunner.Networking
             float tickDelta = (float)m_Game.Manager.TimeManager.TickDelta;
             bool fresh = !context.Repeated;
             m_Character.Simulate(input.Move, fresh && input.Jump, fresh && input.Roll, tickDelta, !context.Replaying);
+        }
+
+        private void ServerTick()
+        {
+            TimeManager time = m_Game.Manager.TimeManager;
+            if (m_State.Dead)
+            {
+                if (time.Tick >= m_RespawnTick)
+                {
+                    Respawn();
+                }
+
+                return;
+            }
+
+            if (!m_Character.IsDead.Value && transform.position.y < 0f)
+            {
+                m_Character.Die(DeathCause.Fall);
+            }
+
+            if (m_Character.IsDead.Value)
+            {
+                m_State.Dead = true;
+                m_State.Cause = (byte)m_Character.DeathCause;
+                m_RespawnTick = time.Tick + (uint)Mathf.CeilToInt(m_RespawnDelay * time.TickRate);
+                Debug.Log($"[RedRunner] player {NetworkObject.OwnerId} died: {m_Character.DeathCause}");
+            }
+            else if (TerrainGenerator.Singleton.IsBuilt && transform.position.x >= TerrainGenerator.Singleton.EndX)
+            {
+                Debug.Log($"[RedRunner] player {NetworkObject.OwnerId} reached the end block");
+                Respawn();
+            }
+        }
+
+        private void Respawn()
+        {
+            m_Character.Reset();
+            PhysicsBody2D body = NetworkObject.Body2D;
+            BodyState2D state = body.State;
+            state.Position = new System.Numerics.Vector2(m_Game.SpawnPoint.x, m_Game.SpawnPoint.y);
+            state.Velocity = System.Numerics.Vector2.Zero;
+            body.State = state;
+            m_Character.RunSmoothVelocity = 0f;
+            m_State.Dead = false;
+            m_State.Cause = 0;
+        }
+
+        private void ShowState()
+        {
+            if (m_Game.IsServer)
+            {
+                return;
+            }
+
+            if (m_State.Dead && !m_Character.IsDead.Value)
+            {
+                m_Character.Die((DeathCause)m_State.Cause);
+            }
+            else if (!m_State.Dead && m_Character.IsDead.Value)
+            {
+                m_Character.Reset();
+            }
         }
 
         private void Capture(PlayerMotion motion)

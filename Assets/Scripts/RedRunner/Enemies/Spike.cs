@@ -24,7 +24,7 @@ namespace RedRunner.Enemies
 		void OnCollisionStay2D (Collision2D collision2D)
 		{
 			Character character = collision2D.collider.GetComponent<Character> ();
-			if (character && !character.IsDead.Value) {
+			if (character && character.DecidesDeath && !character.IsDead.Value) {
 				bool isTop = false;
 				for (int i = 0; i < collision2D.contacts.Length; i++) {
 					if (!isTop) {
@@ -41,9 +41,8 @@ namespace RedRunner.Enemies
 
 		public override void Kill (Character target)
 		{
-			target.Die (true);
+			target.Die (DeathCause.Spike);
 			m_FixedJoint2D.connectedBody = target.GetComponent<Skeleton> ().Body;
-			AudioManager.Singleton.PlaySpikeSound (transform.position);
 		}
 
 	}

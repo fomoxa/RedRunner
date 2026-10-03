@@ -19,7 +19,7 @@ You do not need any of this to play or build the game. Open the project in the U
 ./Tools/unity-windows.sh play-server RedRunner.PortChecks.PortPlay.Join
 ```
 
-`check` opens the project, compiles it and quits. `run` calls an Editor method and quits. `play` calls an Editor method that enters Play Mode; the check running in Play Mode quits the Editor itself, and the script stops it after 180 seconds if it does not. `play-server` first starts the player built by `PortBuild.Player` as a dedicated server (`-batchmode -nographics -server -port 7777`, log in `server.log`), waits for its `server listening` line, runs the Play Mode check, then stops the server and copies its log to `Logs/unity-windows-server.log`.
+`check` opens the project, compiles it and quits. `run` calls an Editor method and quits. `play` calls an Editor method that enters Play Mode; the check running in Play Mode quits the Editor itself, and the script stops it after 240 seconds if it does not. `play-server` first starts the player built by `PortBuild.Player` as a dedicated server (`-batchmode -nographics -server -port 7777`, log in `server.log`), waits for its `server listening` line, runs the Play Mode check, then stops the server and copies its log to `Logs/unity-windows-server.log`.
 
 Each command writes the Unity log to `Logs/unity-windows-<command>.log` and prints the compile errors and the `PORT-CHECK` lines it finds there. Exit code 0 with a `PORT-CHECK ... PASS` line means the check passed.
 
@@ -34,13 +34,16 @@ After Unity exits, the script copies every file whose content changed in the Win
 | `PortSetup.Networking` | Creates the `FomoxaSettings` asset, runs the Fomoxa generator, puts `Play.unity` in the build scene list and adds the `Network Manager` object with a UDP transport to `Play.unity` |
 | `PortSetup.Level` | Sets the generation settings to 20 middle blocks and the start block as the end block, and adds the `Network Level` object to `Play.unity` |
 | `PortSetup.Joining` | Adds `NetworkObject`, `NetworkTransform` and `NetworkPlayer` to `RedRunner.prefab`, assigns prefab ids, removes the scene character, sets the `NetworkManager` to 50 ticks, physics simulation and 3 reconnect retries, stores the collected prefab and scene lists in the scene, adds `NetworkGame` and the address field, and wires the start and pause screens |
+| `PortSetup.Score` | Deactivates the coin panel and the score texts of the in-game screen |
 | `PortBuild.Player` | Builds a Windows player of `Play.unity` into `Builds/Windows/RedRunner.exe` in the Windows copy |
 | `PortDump.Project` | Writes the `Play.unity` hierarchy, the prefabs, the generation settings, the 2D layer matrix and the input axes to `port-dump.txt`, for reading binary assets from WSL |
-| `PortPlay.Connection` | Opens `Play.unity`, starts a server on the scene's `NetworkManager`, connects a second `NetworkManager` as a client over UDP on `127.0.0.1` and passes once the server sees one peer |
+| `PortPlay.Connection` | Opens `Play.unity`, starts a server on the scene's `NetworkManager`, connects a second `NetworkManager` as a client over UDP on `127.0.0.1` and passes once the client reaches `Started`. From the level chapter on, the in-process client stops right after that with an `UnknownSceneObject` mismatch, because the scene's network objects are already spawned by the server in the same process; `PortPlay.Join` checks a real client |
 | `PortPlay.Level` | Starts a server in `Play.unity` and checks that the level is empty before, then holds the 22 blocks of `Layout(seed)` at their positions, that the layout depends only on the seed, and that a second `Build` adds nothing |
 | `PortPlay.Host` | Starts a host from `NetworkGame` and checks that the level is built, the local character spawns, is owned and stands on the start block |
 | `PortPlay.Join` | Run with `play-server`: joins the server process at `127.0.0.1` and checks the same, plus that the client's seed matches the seed in the server log |
 | `PortPlay.Move` | Run with `play-server`: joins through the start screen, drives virtual input (right, jump, left) and checks that the client predicts its character, that it runs, jumps and turns, and that the camera and the background follow it |
+| `PortPlay.HostLife` | Starts a host, moves the host's character below the level and onto the end block, and checks the death by `Fall`, the respawn delay and the return to the start |
+| `PortPlay.Life` | Run with `play-server`: joins, runs right and jumps until the character dies, and checks that the client shows the death only from the server's state, then the respawn |
 
 A component that drives a Play Mode check must stay out of any `Editor` folder. Unity drops a MonoBehaviour from an Editor-only assembly out of the scene when it reloads the domain on entering Play Mode, without logging an error. The checks wrap their whole file in `#if UNITY_EDITOR` instead, and each check class sits in a file of the same name, which Unity needs to find a MonoBehaviour's script after the reload.
 

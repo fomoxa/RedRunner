@@ -39,6 +39,14 @@ namespace RedRunner.Utilities
 		private bool m_FastMove = false;
 		private Vector3 m_OldPosition;
 
+		public Transform Followee
+		{
+			get
+			{
+				return m_Followee;
+			}
+		}
+
 		public bool fastMove
 		{
 			get

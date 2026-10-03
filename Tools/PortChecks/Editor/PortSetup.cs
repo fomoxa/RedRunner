@@ -174,6 +174,20 @@ namespace RedRunner.PortChecks
             Debug.Log($"PORT-CHECK joining setup: PASS player prefab id {AssetDatabase.LoadAssetAtPath<NetworkObject>(PlayerPrefabPath).PrefabId:X8}");
         }
 
+        public static void Score()
+        {
+            Scene scene = EditorSceneManager.OpenScene(PlayScene, OpenSceneMode.Single);
+            Transform inGame = FindInScene<InGameScreen>(scene).transform;
+            foreach (string hidden in new[] { "Coin Panel", "High Score Text", "Score Text" })
+            {
+                inGame.Find(hidden).gameObject.SetActive(false);
+            }
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("PORT-CHECK score setup: PASS");
+        }
+
         private static InputField CreateAddressField(Transform parent, Font font)
         {
             var resources = new DefaultControls.Resources

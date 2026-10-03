@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-using BayatGames.SaveGameFree;
-using BayatGames.SaveGameFree.Serializers;
-
 using RedRunner.Characters;
 using RedRunner.Collectables;
 using RedRunner.TerrainGeneration;
@@ -91,43 +88,10 @@ namespace RedRunner
                 Destroy(gameObject);
                 return;
             }
-            SaveGame.Serializer = new SaveGameBinarySerializer();
             m_Singleton = this;
             m_Score = 0f;
-
-            if (SaveGame.Exists("coin"))
-            {
-                m_Coin.Value = SaveGame.Load<int>("coin");
-            }
-            else
-            {
-                m_Coin.Value = 0;
-            }
-            if (SaveGame.Exists("audioEnabled"))
-            {
-                SetAudioEnabled(SaveGame.Load<bool>("audioEnabled"));
-            }
-            else
-            {
-                SetAudioEnabled(true);
-            }
-            if (SaveGame.Exists("lastScore"))
-            {
-                m_LastScore = SaveGame.Load<float>("lastScore");
-            }
-            else
-            {
-                m_LastScore = 0f;
-            }
-            if (SaveGame.Exists("highScore"))
-            {
-                m_HighScore = SaveGame.Load<float>("highScore");
-            }
-            else
-            {
-                m_HighScore = 0f;
-            }
-
+            m_Coin.Value = 0;
+            SetAudioEnabled(true);
         }
 
         void UpdateDeathEvent(bool isDead)
@@ -198,17 +162,6 @@ namespace RedRunner
             var startScreen = UIManager.Singleton.UISCREENS.Find(el => el.ScreenInfo == UIScreenInfo.START_SCREEN);
             yield return new WaitForSecondsRealtime(3f);
             UIManager.Singleton.OpenScreen(startScreen);
-        }
-
-        void OnApplicationQuit()
-        {
-            if (m_Score > m_HighScore)
-            {
-                m_HighScore = m_Score;
-            }
-            SaveGame.Save<int>("coin", m_Coin.Value);
-            SaveGame.Save<float>("lastScore", m_Score);
-            SaveGame.Save<float>("highScore", m_HighScore);
         }
 
         public void ExitGame()

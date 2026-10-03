@@ -64,7 +64,7 @@ namespace RedRunner.Enemies
 			if (pressable && character == null && !collision2D.collider.CompareTag ("Player")) {
 				Slam (position);
 			}
-			if (character != null && !character.IsDead.Value) {
+			if (character != null && character.DecidesDeath && !character.IsDead.Value) {
 				if (pressable) {
 					Slam (position);
 					Vector3 scale = character.transform.localScale;
@@ -86,9 +86,8 @@ namespace RedRunner.Enemies
 		public override void Kill (Character target)
 		{
 			m_PathFollower.Stopped = true;
-			target.Die (true);
+			target.Die (DeathCause.Mace);
 			m_Animator.SetTrigger ("Smile");
-			AudioManager.Singleton.PlaySpikeSound (transform.position);
 		}
 
 	}

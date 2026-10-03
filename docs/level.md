@@ -178,7 +178,7 @@ namespace RedRunner.Networking
 
         protected override void OnRegisterState(NetworkState state)
         {
-            state.Use(LevelStateNetAdapter.Instance, m_State, changed => Build());
+            state.Use(LevelStateNetAdapter.Instance, m_State, previous => Build());
         }
 
         public override void OnStartServer()
@@ -205,7 +205,7 @@ namespace RedRunner.Networking
 
 `OnRegisterState` tells the package that `m_State` is this behaviour's state and which adapter encodes it. The server sends the state to every client when the object spawns for it, and sends changes after that.
 
-On the server, `OnStartServer` picks the seed and builds the level. On a client, the package decodes the state into `m_State` before it calls `OnStartClient`, so the seed is already there. The `changed` callback covers a seed that arrives later. In host mode the server and the client share one instance, and the second `Build` call returns at once.
+On the server, `OnStartServer` picks the seed and builds the level. On a client, the package decodes the state into `m_State` before it calls `OnStartClient`, so the seed is already there. The callback covers a seed that arrives later. The package passes it the previous value and has already written the new one into `m_State`, so `Build` reads `m_State`. In host mode the server and the client share one instance, and the second `Build` call returns at once.
 
 In `Play.unity`, create a root GameObject named `Network Level` and add `NetworkObject` and `NetworkLevel` to it. Drag the `Terrain Generator` object into the Generator field, then save the scene.
 

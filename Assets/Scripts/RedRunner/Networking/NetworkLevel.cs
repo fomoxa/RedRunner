@@ -19,7 +19,7 @@ namespace RedRunner.Networking
 
         protected override void OnRegisterState(NetworkState state)
         {
-            state.Use(LevelStateNetAdapter.Instance, m_State, changed => Build());
+            state.Use(LevelStateNetAdapter.Instance, m_State, previous => Build());
         }
 
         public override void OnStartServer()

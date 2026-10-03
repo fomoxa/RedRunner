@@ -58,6 +58,12 @@ namespace RedRunner.Characters
 
 		public virtual Property<bool> IsDead { get; set; }
 
+		public virtual DeathCause DeathCause { get; protected set; }
+
+		public virtual bool DecidesDeath { get; set; } = true;
+
+		public virtual bool CollectsItems { get; set; } = true;
+
 		public abstract bool ClosingEye { get; }
 
 		public abstract bool Guard { get; }
@@ -72,7 +78,7 @@ namespace RedRunner.Characters
 
 		public abstract void Die ();
 
-		public abstract void Die ( bool blood );
+		public abstract void Die ( DeathCause cause );
 
 		public abstract void EmitRunParticle ();
 

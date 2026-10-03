@@ -5,3 +5,4 @@
 * [Build the level from a seed](level.md)
 * [Join a server](joining.md)
 * [Move the player online](player.md)
+* [Death, respawn and the end of the level](lives.md)
