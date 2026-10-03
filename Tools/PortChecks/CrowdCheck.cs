@@ -56,12 +56,18 @@ namespace RedRunner.PortChecks
             float biggestJump = 0f;
             Vector3 previous = remote.transform.position;
             float watched = 0f;
+            float lastMovedAt = 0f;
             while (remote != null)
             {
                 Vector3 position = remote.transform.position;
                 if (!remote.Character.IsDead.Value && !remote.IsDead)
                 {
                     biggestJump = Mathf.Max(biggestJump, Vector3.Distance(position, previous) > 20f ? 0f : Vector3.Distance(position, previous));
+                }
+
+                if (Vector3.Distance(position, previous) > 0.01f || remote.Character.IsDead.Value)
+                {
+                    lastMovedAt = watched;
                 }
 
                 previous = position;
@@ -88,7 +94,10 @@ namespace RedRunner.PortChecks
                 yield return null;
             }
 
-            string detail = $"remote first seen at x {firstSeenX:F2}, kinematic {kinematic}, ran to x {farthest:F1}, animator speed up to {fastest:F2}, faced right {facedRight}, died {sawDeath}, respawned {sawRespawn}, despawned after {watched:F1} s, local character moved {localDrift:F3}, largest frame step {biggestJump:F2}";
+            float stillBeforeDespawn = watched - lastMovedAt;
+            int serverDeaths = Count("server.log", "] player ", " died: ");
+            int botDeaths = Count("bot.log", "PORT-BOT died", null);
+            string detail = $"still for {stillBeforeDespawn:F1} s before despawn, {serverDeaths} deaths on the server, {botDeaths} seen by the bot, remote first seen at x {firstSeenX:F2}, kinematic {kinematic}, ran to x {farthest:F1}, animator speed up to {fastest:F2}, faced right {facedRight}, died {sawDeath}, respawned {sawRespawn}, despawned after {watched:F1} s, local character moved {localDrift:F3}, largest frame step {biggestJump:F2}";
             bool passed = kinematic
                 && Mathf.Abs(firstSeenX - Game.SpawnPoint.x) < 2f
                 && farthest - firstSeenX > 5f
@@ -96,8 +105,23 @@ namespace RedRunner.PortChecks
                 && facedRight
                 && sawDeath
                 && sawRespawn
-                && localDrift < 0.05f;
+                && localDrift < 0.05f
+                && stillBeforeDespawn > 10f;
             Finish(passed, detail);
+        }
+
+        private static int Count(string file, string start, string end)
+        {
+            if (!File.Exists(file))
+            {
+                return -1;
+            }
+
+            using (var stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd().Split('\n').Count(line => line.Contains(start) && (end == null || line.Contains(end)));
+            }
         }
 
         private void OnDestroy()

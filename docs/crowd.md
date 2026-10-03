@@ -43,11 +43,28 @@ void LateUpdate ()
 	m_Animator.SetFloat ( "VelocityY", velocity.y );
 ```
 
+## Stop a character whose player left
+
+The first run also showed what happens when a client quits. Over UDP the server gets no signal: Fomoxa's UDP transport has no close message, and the server learns that the peer is gone from the heartbeat, after 5 seconds of silence and 15 more seconds without an answer. Until then the package applies the player's last input again on every tick, marked as repeated, so a player who quit while running kept running and dying for 20 seconds.
+
+`NetworkPlayer.Apply` now counts repeated ticks and drops the axis after `m_MaxRepeatedTicks` of them (10, which is 0.2 seconds at 50 ticks per second). A short gap in a player's input still repeats the run, and a player who left stands still until the server despawns the character:
+
+```csharp
+private void Apply(PlayerInput input, InputContext context)
+{
+    float tickDelta = (float)m_Game.Manager.TimeManager.TickDelta;
+    bool fresh = !context.Repeated;
+    m_RepeatedTicks = fresh ? 0 : m_RepeatedTicks + 1;
+    float move = m_RepeatedTicks > m_MaxRepeatedTicks ? 0f : input.Move;
+    m_Character.Simulate(move, fresh && input.Jump, fresh && input.Roll, tickDelta, !context.Replaying);
+}
+```
+
 ## Known limits
 
-> When a client quits, the server notices only when the connection times out, about 20 seconds later in the checks. Until then it keeps the character and applies that client's last input again on every tick, so a player who quit while running keeps running and dying.
+> The character of a player who left stays in the level, standing still, for about 20 seconds.
 
-> A respawned character slides back across the level on the other clients for the two ticks of interpolation, because the server moves it like any other position change.
+> When a character respawns, the other clients interpolate it from where it died to the start over one tick (20 ms), so one frame may show it halfway. `NetworkTransform` has no way yet to mark a move as a teleport.
 
 ## Check it
 
@@ -64,5 +81,6 @@ The Editor joins the server process and stands still at the start. It then launc
 - sees it die and respawn;
 - sees it despawn after the bot leaves;
 - has not been pushed while the bot's character ran through it.
+- sees the bot's character stand still for more than 10 seconds before it despawns.
 
-In the last run the Editor client saw the bot's character run to x 24, die and respawn, with an animator speed of at most 21, and its own character did not move.
+In the last run the Editor client saw the bot's character run to x 24, die and respawn, with an animator speed of at most 21. After the bot left, its character stood still for 17.2 seconds until the server despawned it, and the Editor client's own character never moved.

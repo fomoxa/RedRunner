@@ -46,7 +46,7 @@ After Unity exits, the script copies every file whose content changed in the Win
 | `PortPlay.HostLife` | Starts a host, moves the host's character below the level and onto the end block, and checks the death by `Fall`, the respawn delay and the return to the start |
 | `PortPlay.Life` | Run with `play-server`: joins, runs right and jumps until the character dies, and checks that the client shows the death only from the server's state, then the respawn |
 | `PortPlay.Path` | Run with `SERVER_ARGS="-log-paths"` and `play-server`: compares the position of the first moving path follower on the server and the client at the same ticks for 10 seconds |
-| `PortPlay.Crowd` | Run with `play-server`: joins, launches the player build again as a bot client (`BotPlayer`: `-bot <address> -bot-seconds <n>`), and checks how the Editor client sees the bot's character: kinematic, at the spawn point, running, animated, facing right, dying, respawning, passing through the local character, and despawned after the bot leaves |
+| `PortPlay.Crowd` | Run with `play-server`: joins, launches the player build again as a bot client (`BotPlayer`: `-bot <address> -bot-seconds <n>`), and checks how the Editor client sees the bot's character: kinematic, at the spawn point, running, animated, facing right, dying, respawning, passing through the local character, and standing still for more than 10 seconds before it is despawned after the bot leaves |
 
 `PathLog.cs`, `BotPlayer.cs` and `ScreenshotTaker.cs` are the scripts in `Tools/PortChecks` that are not editor-only. They end up in the player build made from the Windows copy and do nothing unless the player starts with `-log-paths`, `-bot` or `-screenshot`.
 

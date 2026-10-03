@@ -19,12 +19,16 @@ namespace RedRunner.Networking
         [SerializeField]
         private float m_RespawnDelay = 2f;
 
+        [SerializeField]
+        private int m_MaxRepeatedTicks = 10;
+
         private readonly PlayerState m_State = new PlayerState();
         private RedCharacter m_Character;
         private NetworkGame m_Game;
         private bool m_JumpPressed;
         private bool m_RollPressed;
         private uint m_RespawnTick;
+        private int m_RepeatedTicks;
 
         public RedCharacter Character => m_Character;
 
@@ -104,7 +108,9 @@ namespace RedRunner.Networking
         {
             float tickDelta = (float)m_Game.Manager.TimeManager.TickDelta;
             bool fresh = !context.Repeated;
-            m_Character.Simulate(input.Move, fresh && input.Jump, fresh && input.Roll, tickDelta, !context.Replaying);
+            m_RepeatedTicks = fresh ? 0 : m_RepeatedTicks + 1;
+            float move = m_RepeatedTicks > m_MaxRepeatedTicks ? 0f : input.Move;
+            m_Character.Simulate(move, fresh && input.Jump, fresh && input.Roll, tickDelta, !context.Replaying);
         }
 
         private void ServerTick()
