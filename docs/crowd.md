@@ -45,17 +45,18 @@ void LateUpdate ()
 
 ## Stop a character whose player left
 
-The first run also showed what happens when a client quits. Over UDP the server gets no signal: Fomoxa's UDP transport has no close message, and the server learns that the peer is gone from the heartbeat, after 5 seconds of silence and 15 more seconds without an answer. Until then the package applies the player's last input again on every tick, marked as repeated, so a player who quit while running kept running and dying for 20 seconds.
+The first run also showed what happens when a client quits. Over UDP the server gets no signal from the transport: Fomoxa's UDP transport has no close message, and the server learns that the peer is gone from the heartbeat, after 5 seconds of silence and 15 more seconds without an answer. Until then the package applied the player's last input again on every tick, so a player who quit while running kept running and dying for 20 seconds.
 
-`NetworkPlayer.Apply` now counts repeated ticks and drops the axis after `m_MaxRepeatedTicks` of them (10, which is 0.2 seconds at 50 ticks per second). A short gap in a player's input still repeats the run, and a player who left stands still until the server despawns the character:
+The package now handles a client that stops on purpose. `ClientManager.StopConnection`, which `NetworkGame.Leave` calls and which `NetworkManager` also calls when the game quits, sends a `PeerLeave` message three times before it closes the connection. The server ends that peer at once and despawns its character.
+
+A client that disappears without stopping (a crash, a lost network) still leaves the server waiting for the heartbeat. `NetworkManager` has Handshake Timeout Seconds, Heartbeat Interval Seconds and Heartbeat Timeout Seconds for that wait; Red Runner keeps the defaults. During the wait the package repeats the last input and tells `Apply` how far back that input is with `InputContext.RepeatedTicks`. `NetworkPlayer.Apply` drops the axis once the input is more than `m_MaxRepeatedTicks` ticks old (10, which is 0.2 seconds at 50 ticks per second), so a short gap still repeats the run and a vanished player stands still:
 
 ```csharp
 private void Apply(PlayerInput input, InputContext context)
 {
     float tickDelta = (float)m_Game.Manager.TimeManager.TickDelta;
     bool fresh = !context.Repeated;
-    m_RepeatedTicks = fresh ? 0 : m_RepeatedTicks + 1;
-    float move = m_RepeatedTicks > m_MaxRepeatedTicks ? 0f : input.Move;
+    float move = context.RepeatedTicks > m_MaxRepeatedTicks ? 0f : input.Move;
     m_Character.Simulate(move, fresh && input.Jump, fresh && input.Roll, tickDelta, !context.Replaying);
 }
 ```
@@ -66,7 +67,7 @@ A respawn moves the character from where it died to the start in one tick. `Netw
 
 ## Known limits
 
-> The character of a player who left stays in the level, standing still, for about 20 seconds.
+> When a client crashes or loses its network, its character stays in the level, standing still, until the heartbeat ends the session: about 20 seconds with the default settings.
 
 
 ## Check it
@@ -84,7 +85,15 @@ The Editor joins the server process and stands still at the start. It then launc
 - sees it die and respawn;
 - sees it despawn after the bot leaves;
 - has not been pushed while the bot's character ran through it;
-- sees the bot's character stand still for more than 10 seconds before it despawns;
+- sees the bot's character despawn less than 2 seconds after it last moved, because the bot leaves with `PeerLeave`;
 - never has two neighbouring snapshots more than 2 units apart in the bot's `NetworkTransform` buffer, which would mean interpolating across a respawn.
 
-In the last run the Editor client saw the bot's character run to x 24, die and respawn nine times without a single buffered jump, with an animator speed of at most 11.5. Without the `Teleport()` call, the same check counted 268 frames with the death point and the start next to each other in the buffer. After the bot left, its character stood still for 17.2 seconds until the server despawned it, and the Editor client's own character never moved.
+In the last run the Editor client saw the bot's character run to x 24, die and respawn nine times without a single buffered jump, with an animator speed of at most 11.5. Without the `Teleport()` call, the same check counted 268 frames with the death point and the start next to each other in the buffer. The server despawned the bot's character as the bot left, 45.2 seconds after it appeared, and the Editor client's own character never moved.
+
+A second check covers a client that vanishes:
+
+```bash
+./Tools/unity-windows.sh play-server RedRunner.PortChecks.PortPlay.Crash
+```
+
+It starts the bot the same way, kills its process after eight seconds so that no `PeerLeave` is sent, and passes when, from 3.5 seconds after the kill (past a pending respawn), the bot's character no longer moves sideways and does not die again, and the server despawns it more than 10 seconds after the kill. In the last run the character stood still and was despawned 20.0 seconds after the kill. With the `RepeatedTicks` rule removed from `Apply`, the same check saw it run 11.4 units further and die three more times.

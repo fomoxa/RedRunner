@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "schema_fingerprint": "sha256:d53e2735f9dfe57ede6a26d5c6ff73915761d0330d7a8b0ee66a1e02a805e8c4",
+  "schema_fingerprint": "sha256:2f4ad087d5afe68d2b3538905bbafac92380ede1c31cb4f30956500b085308bd",
   "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
   "sources": {
     "Assets/Scripts/RedRunner/Networking/Models/LevelState.cs": {
@@ -180,6 +180,20 @@
         }
       ]
     },
+    "FomoxaSystemModels/PeerLeave.cs": {
+      "models": [
+        "PeerLeave"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/PeerLeaveNetCodec.cs",
+          "model": "PeerLeave",
+          "codec": "net",
+          "fingerprint": "sha256:2ac3087c85a8996638d23e01aa4bc0349c93b0d498a76b5d2a8c69ce0a1324f8",
+          "sha256": "541a182ea0f6f0b85cc7ccc515c180d3790d028f0abeb1a9d694c826b1a297db"
+        }
+      ]
+    },
     "FomoxaSystemModels/ReconcileState.cs": {
       "models": [
         "ReconcileState"
@@ -344,12 +358,12 @@
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/Handshake.cs",
       "kind": "handshake",
-      "sha256": "cfa73b7e13b00f20ff2c0b7bd3e5d081fcc9afecdf717c02ec2a29ed1f6c7a9d"
+      "sha256": "2aa7d4708eafe064079e6fbea42008030ba74bc0135ac3934f65cfc6665f41ec"
     },
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/NetSchema.cs",
       "kind": "net_schema",
-      "sha256": "dfc28486515a100f19a3be24f2694b3afd6562b810870f2a3a59067cb31a49a2"
+      "sha256": "bb93c72e0414872e0a443607aaf8f3dfe3a2227e18b07fafc9d7d12640aee483"
     }
   ]
 }

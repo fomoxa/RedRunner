@@ -103,6 +103,8 @@ rsync -a --delete \
   --exclude='/UserSettings' \
   --exclude='/Builds' \
   --exclude='/server.log' \
+  --exclude='/bot.log' \
+  --exclude='/unity*.log' \
   --exclude='/Assets/PortChecks' \
   --exclude='/Assets/PortChecks.meta' \
   "$REPO/" "$DST/"
@@ -110,9 +112,9 @@ rsync -a --delete "$PACKAGE/" "$ROOT/fomoxa-unity/com.fomoxa.unity/"
 rm -rf "$DST/Assets/PortChecks"
 mkdir -p "$DST/Assets/PortChecks"
 rsync -a "$SCRIPT_DIR/PortChecks/" "$DST/Assets/PortChecks/"
-rm -f "$DST/unity.log"
+rm -f "$DST/unity-$MODE.log"
 
-ARGS=(-batchmode -nographics -projectPath "$WIN_ROOT\\RedRunner" -logFile "$WIN_ROOT\\RedRunner\\unity.log")
+ARGS=(-batchmode -nographics -projectPath "$WIN_ROOT\\RedRunner" -logFile "$WIN_ROOT\\RedRunner\\unity-$MODE.log")
 case "$MODE" in
   check) ARGS+=(-quit) ;;
   run) ARGS+=(-quit -executeMethod "$METHOD") ;;
@@ -143,7 +145,7 @@ if [ "$MODE" = play-server ]; then
   cp "$DST/server.log" "$LOG_DIR/unity-windows-server.log" 2>/dev/null || true
 fi
 
-cp "$DST/unity.log" "$LOG" 2>/dev/null || true
+cp "$DST/unity-$MODE.log" "$LOG" 2>/dev/null || true
 
 rsync -rc --no-perms --no-times --chmod=D755,F644 \
   --exclude='/.git' \
@@ -157,7 +159,7 @@ rsync -rc --no-perms --no-times --chmod=D755,F644 \
   --exclude='/bot.log' \
   --exclude='/Assets/PortChecks' \
   --exclude='/Assets/PortChecks.meta' \
-  --exclude='/unity.log' \
+  --exclude='/unity*.log' \
   --exclude='*.csproj' \
   --exclude='*.sln' \
   --exclude='*.slnx' \

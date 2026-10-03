@@ -20,6 +20,8 @@ You do not need any of this to play or build the game. Open the project in the U
 ./Tools/unity-windows.sh shots
 ```
 
+Unity writes its log to `unity-<command>.log` in the Windows copy, one file per command, so a log another program keeps open does not block the next run.
+
 `check` opens the project, compiles it and quits. `run` calls an Editor method and quits. `play` calls an Editor method that enters Play Mode; the check running in Play Mode quits the Editor itself, and the script stops it after 240 seconds if it does not. `play-server` first starts the player built by `PortBuild.Player` as a dedicated server (`-batchmode -nographics -server -port 7777`, log in `server.log`), adds the words of the `SERVER_ARGS` environment variable to its command line, waits for its `server listening` line, runs the Play Mode check, then stops the server and copies its log to `Logs/unity-windows-server.log`.
 
 Each command writes the Unity log to `Logs/unity-windows-<command>.log` and prints the compile errors and the `PORT-CHECK` lines it finds there. Exit code 0 with a `PORT-CHECK ... PASS` line means the check passed.
@@ -46,7 +48,8 @@ After Unity exits, the script copies every file whose content changed in the Win
 | `PortPlay.HostLife` | Starts a host, moves the host's character below the level and onto the end block, and checks the death by `Fall`, the respawn delay and the return to the start |
 | `PortPlay.Life` | Run with `play-server`: joins, runs right and jumps until the character dies, and checks that the client shows the death only from the server's state, then the respawn |
 | `PortPlay.Path` | Run with `SERVER_ARGS="-log-paths"` and `play-server`: compares the position of the first moving path follower on the server and the client at the same ticks for 10 seconds |
-| `PortPlay.Crowd` | Run with `play-server`: joins, launches the player build again as a bot client (`BotPlayer`: `-bot <address> -bot-seconds <n>`), and checks how the Editor client sees the bot's character: kinematic, at the spawn point, running, animated, facing right, dying, respawning, passing through the local character, standing still for more than 10 seconds before it is despawned after the bot leaves, and never buffering two snapshots more than 2 units apart, which would interpolate across a respawn |
+| `PortPlay.Crowd` | Run with `play-server`: joins, launches the player build again as a bot client (`BotPlayer`: `-bot <address> -bot-seconds <n>`), and checks how the Editor client sees the bot's character: kinematic, at the spawn point, running, animated, facing right, dying, respawning, passing through the local character, despawned less than 2 seconds after it last moved once the bot leaves, and never buffering two snapshots more than 2 units apart, which would interpolate across a respawn |
+| `PortPlay.Crash` | Run with `play-server`: like `Crowd`, but kills the bot process after 8 seconds, so no `PeerLeave` is sent, and checks that the bot's character stops moving sideways, does not die again and is despawned by the heartbeat more than 10 seconds later |
 
 `PathLog.cs`, `BotPlayer.cs` and `ScreenshotTaker.cs` are the scripts in `Tools/PortChecks` that are not editor-only. They end up in the player build made from the Windows copy and do nothing unless the player starts with `-log-paths`, `-bot` or `-screenshot`.
 

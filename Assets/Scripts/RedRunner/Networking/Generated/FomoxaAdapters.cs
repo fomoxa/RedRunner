@@ -24,6 +24,7 @@ namespace Generated
             registry.SetCodec(TickPongNetAdapter.Instance);
             registry.SetCodec(InputFramesNetAdapter.Instance);
             registry.SetCodec(ReconcileStateNetAdapter.Instance);
+            registry.SetCodec(PeerLeaveNetAdapter.Instance);
             registry.Channels.Set(AnimatorStateNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
             registry.Channels.Set(LocalPeerNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
             registry.Channels.Set(ObjectDespawnNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);

@@ -29,7 +29,6 @@ namespace RedRunner.Networking
         private bool m_JumpPressed;
         private bool m_RollPressed;
         private uint m_RespawnTick;
-        private int m_RepeatedTicks;
 
         public RedCharacter Character => m_Character;
 
@@ -110,8 +109,7 @@ namespace RedRunner.Networking
         {
             float tickDelta = (float)m_Game.Manager.TimeManager.TickDelta;
             bool fresh = !context.Repeated;
-            m_RepeatedTicks = fresh ? 0 : m_RepeatedTicks + 1;
-            float move = m_RepeatedTicks > m_MaxRepeatedTicks ? 0f : input.Move;
+            float move = context.RepeatedTicks > m_MaxRepeatedTicks ? 0f : input.Move;
             m_Character.Simulate(move, fresh && input.Jump, fresh && input.Roll, tickDelta, !context.Replaying);
         }
 

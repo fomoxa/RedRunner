@@ -120,7 +120,7 @@ namespace RedRunner.PortChecks
                 && sawDeath
                 && sawRespawn
                 && localDrift < 0.05f
-                && stillBeforeDespawn > 10f
+                && stillBeforeDespawn < 2f
                 && teleports > 0
                 && slides == 0;
             Finish(passed, detail);

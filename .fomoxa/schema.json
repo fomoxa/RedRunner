@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "fingerprint": "sha256:d53e2735f9dfe57ede6a26d5c6ff73915761d0330d7a8b0ee66a1e02a805e8c4",
-  "fingerprint_u64": "0xD53E2735F9DFE57E",
+  "fingerprint": "sha256:2f4ad087d5afe68d2b3538905bbafac92380ede1c31cb4f30956500b085308bd",
+  "fingerprint_u64": "0x2F4AD087D5AFE68D",
   "models": {
     "AnimatorState": {
       "source": "FomoxaSystemModels/AnimatorState.cs",
@@ -676,6 +676,24 @@
               "type": "u32"
             }
           ]
+        }
+      }
+    },
+    "PeerLeave": {
+      "source": "FomoxaSystemModels/PeerLeave.cs",
+      "fingerprint": "sha256:b00cdd65e7121331c6beae119edde05cd74ced007dc39953e8483b5b1ea92bb5",
+      "codecs": [
+        "net"
+      ],
+      "fields": [],
+      "messages": {
+        "net": {
+          "id": "0xC524CDA7",
+          "fingerprint": "sha256:2ac3087c85a8996638d23e01aa4bc0349c93b0d498a76b5d2a8c69ce0a1324f8",
+          "fingerprint_u64": "0x2AC3087C85A89966",
+          "prefixes": [],
+          "prefixes_u64": [],
+          "fields": []
         }
       }
     },
