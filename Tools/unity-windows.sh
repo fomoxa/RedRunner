@@ -40,6 +40,10 @@ stop_check_processes() {
 }
 
 start_server() {
+  local SERVER_EXTRA=""
+  for argument in ${SERVER_ARGS:-}; do
+    SERVER_EXTRA="$SERVER_EXTRA,'$argument'"
+  done
   local player="$DST/Builds/Windows/RedRunner.exe"
   if [ ! -f "$player" ]; then
     echo "no player build at $player; run: $0 run RedRunner.PortChecks.PortBuild.Player" >&2
@@ -47,7 +51,7 @@ start_server() {
   fi
   rm -f "$DST/server.log"
   powershell.exe -NoProfile -Command \
-    "Start-Process -FilePath '$WIN_ROOT\\RedRunner\\Builds\\Windows\\RedRunner.exe' -ArgumentList '-batchmode','-nographics','-server','-port','$SERVER_PORT','-logFile','$WIN_ROOT\\RedRunner\\server.log'" \
+    "Start-Process -FilePath '$WIN_ROOT\\RedRunner\\Builds\\Windows\\RedRunner.exe' -ArgumentList '-batchmode','-nographics','-server','-port','$SERVER_PORT','-logFile','$WIN_ROOT\\RedRunner\\server.log'$SERVER_EXTRA" \
     >/dev/null 2>&1
   for _ in $(seq 1 60); do
     if grep -q "server listening" "$DST/server.log" 2>/dev/null; then

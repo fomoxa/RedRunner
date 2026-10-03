@@ -36,6 +36,10 @@ namespace RedRunner.Utilities
 		protected Vector3 m_Velocity;
 		protected Vector3 m_SmoothVelocity;
 		protected float m_OverTimeSpeed = 0f;
+		protected List<Vector3> m_Cycle;
+		protected float m_CycleTickDelta;
+		protected Rigidbody2D m_Rigidbody2D;
+		protected bool m_Driven = false;
 
 		public virtual bool Stopped {
 			get {
@@ -49,6 +53,12 @@ namespace RedRunner.Utilities
 		public virtual Vector3 Velocity {
 			get {
 				return m_Velocity;
+			}
+		}
+
+		public virtual int CycleLength {
+			get {
+				return m_Cycle == null ? 0 : m_Cycle.Count;
 			}
 		}
 
@@ -82,6 +92,9 @@ namespace RedRunner.Utilities
 
 		void Update ()
 		{
+			if (m_Driven) {
+				return;
+			}
 			if (m_Smart) {
 				Collider2D[] colliders = Physics2D.OverlapBoxAll (transform.position + m_RangeOffset, m_RangeSize, 0f, LayerMask.GetMask ("Characters"));
 				for (int i = 0; i < colliders.Length; i++) {
@@ -121,6 +134,101 @@ namespace RedRunner.Utilities
 					StartCoroutine (MoveNext ());
 				}
 			}
+		}
+
+		public virtual Vector3 PositionAt (uint tick)
+		{
+			return m_Cycle [(int)(tick % (uint)m_Cycle.Count)];
+		}
+
+		public virtual void FollowTick (uint tick, float tickDelta)
+		{
+			if (m_PathDefinition == null) {
+				return;
+			}
+			if (m_Cycle == null || m_CycleTickDelta != tickDelta) {
+				BuildCycle (tickDelta);
+			}
+			Vector3 position = PositionAt (tick);
+			m_Velocity = (PositionAt (tick - 1) - position) / tickDelta;
+			if (!m_Driven) {
+				m_Driven = true;
+				StopAllCoroutines ();
+				m_Rigidbody2D = GetComponent<Rigidbody2D> ();
+				transform.position = position;
+				if (m_Rigidbody2D != null) {
+					m_Rigidbody2D.position = position;
+				}
+			} else if (m_Rigidbody2D != null) {
+				m_Rigidbody2D.MovePosition (position);
+			} else {
+				transform.position = position;
+			}
+		}
+
+		protected virtual void BuildCycle (float tickDelta)
+		{
+			m_CycleTickDelta = tickDelta;
+			m_Cycle = new List<Vector3> ();
+			IEnumerator<PathPoint> point = m_PathDefinition.GetPathEnumerator ();
+			if (!point.MoveNext () || point.Current == null) {
+				m_Cycle.Add (transform.position);
+				return;
+			}
+			PathPoint first = point.Current;
+			Vector3 position = first.transform.position;
+			if (m_PathDefinition.Points.Count < 2) {
+				m_Cycle.Add (position);
+				return;
+			}
+			Vector3 smoothVelocity = Vector3.zero;
+			float overTimeSpeed = 0f;
+			int waitTicks = 0;
+			bool left = false;
+			int limit = Mathf.CeilToInt (600f / tickDelta);
+			while (m_Cycle.Count < limit) {
+				m_Cycle.Add (position);
+				if (waitTicks > 0) {
+					waitTicks--;
+					if (waitTicks == 0) {
+						overTimeSpeed = 0f;
+						point.MoveNext ();
+						left |= point.Current != first;
+					}
+					continue;
+				}
+				PathPoint target = point.Current;
+				Vector3 destination = target.transform.position;
+				if (target.moveType == PathPoint.MoveType.MoveTowards) {
+					position = Vector3.MoveTowards (position, destination, tickDelta * target.speed);
+				} else if (target.moveType == PathPoint.MoveType.Lerp) {
+					position = Vector3.Lerp (position, destination, tickDelta * target.speed);
+				} else if (target.moveType == PathPoint.MoveType.SmoothDamp) {
+					position = Vector3.SmoothDamp (position, destination, ref smoothVelocity, target.smoothTime, Mathf.Infinity, tickDelta);
+				} else if (target.moveType == PathPoint.MoveType.Acceleration) {
+					position = Vector3.MoveTowards (position, destination, overTimeSpeed);
+					overTimeSpeed = Mathf.Min (overTimeSpeed + target.acceleration, target.maxSpeed);
+				}
+				if ((position - destination).sqrMagnitude < m_Step * m_Step) {
+					position = destination;
+					smoothVelocity = Vector3.zero;
+					if (left && target == first) {
+						return;
+					}
+					waitTicks = Mathf.Max (1, Mathf.CeilToInt (DelayAt (target) / tickDelta));
+				}
+			}
+		}
+
+		protected virtual float DelayAt (PathPoint point)
+		{
+			if (m_FollowDelays && m_PathDefinition.UseGlobalDelay) {
+				return m_PathDefinition.GlobalDelay;
+			}
+			if (!m_FollowDelays) {
+				return m_Delay;
+			}
+			return point.delay;
 		}
 
 		IEnumerator CalcVelocity ()

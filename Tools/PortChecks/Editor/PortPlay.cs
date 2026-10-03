@@ -20,6 +20,8 @@ namespace RedRunner.PortChecks
 
         public static void Life() => Enter<LifeCheck>();
 
+        public static void Path() => Enter<PathCheck>();
+
         private static void Enter<TCheck>() where TCheck : MonoBehaviour
         {
             EditorSceneManager.OpenScene(PortSetup.PlayScene, OpenSceneMode.Single);

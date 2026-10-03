@@ -6,3 +6,4 @@
 * [Join a server](joining.md)
 * [Move the player online](player.md)
 * [Death, respawn and the end of the level](lives.md)
+* [Move the mace with the server's tick](mace.md)

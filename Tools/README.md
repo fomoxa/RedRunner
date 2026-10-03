@@ -19,7 +19,7 @@ You do not need any of this to play or build the game. Open the project in the U
 ./Tools/unity-windows.sh play-server RedRunner.PortChecks.PortPlay.Join
 ```
 
-`check` opens the project, compiles it and quits. `run` calls an Editor method and quits. `play` calls an Editor method that enters Play Mode; the check running in Play Mode quits the Editor itself, and the script stops it after 240 seconds if it does not. `play-server` first starts the player built by `PortBuild.Player` as a dedicated server (`-batchmode -nographics -server -port 7777`, log in `server.log`), waits for its `server listening` line, runs the Play Mode check, then stops the server and copies its log to `Logs/unity-windows-server.log`.
+`check` opens the project, compiles it and quits. `run` calls an Editor method and quits. `play` calls an Editor method that enters Play Mode; the check running in Play Mode quits the Editor itself, and the script stops it after 240 seconds if it does not. `play-server` first starts the player built by `PortBuild.Player` as a dedicated server (`-batchmode -nographics -server -port 7777`, log in `server.log`), adds the words of the `SERVER_ARGS` environment variable to its command line, waits for its `server listening` line, runs the Play Mode check, then stops the server and copies its log to `Logs/unity-windows-server.log`.
 
 Each command writes the Unity log to `Logs/unity-windows-<command>.log` and prints the compile errors and the `PORT-CHECK` lines it finds there. Exit code 0 with a `PORT-CHECK ... PASS` line means the check passed.
 
@@ -44,6 +44,9 @@ After Unity exits, the script copies every file whose content changed in the Win
 | `PortPlay.Move` | Run with `play-server`: joins through the start screen, drives virtual input (right, jump, left) and checks that the client predicts its character, that it runs, jumps and turns, and that the camera and the background follow it |
 | `PortPlay.HostLife` | Starts a host, moves the host's character below the level and onto the end block, and checks the death by `Fall`, the respawn delay and the return to the start |
 | `PortPlay.Life` | Run with `play-server`: joins, runs right and jumps until the character dies, and checks that the client shows the death only from the server's state, then the respawn |
+| `PortPlay.Path` | Run with `SERVER_ARGS="-log-paths"` and `play-server`: compares the position of the first moving path follower on the server and the client at the same ticks for 10 seconds |
+
+`PathLog.cs` is the one script in `Tools/PortChecks` that is not editor-only: it ends up in the player build made from the Windows copy and logs path positions when the server runs with `-log-paths`.
 
 A component that drives a Play Mode check must stay out of any `Editor` folder. Unity drops a MonoBehaviour from an Editor-only assembly out of the scene when it reloads the domain on entering Play Mode, without logging an error. The checks wrap their whole file in `#if UNITY_EDITOR` instead, and each check class sits in a file of the same name, which Unity needs to find a MonoBehaviour's script after the reload.
 
