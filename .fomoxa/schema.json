@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "fingerprint": "sha256:33ffec690bfb0ae8b7283f3686e993f7a29f9c7689fb73d5fc8503d10f927c6d",
-  "fingerprint_u64": "0x33FFEC690BFB0AE8",
+  "fingerprint": "sha256:c973d94ae5ca2627d922ddb5c9ed1d115cda7a24802daa4b97a4d8d241955c14",
+  "fingerprint_u64": "0xC973D94AE5CA2627",
   "models": {
     "AnimatorState": {
       "source": "FomoxaSystemModels/AnimatorState.cs",
@@ -221,6 +221,41 @@
             {
               "name": "Frames",
               "type": "Array<bytes>"
+            }
+          ]
+        }
+      }
+    },
+    "LevelState": {
+      "source": "Assets/Scripts/RedRunner/Networking/Models/LevelState.cs",
+      "fingerprint": "sha256:8fab54667aa24acf30ddc04fdea9beb96dc97e36ec072bf36c87335f9e40a47d",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Seed",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x98639F42",
+          "fingerprint": "sha256:e5bf31398fd224e97328ec2d21d97316db0f0a03bce2cf9d1ef767481e1319e0",
+          "fingerprint_u64": "0xE5BF31398FD224E9",
+          "prefixes": [
+            "sha256:e5bf31398fd224e97328ec2d21d97316db0f0a03bce2cf9d1ef767481e1319e0"
+          ],
+          "prefixes_u64": [
+            "0xE5BF31398FD224E9"
+          ],
+          "fields": [
+            {
+              "name": "Seed",
+              "type": "u32"
             }
           ]
         }

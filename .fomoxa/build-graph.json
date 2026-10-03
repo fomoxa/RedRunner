@@ -1,9 +1,23 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "schema_fingerprint": "sha256:33ffec690bfb0ae8b7283f3686e993f7a29f9c7689fb73d5fc8503d10f927c6d",
+  "schema_fingerprint": "sha256:c973d94ae5ca2627d922ddb5c9ed1d115cda7a24802daa4b97a4d8d241955c14",
   "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
   "sources": {
+    "Assets/Scripts/RedRunner/Networking/Models/LevelState.cs": {
+      "models": [
+        "LevelState"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/LevelStateNetCodec.cs",
+          "model": "LevelState",
+          "codec": "net",
+          "fingerprint": "sha256:e5bf31398fd224e97328ec2d21d97316db0f0a03bce2cf9d1ef767481e1319e0",
+          "sha256": "272dd1a3f802ce5f15de43cd80266a0340a61dd1f6dca6dfa65e9363e74b314b"
+        }
+      ]
+    },
     "FomoxaSystemModels/AnimatorState.cs": {
       "models": [
         "AnimatorState"
@@ -288,12 +302,12 @@
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/Handshake.cs",
       "kind": "handshake",
-      "sha256": "c72f13eff4c6a8c766a8a9b39108dba71031ae73618b63847d13a3e76680bbc7"
+      "sha256": "824a31db7a02e9c92907377428eee5476a36c9b116902e7c33ea3fac2d0b0590"
     },
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/NetSchema.cs",
       "kind": "net_schema",
-      "sha256": "1ab86cc885658133251d1b8f79adff3d66f0425644da7a620a1cf718a79a739c"
+      "sha256": "2ac2bc95216539b82bcd7f357a91c4bad4f2b7788333c344048f8cd4fdaa5cf2"
     }
   ]
 }

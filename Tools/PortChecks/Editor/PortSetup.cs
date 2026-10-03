@@ -2,6 +2,8 @@ using System.IO;
 using System.Linq;
 using Fomoxa.Unity;
 using Fomoxa.Unity.Editor;
+using RedRunner.Networking;
+using RedRunner.TerrainGeneration;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -17,6 +19,10 @@ namespace RedRunner.PortChecks
         public const string GeneratedFolder = NetworkingFolder + "/Generated";
         public const string SettingsPath = NetworkingFolder + "/FomoxaSettings.asset";
         public const string ManagerName = "Network Manager";
+        public const string LevelName = "Network Level";
+        public const string GenerationSettingsPath = "Assets/Generation Settings.asset";
+        public const string StartBlockPath = "Assets/Prefabs/Blocks/Start.prefab";
+        public const int MiddleBlocks = 20;
 
         public static void Networking()
         {
@@ -65,5 +71,39 @@ namespace RedRunner.PortChecks
 
             Debug.Log("PORT-CHECK setup: PASS");
         }
+
+        public static void Level()
+        {
+            var settings = new SerializedObject(AssetDatabase.LoadAssetAtPath<TerrainGenerationSettings>(GenerationSettingsPath));
+            settings.FindProperty("m_MiddleBlocksCount").intValue = MiddleBlocks;
+            settings.FindProperty("m_EndBlocksCount").intValue = 1;
+            SerializedProperty endBlocks = settings.FindProperty("m_EndBlocks");
+            endBlocks.arraySize = 1;
+            endBlocks.GetArrayElementAtIndex(0).objectReferenceValue = AssetDatabase.LoadAssetAtPath<Block>(StartBlockPath);
+            settings.ApplyModifiedPropertiesWithoutUndo();
+            AssetDatabase.SaveAssets();
+
+            Scene scene = EditorSceneManager.OpenScene(PlayScene, OpenSceneMode.Single);
+            NetworkLevel level = FindInScene<NetworkLevel>(scene);
+            if (level == null)
+            {
+                var levelObject = new GameObject(LevelName);
+                SceneManager.MoveGameObjectToScene(levelObject, scene);
+                levelObject.AddComponent<NetworkObject>();
+                level = levelObject.AddComponent<NetworkLevel>();
+            }
+
+            var levelSerialized = new SerializedObject(level);
+            levelSerialized.FindProperty("m_Generator").objectReferenceValue = FindInScene<TerrainGenerator>(scene);
+            levelSerialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log($"PORT-CHECK level setup: PASS scene object id {level.GetComponent<NetworkObject>().SceneObjectId:X}");
+        }
+
+        private static T FindInScene<T>(Scene scene) where T : Component =>
+            scene.GetRootGameObjects()
+                .Select(root => root.GetComponentInChildren<T>(true))
+                .FirstOrDefault(found => found != null);
     }
 }

@@ -74,6 +74,35 @@ namespace RedRunner.TerrainGeneration
 			}
 		}
 
+		public List<LevelBlock> Layout ( int seed )
+		{
+			if ( m_StartBlocksCount <= 0 || m_MiddleBlocksCount <= 0 || m_EndBlocksCount <= 0 )
+			{
+				throw new System.InvalidOperationException ( name + " needs positive start, middle and end block counts to lay out a seeded level" );
+			}
+			System.Random random = new System.Random ( seed );
+			List<LevelBlock> layout = new List<LevelBlock> ();
+			float x = 0f;
+			AddBlocks ( layout, m_StartBlocks, m_StartBlocksCount, LevelPart.Start, random, ref x );
+			AddBlocks ( layout, m_MiddleBlocks, m_MiddleBlocksCount, LevelPart.Middle, random, ref x );
+			AddBlocks ( layout, m_EndBlocks, m_EndBlocksCount, LevelPart.End, random, ref x );
+			return layout;
+		}
+
+		private static void AddBlocks ( List<LevelBlock> layout, Block[] blocks, int count, LevelPart part, System.Random random, ref float x )
+		{
+			for ( int i = 0; i < count; i++ )
+			{
+				Block block = TerrainGenerator.ChooseFrom ( blocks, ( float )random.NextDouble () );
+				if ( block == null )
+				{
+					throw new System.InvalidOperationException ( "no " + part + " block to choose from" );
+				}
+				layout.Add ( new LevelBlock ( block, x, part ) );
+				x += block.Width;
+			}
+		}
+
 	}
 
 }

@@ -36,6 +36,7 @@ namespace Generated
             registry.Channels.Set(StateDeltaNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
             registry.Channels.Set(StateResyncNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
             registry.Channels.Set(TransformSettleNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
+            registry.Channels.Set(LevelStateNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
         }
     }
 }

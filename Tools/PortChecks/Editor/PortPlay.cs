@@ -8,6 +8,8 @@ namespace RedRunner.PortChecks
     {
         public static void Connection() => Enter<ConnectionCheck>();
 
+        public static void Level() => Enter<LevelCheck>();
+
         private static void Enter<TCheck>() where TCheck : MonoBehaviour
         {
             EditorSceneManager.OpenScene(PortSetup.PlayScene, OpenSceneMode.Single);

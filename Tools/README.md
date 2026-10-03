@@ -31,7 +31,10 @@ After Unity exits, the script copies every file whose content changed in the Win
 | Method | What it does |
 |---|---|
 | `PortSetup.Networking` | Creates the `FomoxaSettings` asset, runs the Fomoxa generator, puts `Play.unity` in the build scene list and adds the `Network Manager` object with a UDP transport to `Play.unity` |
+| `PortSetup.Level` | Sets the generation settings to 20 middle blocks and the start block as the end block, and adds the `Network Level` object to `Play.unity` |
+| `PortDump.Project` | Writes the `Play.unity` hierarchy, the prefabs, the generation settings, the 2D layer matrix and the input axes to `port-dump.txt`, for reading binary assets from WSL |
 | `PortPlay.Connection` | Opens `Play.unity`, starts a server on the scene's `NetworkManager`, connects a second `NetworkManager` as a client over UDP on `127.0.0.1` and passes once the server sees one peer |
+| `PortPlay.Level` | Starts a server in `Play.unity` and checks that the level is empty before, then holds the 22 blocks of `Layout(seed)` at their positions, that the layout depends only on the seed, and that a second `Build` adds nothing |
 
 A component that drives a Play Mode check must stay out of any `Editor` folder. Unity drops a MonoBehaviour from an Editor-only assembly out of the scene when it reloads the domain on entering Play Mode, without logging an error. The checks wrap their whole file in `#if UNITY_EDITOR` instead.
 
