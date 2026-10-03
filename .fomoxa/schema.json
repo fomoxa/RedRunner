@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "fingerprint": "sha256:c973d94ae5ca2627d922ddb5c9ed1d115cda7a24802daa4b97a4d8d241955c14",
-  "fingerprint_u64": "0xC973D94AE5CA2627",
+  "fingerprint": "sha256:e2afcea57bcef40f9f0f4e6e87d285d078fa803b4a8b2b99293223e296c664f6",
+  "fingerprint_u64": "0xE2AFCEA57BCEF40F",
   "models": {
     "AnimatorState": {
       "source": "FomoxaSystemModels/AnimatorState.cs",
@@ -674,6 +674,154 @@
             {
               "name": "SceneId",
               "type": "u32"
+            }
+          ]
+        }
+      }
+    },
+    "PlayerInput": {
+      "source": "Assets/Scripts/RedRunner/Networking/Models/PlayerInput.cs",
+      "fingerprint": "sha256:f310c6ac089fdfb0d20166f3c74799e45381964ded3984dc0928be76d597c978",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Move",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Jump",
+          "type": "bool",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Roll",
+          "type": "bool",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x70FAE42F",
+          "fingerprint": "sha256:51afd23f3e82970700c68a77ebbfcb4e0a02f7d639187d4df0479e049367a1d3",
+          "fingerprint_u64": "0x51AFD23F3E829707",
+          "prefixes": [
+            "sha256:6c4cb94ecd975a392f3f7de2bfccb524d7ad06d710163cadcc5da30b4a0e4c93",
+            "sha256:9679d3b207e69df694f3cf2377991e2de024cf3f823f0db8d8ac558e5abf7154",
+            "sha256:51afd23f3e82970700c68a77ebbfcb4e0a02f7d639187d4df0479e049367a1d3"
+          ],
+          "prefixes_u64": [
+            "0x6C4CB94ECD975A39",
+            "0x9679D3B207E69DF6",
+            "0x51AFD23F3E829707"
+          ],
+          "fields": [
+            {
+              "name": "Move",
+              "type": "f32"
+            },
+            {
+              "name": "Jump",
+              "type": "bool"
+            },
+            {
+              "name": "Roll",
+              "type": "bool"
+            }
+          ]
+        }
+      }
+    },
+    "PlayerMotion": {
+      "source": "Assets/Scripts/RedRunner/Networking/Models/PlayerMotion.cs",
+      "fingerprint": "sha256:2d6699601c6d800e6559ce5390158f1212b633d5e0482dc2c61b3792da096644",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "X",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Y",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "VelocityX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "VelocityY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RunSmoothVelocity",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x392398C2",
+          "fingerprint": "sha256:3d93acdaaa551f1c0db1c6cbe72165a41bb65d91dbec2dc4aaf3e31c1322e665",
+          "fingerprint_u64": "0x3D93ACDAAA551F1C",
+          "prefixes": [
+            "sha256:9f63cb1a3b04a4115c63a2d053c3c19263c765d84750d7dad0d3693f99b08ed1",
+            "sha256:07bac0d2c6072af08cbf2223a0f0e86dcde414d680cdc095e6ff8a401467dd1c",
+            "sha256:dd3c4fa41c45e9a91a00674835400213fc74fcef0c9fc073d933608921ba9784",
+            "sha256:a08a61c1ec7cca389115df6a4ddb286607936deb78975cca6e544e02a980967b",
+            "sha256:3d93acdaaa551f1c0db1c6cbe72165a41bb65d91dbec2dc4aaf3e31c1322e665"
+          ],
+          "prefixes_u64": [
+            "0x9F63CB1A3B04A411",
+            "0x07BAC0D2C6072AF0",
+            "0xDD3C4FA41C45E9A9",
+            "0xA08A61C1EC7CCA38",
+            "0x3D93ACDAAA551F1C"
+          ],
+          "fields": [
+            {
+              "name": "X",
+              "type": "f32"
+            },
+            {
+              "name": "Y",
+              "type": "f32"
+            },
+            {
+              "name": "VelocityX",
+              "type": "f32"
+            },
+            {
+              "name": "VelocityY",
+              "type": "f32"
+            },
+            {
+              "name": "RunSmoothVelocity",
+              "type": "f32"
             }
           ]
         }

@@ -32,6 +32,19 @@ namespace RedRunner.Utilities
 
 		void Update ()
 		{
+			bool grounded = Check ();
+		
+			if (grounded && !m_IsGrounded) {
+				if (OnGrounded != null) {
+					OnGrounded ();
+				}
+			}
+
+			m_IsGrounded = grounded;
+		}
+
+		public bool Check ()
+		{
 			Vector2 left = new Vector2 (m_Collider2D.bounds.max.x, m_Collider2D.bounds.center.y);
 			Vector2 center = new Vector2 (m_Collider2D.bounds.center.x, m_Collider2D.bounds.center.y);
 			Vector2 right = new Vector2 (m_Collider2D.bounds.min.x, m_Collider2D.bounds.center.y);
@@ -48,15 +61,7 @@ namespace RedRunner.Utilities
 			Debug.DrawRay (right, new Vector2 (0f, -m_RayDistance));
 			bool grounded3 = hit3.collider != null && hit3.collider.CompareTag (GROUND_TAG);
 
-			bool grounded = grounded1 || grounded2 || grounded3;
-		
-			if (grounded && !m_IsGrounded) {
-				if (OnGrounded != null) {
-					OnGrounded ();
-				}
-			}
-
-			m_IsGrounded = grounded;
+			return grounded1 || grounded2 || grounded3;
 		}
 
 	}

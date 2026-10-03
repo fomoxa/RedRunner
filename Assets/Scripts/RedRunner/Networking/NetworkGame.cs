@@ -1,6 +1,8 @@
 using System;
 using Fomoxa.Unity;
 using Fomoxa.Unity.Sessions;
+using RedRunner.TerrainGeneration;
+using RedRunner.Utilities;
 using UnityEngine;
 
 namespace RedRunner.Networking
@@ -96,6 +98,15 @@ namespace RedRunner.Networking
         internal void SetLocalPlayer(NetworkPlayer player)
         {
             LocalPlayer = player;
+            if (CameraController.Singleton != null)
+            {
+                CameraController.Singleton.Follow(player != null ? player.transform : null);
+            }
+
+            if (TerrainGenerator.Singleton != null)
+            {
+                TerrainGenerator.Singleton.Follow(player != null ? player.Character : null);
+            }
             LocalPlayerChanged?.Invoke(player);
         }
 

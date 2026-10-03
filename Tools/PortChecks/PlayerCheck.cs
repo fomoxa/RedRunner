@@ -36,6 +36,7 @@ namespace RedRunner.PortChecks
 
             var collected = (NetworkPrefabList)typeof(NetworkManager).GetField("collectedPrefabs", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(Game.Manager);
             Debug.Log($"PORT-CHECK diagnostics: collected prefabs {(collected == null ? "null" : collected.Prefabs.Count.ToString())}, registered {Game.Manager.Prefabs.Count}");
+            yield return null;
             Begin();
             float startedAt = Time.realtimeSinceStartup;
             TerrainGenerator generator = Level.Generator;
@@ -79,6 +80,13 @@ namespace RedRunner.PortChecks
         }
 
         private bool finished;
+
+        protected void JoinFromStartScreen(string address)
+        {
+            RedRunner.UI.StartScreen startScreen = FindObjectsByType<RedRunner.UI.StartScreen>(FindObjectsInactive.Include, FindObjectsSortMode.None).First();
+            startScreen.GetComponentInChildren<UnityEngine.UI.InputField>(true).text = address;
+            startScreen.transform.Find("Play Button").GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
+        }
 
         protected void Finish(bool passed, string detail)
         {

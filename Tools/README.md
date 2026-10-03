@@ -40,6 +40,7 @@ After Unity exits, the script copies every file whose content changed in the Win
 | `PortPlay.Level` | Starts a server in `Play.unity` and checks that the level is empty before, then holds the 22 blocks of `Layout(seed)` at their positions, that the layout depends only on the seed, and that a second `Build` adds nothing |
 | `PortPlay.Host` | Starts a host from `NetworkGame` and checks that the level is built, the local character spawns, is owned and stands on the start block |
 | `PortPlay.Join` | Run with `play-server`: joins the server process at `127.0.0.1` and checks the same, plus that the client's seed matches the seed in the server log |
+| `PortPlay.Move` | Run with `play-server`: joins through the start screen, drives virtual input (right, jump, left) and checks that the client predicts its character, that it runs, jumps and turns, and that the camera and the background follow it |
 
 A component that drives a Play Mode check must stay out of any `Editor` folder. Unity drops a MonoBehaviour from an Editor-only assembly out of the scene when it reloads the domain on entering Play Mode, without logging an error. The checks wrap their whole file in `#if UNITY_EDITOR` instead, and each check class sits in a file of the same name, which Unity needs to find a MonoBehaviour's script after the reload.
 

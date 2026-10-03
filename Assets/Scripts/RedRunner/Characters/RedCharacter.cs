@@ -74,6 +74,7 @@ namespace RedRunner.Characters
 		protected int m_CurrentFootstepSoundIndex = 0;
 		protected Vector3 m_InitialScale;
 		protected Vector3 m_InitialPosition;
+		protected Vector3 m_LastPosition;
 
 		#endregion
 
@@ -255,6 +256,18 @@ namespace RedRunner.Characters
 			}
 		}
 
+		public virtual float RunSmoothVelocity
+		{
+			get
+			{
+				return m_CurrentSmoothVelocity;
+			}
+			set
+			{
+				m_CurrentSmoothVelocity = value;
+			}
+		}
+
 		#endregion
 
 		#region MonoBehaviour Messages
@@ -262,6 +275,7 @@ namespace RedRunner.Characters
 		void Awake ()
 		{
 			m_InitialPosition = transform.position;
+			m_LastPosition = transform.position;
 			m_InitialScale = transform.localScale;
 			m_GroundCheck.OnGrounded += GroundCheck_OnGrounded;
 			m_Skeleton.OnActiveChanged += Skeleton_OnActiveChanged;
@@ -285,16 +299,6 @@ namespace RedRunner.Characters
 				Die ();
 			}
 
-			// Speed
-			m_Speed = new Vector2 ( Mathf.Abs ( m_Rigidbody2D.linearVelocity.x ), Mathf.Abs ( m_Rigidbody2D.linearVelocity.y ) );
-
-			// Speed Calculations
-			m_CurrentRunSpeed = m_RunSpeed;
-			if ( m_Speed.x >= m_RunSpeed )
-			{
-				m_CurrentRunSpeed = Mathf.SmoothDamp ( m_Speed.x, m_MaxRunSpeed, ref m_CurrentSmoothVelocity, m_RunSmoothTime );
-			}
-
 			if ( IsDead.Value && !m_ClosingEye )
 			{
 				StartCoroutine ( CloseEye () );
@@ -303,9 +307,16 @@ namespace RedRunner.Characters
 
 		void LateUpdate ()
 		{
+			Vector2 velocity = m_Rigidbody2D.linearVelocity;
+			if ( m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic && Time.deltaTime > 0f )
+			{
+				velocity = ( transform.position - m_LastPosition ) / Time.deltaTime;
+			}
+			m_LastPosition = transform.position;
+			m_Speed = new Vector2 ( Mathf.Abs ( velocity.x ), Mathf.Abs ( velocity.y ) );
 			m_Animator.SetFloat ( "Speed", m_Speed.x );
-			m_Animator.SetFloat ( "VelocityX", Mathf.Abs ( m_Rigidbody2D.linearVelocity.x ) );
-			m_Animator.SetFloat ( "VelocityY", m_Rigidbody2D.linearVelocity.y );
+			m_Animator.SetFloat ( "VelocityX", m_Speed.x );
+			m_Animator.SetFloat ( "VelocityY", velocity.y );
 			m_Animator.SetBool ( "IsGrounded", m_GroundCheck.IsGrounded );
 			m_Animator.SetBool ( "IsDead", IsDead.Value );
 			m_Animator.SetBool ( "Block", m_Block );
@@ -401,19 +412,58 @@ namespace RedRunner.Characters
 			}
 		}
 
+		public virtual void Simulate ( float horizontalAxis, bool jump, bool roll, float deltaTime, bool effects )
+		{
+			float speed = Mathf.Abs ( m_Rigidbody2D.linearVelocity.x );
+			m_CurrentRunSpeed = m_RunSpeed;
+			if ( speed >= m_RunSpeed )
+			{
+				m_CurrentRunSpeed = Mathf.SmoothDamp ( speed, m_MaxRunSpeed, ref m_CurrentSmoothVelocity, m_RunSmoothTime, Mathf.Infinity, deltaTime );
+			}
+			Move ( horizontalAxis );
+			if ( jump )
+			{
+				Jump ( effects );
+			}
+			if ( roll )
+			{
+				Roll ( effects );
+			}
+		}
+
 		public override void Jump ()
+		{
+			Jump ( true );
+		}
+
+		public virtual void Jump ( bool effects )
 		{
 			if ( !IsDead.Value )
 			{
-				if ( m_GroundCheck.IsGrounded )
+				if ( m_GroundCheck.Check () )
 				{
 					Vector2 velocity = m_Rigidbody2D.linearVelocity;
 					velocity.y = m_JumpStrength;
 					m_Rigidbody2D.linearVelocity = velocity;
-					m_Animator.ResetTrigger ( "Jump" );
-					m_Animator.SetTrigger ( "Jump" );
-					m_JumpParticleSystem.Play ();
-					AudioManager.Singleton.PlayJumpSound ( m_JumpAndGroundedAudioSource );
+					if ( effects )
+					{
+						m_Animator.ResetTrigger ( "Jump" );
+						m_Animator.SetTrigger ( "Jump" );
+						m_JumpParticleSystem.Play ();
+						AudioManager.Singleton.PlayJumpSound ( m_JumpAndGroundedAudioSource );
+					}
+				}
+			}
+		}
+
+		public virtual void Roll ( bool effects )
+		{
+			if ( !IsDead.Value )
+			{
+				m_Rigidbody2D.AddForce ( new Vector2 ( Mathf.Sign ( transform.localScale.x ) * m_RollForce, 0f ) );
+				if ( effects )
+				{
+					m_Animator.SetTrigger ( "Roll" );
 				}
 			}
 		}

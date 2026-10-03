@@ -16,7 +16,7 @@ namespace RedRunner.PortChecks
     {
         protected override void Begin()
         {
-            Game.Join("127.0.0.1");
+            JoinFromStartScreen("127.0.0.1");
         }
 
         protected override IEnumerator Verify()
