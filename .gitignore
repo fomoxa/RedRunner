@@ -50,3 +50,5 @@ sysinfo.txt
 port-dump.txt
 bot.log
 server.log
+shot-*.png
+shot-*.log

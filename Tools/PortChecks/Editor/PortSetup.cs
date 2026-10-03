@@ -205,19 +205,39 @@ namespace RedRunner.PortChecks
 
             var rect = (RectTransform)fieldObject.transform;
             rect.SetParent(parent, false);
-            rect.anchoredPosition = new Vector2(0f, 45f);
-            rect.sizeDelta = new Vector2(320f, 48f);
             InputField field = fieldObject.GetComponent<InputField>();
             field.text = "localhost";
             foreach (Text text in fieldObject.GetComponentsInChildren<Text>(true))
             {
                 text.font = font;
-                text.fontSize = 26;
-                text.alignment = TextAnchor.MiddleCenter;
             }
+
+            LayOutAddressField(field);
 
             ((Text)field.placeholder).text = "Server address";
             return field;
+        }
+
+        public static void AddressFieldLayout()
+        {
+            Scene scene = EditorSceneManager.OpenScene(PlayScene, OpenSceneMode.Single);
+            LayOutAddressField(FindInScene<StartScreen>(scene).GetComponentInChildren<InputField>(true));
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("PORT-CHECK address field layout: PASS");
+        }
+
+        private static void LayOutAddressField(InputField field)
+        {
+            var rect = (RectTransform)field.transform;
+            rect.anchoredPosition = new Vector2(0f, -222f);
+            rect.sizeDelta = new Vector2(320f, 48f);
+            foreach (Text text in field.GetComponentsInChildren<Text>(true))
+            {
+                text.fontSize = 24;
+                text.alignment = TextAnchor.MiddleCenter;
+                text.verticalOverflow = VerticalWrapMode.Overflow;
+            }
         }
 
         private static T FindInScene<T>(Scene scene) where T : Component =>

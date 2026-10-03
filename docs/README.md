@@ -10,6 +10,8 @@ The server decides when a player dies. Saws, spikes, water and the mace kill on 
 
 Your own character moves as soon as you press a key: the client predicts it with `Rigidbody2D` physics and corrects it when the server's state arrives. Other players are interpolated from the server.
 
+![Two players running near the start of a seeded level](.gitbook/assets/two-players.png)
+
 ## Chapters
 
 1. [Install the package and add a NetworkManager](setup.md)
@@ -19,6 +21,17 @@ Your own character moves as soon as you press a key: the client predicts it with
 5. [Death, respawn and the end of the level](lives.md)
 6. [Move the mace with the server's tick](mace.md)
 7. [Play with two clients](crowd.md)
+
+## Run the finished game
+
+Check out the `feature/fomoxa-port` branch, open the project in Unity 6000.5 and build a Windows player with `Play.unity`. Start a dedicated server, then start clients and click Play with the server's address in the field under the buttons:
+
+```
+RedRunner.exe -batchmode -nographics -server -port 7777 -logFile server.log
+RedRunner.exe
+```
+
+`RedRunner.exe -host` runs a server and a client in one process. Run with the left and right arrow keys, jump with Space, W or the up arrow, and roll with Shift.
 
 ## Before you start
 

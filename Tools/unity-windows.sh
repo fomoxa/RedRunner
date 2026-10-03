@@ -20,7 +20,7 @@ LOG_DIR="$REPO/Logs"
 LOG="$LOG_DIR/unity-windows-$MODE.log"
 
 case "$MODE" in
-  check) ;;
+  check|shots) ;;
   run|play|play-server)
     if [ -z "$METHOD" ]; then
       echo "usage: $0 $MODE Namespace.Class.Method" >&2
@@ -28,7 +28,7 @@ case "$MODE" in
     fi
     ;;
   *)
-    echo "usage: $0 check | run Namespace.Class.Method | play Namespace.Class.Method | play-server Namespace.Class.Method" >&2
+    echo "usage: $0 check | shots | run Namespace.Class.Method | play Namespace.Class.Method | play-server Namespace.Class.Method" >&2
     exit 2
     ;;
 esac
@@ -63,6 +63,33 @@ start_server() {
   stop_check_processes
   exit 1
 }
+
+run_player() {
+  local arguments="$1"
+  powershell.exe -NoProfile -Command \
+    "Start-Process -FilePath '$WIN_ROOT\\RedRunner\\Builds\\Windows\\RedRunner.exe' -ArgumentList $arguments" \
+    >/dev/null 2>&1
+}
+
+if [ "$MODE" = shots ]; then
+  SHOTS="$REPO/docs/.gitbook/assets"
+  mkdir -p "$SHOTS"
+  stop_check_processes
+  rm -f "$DST"/shot-*.png
+  start_server
+  run_player "'-batchmode','-screen-width','1280','-screen-height','720','-screenshot','$WIN_ROOT\\RedRunner\\shot-start-screen.png','-screenshot-after','6','-screenshot-quit','-logFile','$WIN_ROOT\\RedRunner\\shot-start.log'"
+  run_player "'-batchmode','-nographics','-bot','127.0.0.1','-bot-seconds','20','-logFile','$WIN_ROOT\\RedRunner\\bot.log'"
+  sleep 1
+  run_player "'-batchmode','-screen-width','1280','-screen-height','720','-bot','127.0.0.1','-bot-seconds','20','-screenshot','$WIN_ROOT\\RedRunner\\shot-two-players.png','-screenshot-after','5','-logFile','$WIN_ROOT\\RedRunner\\shot-play.log'"
+  run_player "'-batchmode','-screen-width','1280','-screen-height','720','-bot','127.0.0.1','-bot-seconds','20','-screenshot','$WIN_ROOT\\RedRunner\\shot-death.png','-screenshot-after','7.5','-logFile','$WIN_ROOT\\RedRunner\\shot-death.log'"
+  sleep 25
+  stop_check_processes
+  for shot in "$DST"/shot-*.png; do
+    [ -f "$shot" ] && cp "$shot" "$SHOTS/$(basename "$shot" | sed 's/^shot-//')"
+  done
+  ls -la "$SHOTS"
+  exit 0
+fi
 
 mkdir -p "$LOG_DIR" "$DST" "$ROOT/fomoxa-unity"
 stop_check_processes

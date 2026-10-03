@@ -17,6 +17,7 @@ You do not need any of this to play or build the game. Open the project in the U
 ./Tools/unity-windows.sh run RedRunner.PortChecks.PortSetup.Networking
 ./Tools/unity-windows.sh play RedRunner.PortChecks.PortPlay.Connection
 ./Tools/unity-windows.sh play-server RedRunner.PortChecks.PortPlay.Join
+./Tools/unity-windows.sh shots
 ```
 
 `check` opens the project, compiles it and quits. `run` calls an Editor method and quits. `play` calls an Editor method that enters Play Mode; the check running in Play Mode quits the Editor itself, and the script stops it after 240 seconds if it does not. `play-server` first starts the player built by `PortBuild.Player` as a dedicated server (`-batchmode -nographics -server -port 7777`, log in `server.log`), adds the words of the `SERVER_ARGS` environment variable to its command line, waits for its `server listening` line, runs the Play Mode check, then stops the server and copies its log to `Logs/unity-windows-server.log`.
@@ -47,7 +48,9 @@ After Unity exits, the script copies every file whose content changed in the Win
 | `PortPlay.Path` | Run with `SERVER_ARGS="-log-paths"` and `play-server`: compares the position of the first moving path follower on the server and the client at the same ticks for 10 seconds |
 | `PortPlay.Crowd` | Run with `play-server`: joins, launches the player build again as a bot client (`BotPlayer`: `-bot <address> -bot-seconds <n>`), and checks how the Editor client sees the bot's character: kinematic, at the spawn point, running, animated, facing right, dying, respawning, passing through the local character, and despawned after the bot leaves |
 
-`PathLog.cs` and `BotPlayer.cs` are the scripts in `Tools/PortChecks` that are not editor-only. They end up in the player build made from the Windows copy and do nothing unless the player starts with `-log-paths` or `-bot`.
+`PathLog.cs`, `BotPlayer.cs` and `ScreenshotTaker.cs` are the scripts in `Tools/PortChecks` that are not editor-only. They end up in the player build made from the Windows copy and do nothing unless the player starts with `-log-paths`, `-bot` or `-screenshot`.
+
+`shots` takes the screenshots of the guide from the last player build, without opening the Editor. It starts a server, one bot without graphics and three players in batch mode with graphics: one stays on the start screen, two join as bots, and each writes a 1280 × 720 PNG after a few seconds (`-screenshot <file> -screenshot-after <seconds>`). The script copies them to `docs/.gitbook/assets/`.
 
 A component that drives a Play Mode check must stay out of any `Editor` folder. Unity drops a MonoBehaviour from an Editor-only assembly out of the scene when it reloads the domain on entering Play Mode, without logging an error. The checks wrap their whole file in `#if UNITY_EDITOR` instead, and each check class sits in a file of the same name, which Unity needs to find a MonoBehaviour's script after the reload.
 

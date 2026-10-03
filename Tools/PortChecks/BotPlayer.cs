@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Globalization;
 using RedRunner.Networking;
+using RedRunner.UI;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 
 namespace RedRunner.PortChecks
@@ -10,6 +12,7 @@ namespace RedRunner.PortChecks
     public sealed class BotPlayer : MonoBehaviour
     {
         private const float JumpEvery = 1.3f;
+        private const float StartScreenDelay = 3.5f;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Install()
@@ -25,10 +28,11 @@ namespace RedRunner.PortChecks
             string[] arguments = Environment.GetCommandLineArgs();
             string address = Argument(arguments, "-bot") ?? "127.0.0.1";
             float seconds = float.Parse(Argument(arguments, "-bot-seconds") ?? "45", CultureInfo.InvariantCulture);
-            yield return null;
+            yield return new WaitForSecondsRealtime(StartScreenDelay);
             NetworkGame game = FindFirstObjectByType<NetworkGame>();
-            GameManager.Singleton.StartGame();
-            game.Join(address);
+            StartScreen startScreen = FindObjectsByType<StartScreen>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0];
+            startScreen.GetComponentInChildren<InputField>(true).text = address;
+            startScreen.transform.Find("Play Button").GetComponent<Button>().onClick.Invoke();
             while (game.LocalPlayer == null)
             {
                 yield return null;

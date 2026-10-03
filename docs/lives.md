@@ -276,4 +276,6 @@ Join a server and run into the water. The server's log says why the character di
 
 The skeleton drops, and two seconds later the character stands at the start again.
 
+![A character falling into the water](.gitbook/assets/death.png)
+
 This repository checks it in two ways. `./Tools/unity-windows.sh play RedRunner.PortChecks.PortPlay.HostLife` starts a host, moves the host's character below the level and checks that it dies of `Fall`, stays dead for the delay and respawns at the start, then moves it onto the end block and checks that it comes back to the start. `./Tools/unity-windows.sh play-server RedRunner.PortChecks.PortPlay.Life` joins a server process, runs right and jumps until the character dies, and checks that the client shows the death only with the server's state, then shows the respawn. In one run the character died in the water 3.1 seconds after starting, respawned at the start and had collected one coin.

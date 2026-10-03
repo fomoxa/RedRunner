@@ -14,6 +14,8 @@ RedRunner.exe
 
 Join `localhost` from both clients, or use the Editor as one of them. Each client shows its own character, predicted, and the other one, interpolated from the server.
 
+![Two players running from the start block while a third falls into the water](.gitbook/assets/two-players.png)
+
 Things to look for:
 
 - Both characters start on the start block and overlap without pushing each other.

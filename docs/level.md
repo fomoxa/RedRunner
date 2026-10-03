@@ -2,7 +2,7 @@
 
 The original game builds an endless level while you run: `TerrainGenerator` picks the next block with `Random.value` whenever the character gets within range of the end of the level. Online, every player has to run on the same ground, and the server has to simulate that ground too. This chapter makes the level finite and builds it from a seed. The server picks the seed, the seed travels to each client as the state of a network object in the scene, and the server and every client build the whole foreground once from it. Four bytes cross the network instead of a description of every block.
 
-The background (hills, clouds and other decoration behind the level) stays random and is built only around the camera of a client. It never touches the players, so two clients may show different hills.
+The background (hills, clouds and other decoration behind the level) stays random and is built only on clients, around the local player. It never touches the players, so two clients may show different hills.
 
 ## Lay out the level from a seed
 

@@ -265,7 +265,9 @@ Add `NetworkGame` to the `Network Manager` object, drag the `NetworkManager` int
 
 ## Add the address field
 
-Under `Canvas/Start Screen`, add GameObject > UI > Legacy > Input Field and name it `Address Field`. Place it between the logo and the Play button (position 0, 45, size 320 × 48), set its text to `localhost`, its placeholder to `Server address`, and use the game's font for both texts.
+Under `Canvas/Start Screen`, add GameObject > UI > Legacy > Input Field and name it `Address Field`. Place it below the row of small buttons (position 0, -222, size 320 × 48), set its text to `localhost` and its placeholder to `Server address`. Give both texts the game's font (`Baloo-Regular`) at size 24, centred, with Vertical Overflow set to Overflow: Baloo's line height is larger than the text area of a default input field, and with Truncate the text does not show at all.
+
+![The start screen with the address field](.gitbook/assets/start-screen.png)
 
 `StartScreen` gets the field and the `NetworkGame`. The Play button joins the address before it opens the in-game screen, and a connection that stops while the game runs brings the start screen back:
 
