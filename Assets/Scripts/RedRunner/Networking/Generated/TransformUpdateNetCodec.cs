@@ -3,9 +3,9 @@
 // source: FomoxaSystemModels/TransformUpdate.cs
 // model: TransformUpdate
 // codec: net
-// fingerprint: sha256:ed867441bcd8e333356014a1c01c883e07fc863451dd71820e6148dc01964e96
+// fingerprint: sha256:62cfa8a4088d2d776e87accf044b28b6baf3ff086bef1d73c9ecfc3034a8a68a
 // fomoxac-version: 0.2.2
-// generated-at: 2026-10-03T01:00:25Z
+// generated-at: 2026-10-03T03:43:28Z
 
 namespace Generated
 {
@@ -17,6 +17,7 @@ namespace Generated
 /// <item><description><c>Tick</c>: <c>u32</c></description></item>
 /// <item><description><c>Mask</c>: <c>u8</c></description></item>
 /// <item><description><c>Values</c>: <c>Array&lt;f32&gt;</c></description></item>
+/// <item><description><c>Generation</c>: <c>u8</c></description></item>
 /// </list>
 /// </remarks>
 public static class TransformUpdateNetCodec
@@ -29,7 +30,7 @@ public static class TransformUpdateNetCodec
 
     /// <summary>This message's wire-contract fingerprint - the same value
     /// <c>Handshake.cs</c> publishes, and the one a peer compares against.</summary>
-    public const ulong Fingerprint = 0xED867441BCD8E333;
+    public const ulong Fingerprint = 0x62CFA8A4088D2D77;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
     public static void Encode(Writer writer, Fomoxa.Unity.Messaging.TransformUpdate value)
@@ -41,6 +42,7 @@ public static class TransformUpdateNetCodec
         {
             writer.WriteF32(element);
         }
+        writer.WriteU8(value.Generation);
     }
 
     /// <summary>Reads the <c>net</c> fields into <paramref name="value"/>, in declaration order.</summary>
@@ -72,6 +74,7 @@ public static class TransformUpdateNetCodec
         }
         ArrayField.Trim(valuesValueList, valuesValueCount);
         value.Values = valuesValueList;
+        value.Generation = reader.FieldAbsent() ? (byte)0 : reader.ReadU8();
     }
 }
 

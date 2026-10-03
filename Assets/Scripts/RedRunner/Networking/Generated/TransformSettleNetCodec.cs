@@ -3,9 +3,9 @@
 // source: FomoxaSystemModels/TransformSettle.cs
 // model: TransformSettle
 // codec: net
-// fingerprint: sha256:79fdc1d3329c245c8ca856c94978b935cb9e0cbfea8a164b205c13a02fd5bcc5
+// fingerprint: sha256:671368cb7bbe68d822b56311a3ed8cc74db12fcf9406f2798f6ad42f092f28f5
 // fomoxac-version: 0.2.2
-// generated-at: 2026-10-03T01:00:25Z
+// generated-at: 2026-10-03T03:43:28Z
 
 namespace Generated
 {
@@ -17,6 +17,7 @@ namespace Generated
 /// <item><description><c>Tick</c>: <c>u32</c></description></item>
 /// <item><description><c>Mask</c>: <c>u8</c></description></item>
 /// <item><description><c>Values</c>: <c>Array&lt;f32&gt;</c></description></item>
+/// <item><description><c>Generation</c>: <c>u8</c></description></item>
 /// </list>
 /// </remarks>
 public static class TransformSettleNetCodec
@@ -29,7 +30,7 @@ public static class TransformSettleNetCodec
 
     /// <summary>This message's wire-contract fingerprint - the same value
     /// <c>Handshake.cs</c> publishes, and the one a peer compares against.</summary>
-    public const ulong Fingerprint = 0x79FDC1D3329C245C;
+    public const ulong Fingerprint = 0x671368CB7BBE68D8;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
     public static void Encode(Writer writer, Fomoxa.Unity.Messaging.TransformSettle value)
@@ -41,6 +42,7 @@ public static class TransformSettleNetCodec
         {
             writer.WriteF32(element);
         }
+        writer.WriteU8(value.Generation);
     }
 
     /// <summary>Reads the <c>net</c> fields into <paramref name="value"/>, in declaration order.</summary>
@@ -72,6 +74,7 @@ public static class TransformSettleNetCodec
         }
         ArrayField.Trim(valuesValueList, valuesValueCount);
         value.Values = valuesValueList;
+        value.Generation = reader.FieldAbsent() ? (byte)0 : reader.ReadU8();
     }
 }
 

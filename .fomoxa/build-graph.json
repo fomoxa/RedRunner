@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "schema_fingerprint": "sha256:4869a82bd93279f14d967fa2d542b386e6273ab67329fdd1e058b8776a9bade3",
+  "schema_fingerprint": "sha256:d53e2735f9dfe57ede6a26d5c6ff73915761d0330d7a8b0ee66a1e02a805e8c4",
   "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
   "sources": {
     "Assets/Scripts/RedRunner/Networking/Models/LevelState.cs": {
@@ -315,8 +315,8 @@
           "path": "Assets/Scripts/RedRunner/Networking/Generated/TransformSettleNetCodec.cs",
           "model": "TransformSettle",
           "codec": "net",
-          "fingerprint": "sha256:79fdc1d3329c245c8ca856c94978b935cb9e0cbfea8a164b205c13a02fd5bcc5",
-          "sha256": "3f5a94e08df2f7a477a5489dfb8d99bcadb9156f0e6677facc0ea4a49f8e48b5"
+          "fingerprint": "sha256:671368cb7bbe68d822b56311a3ed8cc74db12fcf9406f2798f6ad42f092f28f5",
+          "sha256": "91cd5f3e9eb875644401c8b2fd0e0290a7748d792c21f1499724ef469845ef0d"
         }
       ]
     },
@@ -329,8 +329,8 @@
           "path": "Assets/Scripts/RedRunner/Networking/Generated/TransformUpdateNetCodec.cs",
           "model": "TransformUpdate",
           "codec": "net",
-          "fingerprint": "sha256:ed867441bcd8e333356014a1c01c883e07fc863451dd71820e6148dc01964e96",
-          "sha256": "b2a3623eefb8f881081acd2701747bf05e64bd73908be4623df24c53df9694c4"
+          "fingerprint": "sha256:62cfa8a4088d2d776e87accf044b28b6baf3ff086bef1d73c9ecfc3034a8a68a",
+          "sha256": "4b471d65bab5001f2c4411ee71f64285977700267f7d6f35f699b3be995951b6"
         }
       ]
     }
@@ -344,12 +344,12 @@
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/Handshake.cs",
       "kind": "handshake",
-      "sha256": "fc2f0c8211950795f77171286aa6a0ddfe975e74875e36f2e564b588e1e6d448"
+      "sha256": "cfa73b7e13b00f20ff2c0b7bd3e5d081fcc9afecdf717c02ec2a29ed1f6c7a9d"
     },
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/NetSchema.cs",
       "kind": "net_schema",
-      "sha256": "136b15d02a3398eed9efff7cfbe72e47848bfd4b40a8e209f33ea322027cc2f7"
+      "sha256": "dfc28486515a100f19a3be24f2694b3afd6562b810870f2a3a59067cb31a49a2"
     }
   ]
 }

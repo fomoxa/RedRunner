@@ -3,6 +3,8 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using Fomoxa.Unity;
 using RedRunner.Networking;
 using UnityEngine;
 
@@ -57,12 +59,24 @@ namespace RedRunner.PortChecks
             Vector3 previous = remote.transform.position;
             float watched = 0f;
             float lastMovedAt = 0f;
+            int teleports = 0;
+            int slides = 0;
             while (remote != null)
             {
                 Vector3 position = remote.transform.position;
                 if (!remote.Character.IsDead.Value && !remote.IsDead)
                 {
                     biggestJump = Mathf.Max(biggestJump, Vector3.Distance(position, previous) > 20f ? 0f : Vector3.Distance(position, previous));
+                }
+
+                if (Vector3.Distance(position, previous) > 2f)
+                {
+                    teleports++;
+                }
+
+                if (LargestBufferedGap(remote.GetComponent<NetworkTransform>()) > 2f)
+                {
+                    slides++;
                 }
 
                 if (Vector3.Distance(position, previous) > 0.01f || remote.Character.IsDead.Value)
@@ -97,7 +111,7 @@ namespace RedRunner.PortChecks
             float stillBeforeDespawn = watched - lastMovedAt;
             int serverDeaths = Count("server.log", "] player ", " died: ");
             int botDeaths = Count("bot.log", "PORT-BOT died", null);
-            string detail = $"still for {stillBeforeDespawn:F1} s before despawn, {serverDeaths} deaths on the server, {botDeaths} seen by the bot, remote first seen at x {firstSeenX:F2}, kinematic {kinematic}, ran to x {farthest:F1}, animator speed up to {fastest:F2}, faced right {facedRight}, died {sawDeath}, respawned {sawRespawn}, despawned after {watched:F1} s, local character moved {localDrift:F3}, largest frame step {biggestJump:F2}";
+            string detail = $"{teleports} teleports, {slides} frames with a buffered jump to interpolate across, still for {stillBeforeDespawn:F1} s before despawn, {serverDeaths} deaths on the server, {botDeaths} seen by the bot, remote first seen at x {firstSeenX:F2}, kinematic {kinematic}, ran to x {farthest:F1}, animator speed up to {fastest:F2}, faced right {facedRight}, died {sawDeath}, respawned {sawRespawn}, despawned after {watched:F1} s, local character moved {localDrift:F3}, largest frame step {biggestJump:F2}";
             bool passed = kinematic
                 && Mathf.Abs(firstSeenX - Game.SpawnPoint.x) < 2f
                 && farthest - firstSeenX > 5f
@@ -106,9 +120,26 @@ namespace RedRunner.PortChecks
                 && sawDeath
                 && sawRespawn
                 && localDrift < 0.05f
-                && stillBeforeDespawn > 10f;
+                && stillBeforeDespawn > 10f
+                && teleports > 0
+                && slides == 0;
             Finish(passed, detail);
         }
+
+        private static float LargestBufferedGap(NetworkTransform networkTransform)
+        {
+            var snapshots = (IList)typeof(NetworkTransform).GetField("snapshots", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(networkTransform);
+            float largest = 0f;
+            for (int index = 1; index < snapshots.Count; index++)
+            {
+                largest = Mathf.Max(largest, Vector3.Distance(PositionOf(snapshots[index - 1]), PositionOf(snapshots[index])));
+            }
+
+            return largest;
+        }
+
+        private static Vector3 PositionOf(object snapshot) =>
+            (Vector3)snapshot.GetType().GetProperty("Position").GetValue(snapshot);
 
         private static int Count(string file, string start, string end)
         {

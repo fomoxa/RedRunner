@@ -60,11 +60,14 @@ private void Apply(PlayerInput input, InputContext context)
 }
 ```
 
+## Mark the respawn as a teleport
+
+A respawn moves the character from where it died to the start in one tick. `NetworkTransform` sent that move like any other, and the other clients kept the death point and the start next to each other in their interpolation buffer, ready to draw the character sliding across the level. `NetworkPlayer.Respawn` now calls `NetworkTransform.Teleport()` right after it moves the body. The server then sends the new position as a settle that starts a new teleport generation, and a client that receives it clears its buffer and places the character at the start. If that message is lost, the first update of the new generation does the same.
+
 ## Known limits
 
 > The character of a player who left stays in the level, standing still, for about 20 seconds.
 
-> When a character respawns, the other clients interpolate it from where it died to the start over one tick (20 ms), so one frame may show it halfway. `NetworkTransform` has no way yet to mark a move as a teleport.
 
 ## Check it
 
@@ -80,7 +83,8 @@ The Editor joins the server process and stands still at the start. It then launc
 - sees it run more than 5 units to the right, facing right, with an animator speed above 1;
 - sees it die and respawn;
 - sees it despawn after the bot leaves;
-- has not been pushed while the bot's character ran through it.
-- sees the bot's character stand still for more than 10 seconds before it despawns.
+- has not been pushed while the bot's character ran through it;
+- sees the bot's character stand still for more than 10 seconds before it despawns;
+- never has two neighbouring snapshots more than 2 units apart in the bot's `NetworkTransform` buffer, which would mean interpolating across a respawn.
 
-In the last run the Editor client saw the bot's character run to x 24, die and respawn, with an animator speed of at most 21. After the bot left, its character stood still for 17.2 seconds until the server despawned it, and the Editor client's own character never moved.
+In the last run the Editor client saw the bot's character run to x 24, die and respawn nine times without a single buffered jump, with an animator speed of at most 11.5. Without the `Teleport()` call, the same check counted 268 frames with the death point and the start next to each other in the buffer. After the bot left, its character stood still for 17.2 seconds until the server despawned it, and the Editor client's own character never moved.

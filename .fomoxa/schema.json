@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "fingerprint": "sha256:4869a82bd93279f14d967fa2d542b386e6273ab67329fdd1e058b8776a9bade3",
-  "fingerprint_u64": "0x4869A82BD93279F1",
+  "fingerprint": "sha256:d53e2735f9dfe57ede6a26d5c6ff73915761d0330d7a8b0ee66a1e02a805e8c4",
+  "fingerprint_u64": "0xD53E2735F9DFE57E",
   "models": {
     "AnimatorState": {
       "source": "FomoxaSystemModels/AnimatorState.cs",
@@ -1253,7 +1253,7 @@
     },
     "TransformSettle": {
       "source": "FomoxaSystemModels/TransformSettle.cs",
-      "fingerprint": "sha256:daaa664f48c23c0f5629a7374b6f6260f14175cabf86e62613a6a90a38a311ba",
+      "fingerprint": "sha256:2ba7c587c19552a843bb3c076c7ea58d0f8c38479be0ccee067eb7d7485a9c40",
       "codecs": [
         "net"
       ],
@@ -1275,6 +1275,13 @@
         {
           "name": "Values",
           "type": "Array<f32>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Generation",
+          "type": "u8",
           "codecs": [
             "net"
           ]
@@ -1283,17 +1290,19 @@
       "messages": {
         "net": {
           "id": "0x62ADC0F1",
-          "fingerprint": "sha256:79fdc1d3329c245c8ca856c94978b935cb9e0cbfea8a164b205c13a02fd5bcc5",
-          "fingerprint_u64": "0x79FDC1D3329C245C",
+          "fingerprint": "sha256:671368cb7bbe68d822b56311a3ed8cc74db12fcf9406f2798f6ad42f092f28f5",
+          "fingerprint_u64": "0x671368CB7BBE68D8",
           "prefixes": [
             "sha256:bfec5145e1a8978b47efbcdded9c41557b856138adce5bab19b09af140c1f47e",
             "sha256:f58e0f1b0a192e6fe24b6f7b06eacad7072649baa7946b21ca42789785f93794",
-            "sha256:79fdc1d3329c245c8ca856c94978b935cb9e0cbfea8a164b205c13a02fd5bcc5"
+            "sha256:79fdc1d3329c245c8ca856c94978b935cb9e0cbfea8a164b205c13a02fd5bcc5",
+            "sha256:671368cb7bbe68d822b56311a3ed8cc74db12fcf9406f2798f6ad42f092f28f5"
           ],
           "prefixes_u64": [
             "0xBFEC5145E1A8978B",
             "0xF58E0F1B0A192E6F",
-            "0x79FDC1D3329C245C"
+            "0x79FDC1D3329C245C",
+            "0x671368CB7BBE68D8"
           ],
           "fields": [
             {
@@ -1307,6 +1316,10 @@
             {
               "name": "Values",
               "type": "Array<f32>"
+            },
+            {
+              "name": "Generation",
+              "type": "u8"
             }
           ]
         }
@@ -1314,7 +1327,7 @@
     },
     "TransformUpdate": {
       "source": "FomoxaSystemModels/TransformUpdate.cs",
-      "fingerprint": "sha256:71c0a3d7c471b57bc7bd34b69c4d499770aec10c0eb7bea56324b870d8979c20",
+      "fingerprint": "sha256:6773ed05919f8cf4055efafc67c48b8fed93508c5b0dfdc6b99b205c3d4e78a9",
       "codecs": [
         "net"
       ],
@@ -1339,22 +1352,31 @@
           "codecs": [
             "net"
           ]
+        },
+        {
+          "name": "Generation",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
         }
       ],
       "messages": {
         "net": {
           "id": "0x7183722F",
-          "fingerprint": "sha256:ed867441bcd8e333356014a1c01c883e07fc863451dd71820e6148dc01964e96",
-          "fingerprint_u64": "0xED867441BCD8E333",
+          "fingerprint": "sha256:62cfa8a4088d2d776e87accf044b28b6baf3ff086bef1d73c9ecfc3034a8a68a",
+          "fingerprint_u64": "0x62CFA8A4088D2D77",
           "prefixes": [
             "sha256:d3c3d8d2ff7e95ae0520d399aa491d3a6dcb974d0b8dbbe35d9a55c6503245c1",
             "sha256:d26a5591289d89c217a47f31ea2b3444429073cfe1104844a85528624fb85c94",
-            "sha256:ed867441bcd8e333356014a1c01c883e07fc863451dd71820e6148dc01964e96"
+            "sha256:ed867441bcd8e333356014a1c01c883e07fc863451dd71820e6148dc01964e96",
+            "sha256:62cfa8a4088d2d776e87accf044b28b6baf3ff086bef1d73c9ecfc3034a8a68a"
           ],
           "prefixes_u64": [
             "0xD3C3D8D2FF7E95AE",
             "0xD26A5591289D89C2",
-            "0xED867441BCD8E333"
+            "0xED867441BCD8E333",
+            "0x62CFA8A4088D2D77"
           ],
           "fields": [
             {
@@ -1368,6 +1390,10 @@
             {
               "name": "Values",
               "type": "Array<f32>"
+            },
+            {
+              "name": "Generation",
+              "type": "u8"
             }
           ]
         }

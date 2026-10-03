@@ -24,6 +24,7 @@ namespace RedRunner.Networking
 
         private readonly PlayerState m_State = new PlayerState();
         private RedCharacter m_Character;
+        private NetworkTransform m_NetworkTransform;
         private NetworkGame m_Game;
         private bool m_JumpPressed;
         private bool m_RollPressed;
@@ -37,6 +38,7 @@ namespace RedRunner.Networking
         private void Awake()
         {
             m_Character = GetComponent<RedCharacter>();
+            m_NetworkTransform = GetComponent<NetworkTransform>();
             m_Game = FindFirstObjectByType<NetworkGame>();
         }
 
@@ -153,6 +155,7 @@ namespace RedRunner.Networking
             state.Position = new System.Numerics.Vector2(m_Game.SpawnPoint.x, m_Game.SpawnPoint.y);
             state.Velocity = System.Numerics.Vector2.Zero;
             body.State = state;
+            m_NetworkTransform.Teleport();
             m_Character.RunSmoothVelocity = 0f;
             m_State.Dead = false;
             m_State.Cause = 0;

@@ -223,13 +223,14 @@ private void Respawn()
     state.Position = new System.Numerics.Vector2(m_Game.SpawnPoint.x, m_Game.SpawnPoint.y);
     state.Velocity = System.Numerics.Vector2.Zero;
     body.State = state;
+    m_NetworkTransform.Teleport();
     m_Character.RunSmoothVelocity = 0f;
     m_State.Dead = false;
     m_State.Cause = 0;
 }
 ```
 
-`Reset` revives the character and turns its `Rigidbody2D` back on, then the body moves to the spawn point. The owner's client sees the jump in position as a prediction error and corrects to it, the same way it corrects any other difference from the server.
+`Reset` revives the character and turns its `Rigidbody2D` back on, then the body moves to the spawn point. `NetworkPlayer.Awake` keeps the character's `NetworkTransform` in `m_NetworkTransform`, and `NetworkTransform.Teleport()` tells the other clients that this move is a jump, so they place the character at the start instead of interpolating it across the level; the chapter on two clients shows how that was found. The owner's client sees the jump in position as a prediction error and corrects to it, the same way it corrects any other difference from the server.
 
 ## Keep coins and chests on each client
 

@@ -20,5 +20,9 @@ namespace Fomoxa.Unity.Messaging
         [Network("Array<f32>")]
         [Codec("net")]
         public List<float> Values { get; set; } = new List<float>();
+
+        [Network("u8")]
+        [Codec("net")]
+        public byte Generation { get; set; }
     }
 }
