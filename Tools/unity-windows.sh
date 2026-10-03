@@ -127,6 +127,7 @@ rsync -rc --no-perms --no-times --chmod=D755,F644 \
   --exclude='/Builds' \
   --exclude='/server.log' \
   --exclude='/port-dump.txt' \
+  --exclude='/bot.log' \
   --exclude='/Assets/PortChecks' \
   --exclude='/Assets/PortChecks.meta' \
   --exclude='/unity.log' \

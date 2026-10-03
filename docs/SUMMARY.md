@@ -7,3 +7,4 @@
 * [Move the player online](player.md)
 * [Death, respawn and the end of the level](lives.md)
 * [Move the mace with the server's tick](mace.md)
+* [Play with two clients](crowd.md)

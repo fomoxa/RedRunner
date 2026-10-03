@@ -22,6 +22,8 @@ namespace RedRunner.PortChecks
 
         public static void Path() => Enter<PathCheck>();
 
+        public static void Crowd() => Enter<CrowdCheck>();
+
         private static void Enter<TCheck>() where TCheck : MonoBehaviour
         {
             EditorSceneManager.OpenScene(PortSetup.PlayScene, OpenSceneMode.Single);

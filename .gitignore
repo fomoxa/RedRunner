@@ -48,3 +48,5 @@ sysinfo.txt
 *.app
 *.ipa
 port-dump.txt
+bot.log
+server.log

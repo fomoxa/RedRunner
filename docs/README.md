@@ -18,6 +18,7 @@ Your own character moves as soon as you press a key: the client predicts it with
 4. [Move the player online](player.md)
 5. [Death, respawn and the end of the level](lives.md)
 6. [Move the mace with the server's tick](mace.md)
+7. [Play with two clients](crowd.md)
 
 ## Before you start
 
