@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "generator": "fomoxac 0.2.2",
+  "schema_fingerprint": "sha256:33ffec690bfb0ae8b7283f3686e993f7a29f9c7689fb73d5fc8503d10f927c6d",
+  "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
+  "sources": {
+    "FomoxaSystemModels/AnimatorState.cs": {
+      "models": [
+        "AnimatorState"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/AnimatorStateNetCodec.cs",
+          "model": "AnimatorState",
+          "codec": "net",
+          "fingerprint": "sha256:946dea7480b40eb311c883b63d50dfe5b44739433bfe17780a05bbf5102edc27",
+          "sha256": "e62edce7c48e6413460ef8d25bc690d59e0cc5196ec959c7a2c7377145da8f35"
+        }
+      ]
+    },
+    "FomoxaSystemModels/InputFrames.cs": {
+      "models": [
+        "InputFrames"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/InputFramesNetCodec.cs",
+          "model": "InputFrames",
+          "codec": "net",
+          "fingerprint": "sha256:0ff27abfb43d4c62327a56de5389c6b43bc9fc74a24bc97c3711b8790e3bb2ce",
+          "sha256": "1c17562c7626bf3bba839cced105e22fd6c5f7f576571adbd501bb834810d592"
+        }
+      ]
+    },
+    "FomoxaSystemModels/LocalPeer.cs": {
+      "models": [
+        "LocalPeer"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/LocalPeerNetCodec.cs",
+          "model": "LocalPeer",
+          "codec": "net",
+          "fingerprint": "sha256:a5d4734ef76f4dfcd539619779903f7f48d2208ba688bd33f635827c3134aa6b",
+          "sha256": "35ea74d4ac24201ba2b946838e70859b36bdb65b1b12aeb2911e2b26935b83ba"
+        }
+      ]
+    },
+    "FomoxaSystemModels/MessageBundle.cs": {
+      "models": [
+        "BundleEntry",
+        "MessageBundle"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/BundleEntryNetCodec.cs",
+          "model": "BundleEntry",
+          "codec": "net",
+          "fingerprint": "sha256:9adca46177a3570704e3f058abe3ca6e851391cbc460bb7ffa402ec69b68ba34",
+          "sha256": "550f7150a21ce2a87da586fa6716d7d3bc26732c91bd605698756924b6e10455"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/MessageBundleNetCodec.cs",
+          "model": "MessageBundle",
+          "codec": "net",
+          "fingerprint": "sha256:50cb0322cc54be41084fafb314ee2f3967b6d8b73cf2b231e61afbd04e5a1483",
+          "sha256": "a33ca4528980f7f85513760c49368bb10c82363a09a8851bae50b4f179e434bd"
+        }
+      ]
+    },
+    "FomoxaSystemModels/ObjectDespawn.cs": {
+      "models": [
+        "ObjectDespawn"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/ObjectDespawnNetCodec.cs",
+          "model": "ObjectDespawn",
+          "codec": "net",
+          "fingerprint": "sha256:dda307de04ef42963af9d005df6c7c526963d968a3bd55d8fa62d9e0119732f4",
+          "sha256": "5e4a4503114ddbaefd2e13b8ec7f7d49aeb87531e9c3c63b7484850d3239812e"
+        }
+      ]
+    },
+    "FomoxaSystemModels/ObjectOwnerChange.cs": {
+      "models": [
+        "ObjectOwnerChange"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/ObjectOwnerChangeNetCodec.cs",
+          "model": "ObjectOwnerChange",
+          "codec": "net",
+          "fingerprint": "sha256:6969477015076f2070dcb0d332dc0aae89d969b5c577d6b142d8b026020ccdb2",
+          "sha256": "cd5d10194fbbece7a23e6d58a4f7d5cf972d1d128d10a32fa6d6ba5735eaa3e8"
+        }
+      ]
+    },
+    "FomoxaSystemModels/ObjectSceneSpawn.cs": {
+      "models": [
+        "ObjectSceneSpawn"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/ObjectSceneSpawnNetCodec.cs",
+          "model": "ObjectSceneSpawn",
+          "codec": "net",
+          "fingerprint": "sha256:a93d679db7a042d3f80204db045883b9a10ff5be55badf494a9b0dda1f84d3a5",
+          "sha256": "6ab85f22429427ff2c0fdde592c72e44b43f5ef89b5d204e6ab81cf48fc22881"
+        }
+      ]
+    },
+    "FomoxaSystemModels/ObjectSpawn.cs": {
+      "models": [
+        "ObjectSpawn"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/ObjectSpawnNetCodec.cs",
+          "model": "ObjectSpawn",
+          "codec": "net",
+          "fingerprint": "sha256:89252ceb40d1f47719cbc93ce4ce941da06ff72de7539de567ed64f2e6c28ab3",
+          "sha256": "89313201fdf9905edb364edcb1885c69b3bba6040aaa5cd2bde20a47b58761aa"
+        }
+      ]
+    },
+    "FomoxaSystemModels/ReconcileState.cs": {
+      "models": [
+        "ReconcileState"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/ReconcileStateNetCodec.cs",
+          "model": "ReconcileState",
+          "codec": "net",
+          "fingerprint": "sha256:3d41c0db5e4f6cc28df831a63e1cf59ab9a5ac37062319cbba04161a5928232a",
+          "sha256": "9f1bf621642fed6d689b77c7e738126b92abd0f46de02d6da292aea3a12fb199"
+        }
+      ]
+    },
+    "FomoxaSystemModels/ReliableAck.cs": {
+      "models": [
+        "ReliableAck"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/ReliableAckNetCodec.cs",
+          "model": "ReliableAck",
+          "codec": "net",
+          "fingerprint": "sha256:2919cb926d7c0b4b18846f376bddf5fa7fa83924f45afd0b470f3d237a3b6282",
+          "sha256": "13056807c0f4910a477be47beda570545590d6347be8cd0c8fd2c24e7d8f24de"
+        }
+      ]
+    },
+    "FomoxaSystemModels/SceneLoad.cs": {
+      "models": [
+        "SceneLoad"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneLoadNetCodec.cs",
+          "model": "SceneLoad",
+          "codec": "net",
+          "fingerprint": "sha256:0061dc248bd029c7cda79bba1ca10d3a7a22d17b4209c989257d80c9ae3c60dd",
+          "sha256": "d3c493ed292a9f0a3bfef5809ee3006a614a6f4a7fccd58ada9b7f302d167592"
+        }
+      ]
+    },
+    "FomoxaSystemModels/SceneLoaded.cs": {
+      "models": [
+        "SceneLoaded"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneLoadedNetCodec.cs",
+          "model": "SceneLoaded",
+          "codec": "net",
+          "fingerprint": "sha256:d4ba7fc5758aa40087fe6b0295e7db10bed28c47436c5790a3fd222998f23e8a",
+          "sha256": "12095b8826e41bcc999341e8b845613eded9f5c2eea0b01dc9b9411ea0e036f6"
+        }
+      ]
+    },
+    "FomoxaSystemModels/SceneUnload.cs": {
+      "models": [
+        "SceneUnload"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneUnloadNetCodec.cs",
+          "model": "SceneUnload",
+          "codec": "net",
+          "fingerprint": "sha256:4e7375e4e9dc5e6887ad0d0601a1be72e7692932474e4ee4b264147bc980beb7",
+          "sha256": "f90b18fe413846116459ac6b5b95e1f416c23256d11790223839d6786129190a"
+        }
+      ]
+    },
+    "FomoxaSystemModels/StateDelta.cs": {
+      "models": [
+        "StateDelta"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/StateDeltaNetCodec.cs",
+          "model": "StateDelta",
+          "codec": "net",
+          "fingerprint": "sha256:c709753ce0caedb5e7670451807766fa1dac85f57da87f3a52dfad1227ae165c",
+          "sha256": "8645f9291fea1c77bda6b981eaa4f62907dcc72bebdcdc84fca0560ac9837296"
+        }
+      ]
+    },
+    "FomoxaSystemModels/StateResync.cs": {
+      "models": [
+        "StateResync"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/StateResyncNetCodec.cs",
+          "model": "StateResync",
+          "codec": "net",
+          "fingerprint": "sha256:036db9745ffc78fa23426f2ef3ef2280dc5cd08dbbbf8d29833d2aa7aa72f3dd",
+          "sha256": "edc83a259eb36970c86a30301ca652d7f500d37538acf1932c3440985727811b"
+        }
+      ]
+    },
+    "FomoxaSystemModels/TickPing.cs": {
+      "models": [
+        "TickPing"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/TickPingNetCodec.cs",
+          "model": "TickPing",
+          "codec": "net",
+          "fingerprint": "sha256:1d6e28cf0d4b9ab361b7f95524b592406c50d5e9707de7a756d9ddfc70c9d02d",
+          "sha256": "743a9b59e9a5bcb16c455974e5b98ac7326d1f6de94190e884b5aea479d84e23"
+        }
+      ]
+    },
+    "FomoxaSystemModels/TickPong.cs": {
+      "models": [
+        "TickPong"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/TickPongNetCodec.cs",
+          "model": "TickPong",
+          "codec": "net",
+          "fingerprint": "sha256:89fef9f4fb791b95a7bd49fea7f4561222387be3f66218ad068f92f6efcf9981",
+          "sha256": "f7737d82c2f6ca6fbb7a4b630c68caa55a254ee6f5962b2a40baf3822eb85a0b"
+        }
+      ]
+    },
+    "FomoxaSystemModels/TransformSettle.cs": {
+      "models": [
+        "TransformSettle"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/TransformSettleNetCodec.cs",
+          "model": "TransformSettle",
+          "codec": "net",
+          "fingerprint": "sha256:79fdc1d3329c245c8ca856c94978b935cb9e0cbfea8a164b205c13a02fd5bcc5",
+          "sha256": "3f5a94e08df2f7a477a5489dfb8d99bcadb9156f0e6677facc0ea4a49f8e48b5"
+        }
+      ]
+    },
+    "FomoxaSystemModels/TransformUpdate.cs": {
+      "models": [
+        "TransformUpdate"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/TransformUpdateNetCodec.cs",
+          "model": "TransformUpdate",
+          "codec": "net",
+          "fingerprint": "sha256:ed867441bcd8e333356014a1c01c883e07fc863451dd71820e6148dc01964e96",
+          "sha256": "b2a3623eefb8f881081acd2701747bf05e64bd73908be4623df24c53df9694c4"
+        }
+      ]
+    }
+  },
+  "shared": [
+    {
+      "path": "Assets/Scripts/RedRunner/Networking/Generated/Runtime.cs",
+      "kind": "runtime",
+      "sha256": "c3716844cbaa1740b51bc9e705e2835a0b9788f785317168f22cfb3f7815a105"
+    },
+    {
+      "path": "Assets/Scripts/RedRunner/Networking/Generated/Handshake.cs",
+      "kind": "handshake",
+      "sha256": "c72f13eff4c6a8c766a8a9b39108dba71031ae73618b63847d13a3e76680bbc7"
+    },
+    {
+      "path": "Assets/Scripts/RedRunner/Networking/Generated/NetSchema.cs",
+      "kind": "net_schema",
+      "sha256": "1ab86cc885658133251d1b8f79adff3d66f0425644da7a620a1cf718a79a739c"
+    }
+  ]
+}

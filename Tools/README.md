@@ -1,0 +1,40 @@
+# Checking the port from WSL
+
+These scripts run the Unity Editor installed on Windows against this project while the repository lives in WSL. The Windows Editor refuses to open a project on the case-sensitive WSL file system, so `unity-windows.sh` copies the project to `C:\Users\<user>\redrunner-unity-check\RedRunner` and runs Unity there in batch mode. The `com.fomoxa.unity` package is copied next to it, to `redrunner-unity-check\fomoxa-unity\com.fomoxa.unity`, so the `file:../../fomoxa-unity/com.fomoxa.unity` entry in `Packages/manifest.json` resolves in the copy as well.
+
+You do not need any of this to play or build the game. Open the project in the Unity Editor as usual.
+
+## Requirements
+
+- Unity 6000.5.7f1 installed through Unity Hub on Windows. Change `UNITY_VERSION` at the top of the script for another version.
+- The Windows user name in `WIN_USER` (default `admin`).
+- The `fomoxa-unity` repository cloned next to this one.
+
+## Commands
+
+```bash
+./Tools/unity-windows.sh check
+./Tools/unity-windows.sh run RedRunner.PortChecks.PortSetup.Networking
+./Tools/unity-windows.sh play RedRunner.PortChecks.PortPlay.Connection
+```
+
+`check` opens the project, compiles it and quits. `run` calls an Editor method and quits. `play` calls an Editor method that enters Play Mode; the check running in Play Mode quits the Editor itself, and the script stops it after 180 seconds if it does not.
+
+Each command writes the Unity log to `Logs/unity-windows-<command>.log` and prints the compile errors and the `PORT-CHECK` lines it finds there. Exit code 0 with a `PORT-CHECK ... PASS` line means the check passed.
+
+After Unity exits, the script copies every file whose content changed in the Windows copy back into the repository, so generated code, upgraded project settings and saved scenes come back. Review `git status` afterwards: Unity sometimes re-saves assets you did not touch.
+
+## Check scripts
+
+`Tools/PortChecks/` holds the Editor methods and the Play Mode checks. The script copies the folder into the Windows copy as `Assets/PortChecks/`, so the game project in the repository never compiles them.
+
+| Method | What it does |
+|---|---|
+| `PortSetup.Networking` | Creates the `FomoxaSettings` asset, runs the Fomoxa generator, puts `Play.unity` in the build scene list and adds the `Network Manager` object with a UDP transport to `Play.unity` |
+| `PortPlay.Connection` | Opens `Play.unity`, starts a server on the scene's `NetworkManager`, connects a second `NetworkManager` as a client over UDP on `127.0.0.1` and passes once the server sees one peer |
+
+A component that drives a Play Mode check must stay out of any `Editor` folder. Unity drops a MonoBehaviour from an Editor-only assembly out of the scene when it reloads the domain on entering Play Mode, without logging an error. The checks wrap their whole file in `#if UNITY_EDITOR` instead.
+
+## When the copy is locked
+
+If a run is interrupted, `Unity.exe` can stay alive on Windows and keep `Temp/UnityLockfile`, and the next copy fails with `Permission denied`. The script stops any `Unity.exe` whose command line contains `redrunner-unity-check` before each run and again after a run that timed out. Other Unity windows are left alone.
