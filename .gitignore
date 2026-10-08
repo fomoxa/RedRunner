@@ -1,6 +1,7 @@
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
+/Server~/bin/
 [Bb]uild*/
 [Bb]uilds/
 [Ll]ogs/
@@ -21,6 +22,7 @@ Assets/AssetStoreTools*
 ExportedObj/
 .consulo/
 *.csproj
+!/Server~/RedRunner.Server.csproj
 *.unityproj
 *.sln
 *.suo

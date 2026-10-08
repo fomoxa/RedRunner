@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AssemblyName>RedRunner.Server</AssemblyName>
+    <RootNamespace>RedRunner.Server</RootNamespace>
+    <Game>..</Game>
+    <Core>$(Game)/../unity/com.fomoxa.networking</Core>
+    <Rapier>$(Game)/../networking-rapier/com.fomoxa.networking.rapier</Rapier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(Core)/Runtime/Core/**/*.cs" />
+    <Compile Include="$(Core)/Standalone~/**/*.cs" />
+    <Compile Include="$(Rapier)/Runtime/Rapier/**/*.cs" />
+    <Compile Include="$(Game)/Assets/Scripts/RedRunner/Networking/Models/**/*.cs" />
+    <Compile Include="$(Game)/Assets/Scripts/RedRunner/Networking/Generated/**/*.cs" />
+    <Compile Include="$(Game)/Assets/Scripts/RedRunner/Simulation/**/*.cs" />
+    <Compile Include="*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(Game)/Assets/Scripts/RedRunner/Networking/LevelCatalogue.bytes" Link="LevelCatalogue.bytes" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(Game)/Assets/Scripts/RedRunner/Networking/Generated/*.fomoxascene" Link="Scenes/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(Rapier)/Runtime/Plugins/Linux/x86_64/libfomoxa_rapier.so" Link="libfomoxa_rapier.so" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(Rapier)/Runtime/Plugins/Windows/x86_64/fomoxa_rapier.dll" Link="fomoxa_rapier.dll" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Fomoxa.Attributes">
+      <HintPath>$(Core)/Runtime/Plugins/Fomoxa.Attributes.dll</HintPath>
+    </Reference>
+    <Reference Include="Fomoxa.Net">
+      <HintPath>$(Core)/Runtime/Plugins/Fomoxa.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

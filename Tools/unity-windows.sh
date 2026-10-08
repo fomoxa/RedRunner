@@ -5,6 +5,7 @@ UNITY_VERSION="6000.5.7f1"
 WIN_USER="admin"
 PLAY_TIMEOUT=240
 SERVER_PORT=7777
+DOTNET_WIN="/mnt/c/Program Files/dotnet/dotnet.exe"
 
 MODE="${1:-check}"
 METHOD="$2"
@@ -26,29 +27,33 @@ LOG="$LOG_DIR/unity-windows-$MODE.log"
 
 case "$MODE" in
   check|shots) ;;
-  run|play|play-server)
+  run|play|play-server|play-console)
     if [ -z "$METHOD" ]; then
       echo "usage: $0 $MODE Namespace.Class.Method" >&2
       exit 2
     fi
     ;;
   *)
-    echo "usage: $0 check | shots | run Namespace.Class.Method | play Namespace.Class.Method | play-server Namespace.Class.Method" >&2
+    echo "usage: $0 check | shots | run Namespace.Class.Method | play Namespace.Class.Method | play-server Namespace.Class.Method | play-console Namespace.Class.Method" >&2
     exit 2
     ;;
 esac
 
 stop_check_processes() {
   powershell.exe -NoProfile -Command \
-    "Get-CimInstance Win32_Process | Where-Object { (\$_.Name -eq 'Unity.exe' -or \$_.Name -eq 'RedRunner.exe') -and \$_.CommandLine -like '*redrunner-unity-check*' } | Invoke-CimMethod -MethodName Terminate" \
+    "Get-CimInstance Win32_Process | Where-Object { (\$_.Name -eq 'Unity.exe' -or \$_.Name -eq 'RedRunner.exe' -or \$_.Name -eq 'dotnet.exe') -and \$_.CommandLine -like '*redrunner-unity-check*' } | Invoke-CimMethod -MethodName Terminate" \
     >/dev/null 2>&1 || true
 }
 
-start_server() {
-  local SERVER_EXTRA=""
+server_extra_arguments() {
+  local extra=""
   for argument in ${SERVER_ARGS:-}; do
-    SERVER_EXTRA="$SERVER_EXTRA,'$argument'"
+    extra="$extra,'$argument'"
   done
+  echo "$extra"
+}
+
+start_server() {
   local player="$DST/Builds/Windows/RedRunner.exe"
   if [ ! -f "$player" ]; then
     echo "no player build at $player; run: $0 run RedRunner.PortChecks.PortBuild.Player" >&2
@@ -56,8 +61,27 @@ start_server() {
   fi
   rm -f "$DST/server.log"
   powershell.exe -NoProfile -Command \
-    "Start-Process -FilePath '$WIN_ROOT\\RedRunner\\Builds\\Windows\\RedRunner.exe' -ArgumentList '-batchmode','-nographics','-server','-port','$SERVER_PORT','-logFile','$WIN_ROOT\\RedRunner\\server.log'$SERVER_EXTRA" \
+    "Start-Process -FilePath '$WIN_ROOT\\RedRunner\\Builds\\Windows\\RedRunner.exe' -ArgumentList '-batchmode','-nographics','-server','-port','$SERVER_PORT','-logFile','$WIN_ROOT\\RedRunner\\server.log'$(server_extra_arguments)" \
     >/dev/null 2>&1
+  wait_for_server
+}
+
+start_console_server() {
+  local project="$WIN_ROOT\\RedRunner\\Server~"
+  sed -i 's|<TargetFramework>net8.0</TargetFramework>|<TargetFramework>net9.0</TargetFramework>|' "$DST/Server~/RedRunner.Server.csproj"
+  if ! "$DOTNET_WIN" build -c Release "$project\\RedRunner.Server.csproj" > "$LOG_DIR/unity-windows-console-build.log" 2>&1; then
+    grep -E " error " "$LOG_DIR/unity-windows-console-build.log" | sort -u >&2
+    echo "the console server did not build; see $LOG_DIR/unity-windows-console-build.log" >&2
+    exit 1
+  fi
+  rm -f "$DST/server.log"
+  powershell.exe -NoProfile -Command \
+    "Start-Process -FilePath 'C:\\Program Files\\dotnet\\dotnet.exe' -WindowStyle Hidden -ArgumentList '$project\\bin\\Release\\net9.0\\RedRunner.Server.dll','-port','$SERVER_PORT','-logFile','$WIN_ROOT\\RedRunner\\server.log'$(server_extra_arguments)" \
+    >/dev/null 2>&1
+  wait_for_server
+}
+
+wait_for_server() {
   for _ in $(seq 1 60); do
     if grep -q "server listening" "$DST/server.log" 2>/dev/null; then
       return 0
@@ -107,6 +131,8 @@ rsync -a --delete \
   --exclude='/Temp' \
   --exclude='/UserSettings' \
   --exclude='/Builds' \
+  --exclude='/Server~/bin' \
+  --exclude='/Server~/obj' \
   --exclude='/server.log' \
   --exclude='/bot.log' \
   --exclude='/unity*.log' \
@@ -128,17 +154,19 @@ ARGS=(-batchmode -nographics -projectPath "$WIN_ROOT\\RedRunner" -logFile "$WIN_
 case "$MODE" in
   check) ARGS+=(-quit) ;;
   run) ARGS+=(-quit -executeMethod "$METHOD") ;;
-  play|play-server) ARGS+=(-executeMethod "$METHOD") ;;
+  play|play-server|play-console) ARGS+=(-executeMethod "$METHOD") ;;
 esac
 
 if [ "$MODE" = play-server ]; then
   start_server
+elif [ "$MODE" = play-console ]; then
+  start_console_server
 fi
 
 set +e
 (
   cd "$DST"
-  if [ "$MODE" = play ] || [ "$MODE" = play-server ]; then
+  if [ "$MODE" = play ] || [ "$MODE" = play-server ] || [ "$MODE" = play-console ]; then
     timeout "$PLAY_TIMEOUT" "$UNITY" "${ARGS[@]}" < /dev/null > /dev/null 2>&1
   else
     "$UNITY" "${ARGS[@]}" < /dev/null > /dev/null 2>&1
@@ -147,11 +175,11 @@ set +e
 EXIT_CODE=$?
 set -e
 
-if [ "$EXIT_CODE" -eq 124 ] || [ "$MODE" = play-server ]; then
+if [ "$EXIT_CODE" -eq 124 ] || [ "$MODE" = play-server ] || [ "$MODE" = play-console ]; then
   stop_check_processes
 fi
 
-if [ "$MODE" = play-server ]; then
+if [ "$MODE" = play-server ] || [ "$MODE" = play-console ]; then
   cp "$DST/server.log" "$LOG_DIR/unity-windows-server.log" 2>/dev/null || true
 fi
 
@@ -164,6 +192,8 @@ rsync -rc --no-perms --no-times --chmod=D755,F644 \
   --exclude='/Temp' \
   --exclude='/UserSettings' \
   --exclude='/Builds' \
+  --exclude='/Server~/bin' \
+  --exclude='/Server~/obj' \
   --exclude='/server.log' \
   --exclude='/port-dump.txt' \
   --exclude='/Packages/manifest.json' \
@@ -184,7 +214,7 @@ if [ "$MODE" != check ]; then
   echo "=== result ==="
   grep -n "PORT-CHECK" "$LOG" || echo "no PORT-CHECK line"
 fi
-if [ "$MODE" = play-server ]; then
+if [ "$MODE" = play-server ] || [ "$MODE" = play-console ]; then
   echo "=== server ==="
   grep -n "\[RedRunner\]\|Exception" "$LOG_DIR/unity-windows-server.log" | head -40 || echo "no server lines"
 fi
