@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Fomoxa.Unity.Sessions;
+using Fomoxa.Networking.Sessions;
 using RedRunner.Networking;
 
 namespace RedRunner.UI

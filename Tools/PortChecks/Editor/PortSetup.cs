@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using Fomoxa.Networking;
 using Fomoxa.Unity;
 using Fomoxa.Unity.Editor;
 using RedRunner.Networking;
@@ -140,9 +141,9 @@ namespace RedRunner.PortChecks
             NetworkManager manager = FindInScene<NetworkManager>(scene);
             var managerSerialized = new SerializedObject(manager);
             managerSerialized.FindProperty("tickRate").intValue = TickRate;
-            managerSerialized.FindProperty("simulatePhysics").boolValue = true;
             managerSerialized.FindProperty("maxReconnectRetries").intValue = 3;
             managerSerialized.ApplyModifiedPropertiesWithoutUndo();
+            SimulatePhysics(manager);
 
             FomoxaPrefabStep.AssignCollected(scene, FomoxaPrefabStep.FindList());
             FomoxaSceneStep.AssignCollected(scene, FomoxaSceneStep.FindList());
@@ -172,6 +173,27 @@ namespace RedRunner.PortChecks
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log($"PORT-CHECK joining setup: PASS player prefab id {AssetDatabase.LoadAssetAtPath<NetworkObject>(PlayerPrefabPath).PrefabId:X8}");
+        }
+
+        public static void PhysicsSimulation()
+        {
+            Scene scene = EditorSceneManager.OpenScene(PlayScene, OpenSceneMode.Single);
+            NetworkManager manager = FindInScene<NetworkManager>(scene);
+            SimulatePhysics(manager);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log($"PORT-CHECK physics setup: PASS {manager.GetComponent<RigidbodyPhysics>().Simulates}");
+        }
+
+        private static void SimulatePhysics(NetworkManager manager)
+        {
+            RigidbodyPhysics physics = manager.GetComponent<RigidbodyPhysics>() ?? manager.gameObject.AddComponent<RigidbodyPhysics>();
+            var physicsSerialized = new SerializedObject(physics);
+            physicsSerialized.FindProperty("simulatePhysics").boolValue = true;
+            physicsSerialized.ApplyModifiedPropertiesWithoutUndo();
+            var managerSerialized = new SerializedObject(manager);
+            managerSerialized.FindProperty("physics").objectReferenceValue = physics;
+            managerSerialized.ApplyModifiedPropertiesWithoutUndo();
         }
 
         public static void Score()

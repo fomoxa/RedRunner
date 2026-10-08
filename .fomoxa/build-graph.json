@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "schema_fingerprint": "sha256:2f4ad087d5afe68d2b3538905bbafac92380ede1c31cb4f30956500b085308bd",
+  "schema_fingerprint": "sha256:ed154d9b0d52dc519b688eedfee03d1a8f6bd98e9c9ed34f92c8a63fd3e7dfb7",
   "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
   "sources": {
     "Assets/Scripts/RedRunner/Networking/Models/LevelState.cs": {
@@ -70,7 +70,7 @@
           "model": "AnimatorState",
           "codec": "net",
           "fingerprint": "sha256:946dea7480b40eb311c883b63d50dfe5b44739433bfe17780a05bbf5102edc27",
-          "sha256": "e62edce7c48e6413460ef8d25bc690d59e0cc5196ec959c7a2c7377145da8f35"
+          "sha256": "8f7684f64322dfbd0678be7b89d1ff76405740c6912a5baacd9ba3efecce1c43"
         }
       ]
     },
@@ -84,7 +84,7 @@
           "model": "InputFrames",
           "codec": "net",
           "fingerprint": "sha256:0ff27abfb43d4c62327a56de5389c6b43bc9fc74a24bc97c3711b8790e3bb2ce",
-          "sha256": "1c17562c7626bf3bba839cced105e22fd6c5f7f576571adbd501bb834810d592"
+          "sha256": "d83a66c624ac1b5e2cd906d2e91375c4bc8d427aae49d8c682e98f0ae83396bb"
         }
       ]
     },
@@ -98,7 +98,7 @@
           "model": "LocalPeer",
           "codec": "net",
           "fingerprint": "sha256:a5d4734ef76f4dfcd539619779903f7f48d2208ba688bd33f635827c3134aa6b",
-          "sha256": "35ea74d4ac24201ba2b946838e70859b36bdb65b1b12aeb2911e2b26935b83ba"
+          "sha256": "e44f3939a5e0870e812d03fe11a8e75c32c8bf702039cb7377cbfbc103a7bcae"
         }
       ]
     },
@@ -113,14 +113,14 @@
           "model": "BundleEntry",
           "codec": "net",
           "fingerprint": "sha256:9adca46177a3570704e3f058abe3ca6e851391cbc460bb7ffa402ec69b68ba34",
-          "sha256": "550f7150a21ce2a87da586fa6716d7d3bc26732c91bd605698756924b6e10455"
+          "sha256": "c0a78586a0c79575685f8c53e716469c7a4cb245eab4dce60048ae1f2753f3e3"
         },
         {
           "path": "Assets/Scripts/RedRunner/Networking/Generated/MessageBundleNetCodec.cs",
           "model": "MessageBundle",
           "codec": "net",
           "fingerprint": "sha256:50cb0322cc54be41084fafb314ee2f3967b6d8b73cf2b231e61afbd04e5a1483",
-          "sha256": "a33ca4528980f7f85513760c49368bb10c82363a09a8851bae50b4f179e434bd"
+          "sha256": "612b3ab5dfeca47fad96ac5ee420f971a9718250983a4eaa000502c2de3fbd88"
         }
       ]
     },
@@ -134,7 +134,7 @@
           "model": "ObjectDespawn",
           "codec": "net",
           "fingerprint": "sha256:dda307de04ef42963af9d005df6c7c526963d968a3bd55d8fa62d9e0119732f4",
-          "sha256": "5e4a4503114ddbaefd2e13b8ec7f7d49aeb87531e9c3c63b7484850d3239812e"
+          "sha256": "fdeb8d54c9fc1b168c7eb1842336ab655e0da11c43680e371a136a146c0c08ec"
         }
       ]
     },
@@ -148,7 +148,7 @@
           "model": "ObjectOwnerChange",
           "codec": "net",
           "fingerprint": "sha256:6969477015076f2070dcb0d332dc0aae89d969b5c577d6b142d8b026020ccdb2",
-          "sha256": "cd5d10194fbbece7a23e6d58a4f7d5cf972d1d128d10a32fa6d6ba5735eaa3e8"
+          "sha256": "e26ebe14abff00d8097c1ebd746236ac2e30613b7c0c53b0aa2769247054e687"
         }
       ]
     },
@@ -162,7 +162,7 @@
           "model": "ObjectSceneSpawn",
           "codec": "net",
           "fingerprint": "sha256:a93d679db7a042d3f80204db045883b9a10ff5be55badf494a9b0dda1f84d3a5",
-          "sha256": "6ab85f22429427ff2c0fdde592c72e44b43f5ef89b5d204e6ab81cf48fc22881"
+          "sha256": "9747343507c8990c4590c4673a8df3f9515cdfe905aeba66e36116dc8592d9c9"
         }
       ]
     },
@@ -176,7 +176,7 @@
           "model": "ObjectSpawn",
           "codec": "net",
           "fingerprint": "sha256:89252ceb40d1f47719cbc93ce4ce941da06ff72de7539de567ed64f2e6c28ab3",
-          "sha256": "89313201fdf9905edb364edcb1885c69b3bba6040aaa5cd2bde20a47b58761aa"
+          "sha256": "a7616f31c3a629d2988b5b44a1567ae889eb494b4400f4f9ef1b5e59e6ed520f"
         }
       ]
     },
@@ -190,7 +190,7 @@
           "model": "PeerLeave",
           "codec": "net",
           "fingerprint": "sha256:2ac3087c85a8996638d23e01aa4bc0349c93b0d498a76b5d2a8c69ce0a1324f8",
-          "sha256": "541a182ea0f6f0b85cc7ccc515c180d3790d028f0abeb1a9d694c826b1a297db"
+          "sha256": "6556387275f2b497f2b38c3a879fc43eed083612761134ced41ae99c0884fced"
         }
       ]
     },
@@ -204,7 +204,7 @@
           "model": "ReconcileState",
           "codec": "net",
           "fingerprint": "sha256:3d41c0db5e4f6cc28df831a63e1cf59ab9a5ac37062319cbba04161a5928232a",
-          "sha256": "9f1bf621642fed6d689b77c7e738126b92abd0f46de02d6da292aea3a12fb199"
+          "sha256": "ac8f1d2ec75eb5409bbdb58d8866be21bb551c0a97270af7f16d64fa8d675ed6"
         }
       ]
     },
@@ -218,7 +218,77 @@
           "model": "ReliableAck",
           "codec": "net",
           "fingerprint": "sha256:2919cb926d7c0b4b18846f376bddf5fa7fa83924f45afd0b470f3d237a3b6282",
-          "sha256": "13056807c0f4910a477be47beda570545590d6347be8cd0c8fd2c24e7d8f24de"
+          "sha256": "7bed5fda9e325b10876d64fbd3869809960c0eb4257cb163db1f9cca91960bc0"
+        }
+      ]
+    },
+    "FomoxaSystemModels/SceneFile.cs": {
+      "models": [
+        "SceneFile",
+        "SceneFileBody",
+        "SceneFileBody2D",
+        "SceneFileCollider",
+        "SceneFileCollider2D",
+        "SceneFileMaterial",
+        "SceneFileObject",
+        "SceneFilePose"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileNetCodec.cs",
+          "model": "SceneFile",
+          "codec": "net",
+          "fingerprint": "sha256:294725bdf6a3064559d54047ed9f5ec2d1ae2ed89ad1a5316259484026600e7d",
+          "sha256": "f8509e68a0773bdf52b1b8d5a20f75800eb0f73d28acf91c769145d09512c1ac"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileBodyNetCodec.cs",
+          "model": "SceneFileBody",
+          "codec": "net",
+          "fingerprint": "sha256:eb56fb3e68044912e842d329753062fa8cda610dcdb5f02f16ef8dbfdab81023",
+          "sha256": "a3d20f3a46d3dff64fa8f4cbbd84cf5654dcfce17034942b6d1331f4edfeee72"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileBody2DNetCodec.cs",
+          "model": "SceneFileBody2D",
+          "codec": "net",
+          "fingerprint": "sha256:eb00129256754e56c8e74b71e3b5e68a485cd961f7337e131b313efd8da8e15a",
+          "sha256": "a87bafd20e5be8f6473ddecb6e90628fa2da6009020da1a6adda9d46e731092e"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileColliderNetCodec.cs",
+          "model": "SceneFileCollider",
+          "codec": "net",
+          "fingerprint": "sha256:238cb95ef64c099aba9872a2facb0f50f5e96fd636795e4f74b28d08f1766355",
+          "sha256": "24ddf4ee3d545e3e7e82149921a397946e1d1f6e521fc552336293ade4d50756"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileCollider2DNetCodec.cs",
+          "model": "SceneFileCollider2D",
+          "codec": "net",
+          "fingerprint": "sha256:95e8d55e703fd8b46363c7719ac85efdfca870ccafe8276ef1072962327d28ec",
+          "sha256": "145f6b2b894aa873ad5f2657059706dfb529fcffc71ff36faf9047fd4fe9e1cb"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileMaterialNetCodec.cs",
+          "model": "SceneFileMaterial",
+          "codec": "net",
+          "fingerprint": "sha256:18e04a1f8bc79a1691e7b8d8ef0950172e917a40debcb61ba9cdf68fc6ff69ba",
+          "sha256": "a7f828df183e00f90c3586f2df0f08d3cffe5825810dac14a14ea1bcd301d010"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileObjectNetCodec.cs",
+          "model": "SceneFileObject",
+          "codec": "net",
+          "fingerprint": "sha256:e85ab6aa6bb6414b5b97089efacceb8013f7ca5db5f2075efb6694c32642aca1",
+          "sha256": "6f7e040ed4386436b7d30c9f7e68234dd6c3daa87654ec12912b4ca0a4df3b7a"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFilePoseNetCodec.cs",
+          "model": "SceneFilePose",
+          "codec": "net",
+          "fingerprint": "sha256:402f32a52f8fc3be9f23697a032122f72f48b9bf8256c2a743e73d5777aa6544",
+          "sha256": "01b2c6349ba2487facd650e27838ee429e69233ca580d331f2e3c0cee99dae44"
         }
       ]
     },
@@ -232,7 +302,7 @@
           "model": "SceneLoad",
           "codec": "net",
           "fingerprint": "sha256:0061dc248bd029c7cda79bba1ca10d3a7a22d17b4209c989257d80c9ae3c60dd",
-          "sha256": "d3c493ed292a9f0a3bfef5809ee3006a614a6f4a7fccd58ada9b7f302d167592"
+          "sha256": "08a63bd8299f9a5c31a1435674696eef44ed3fadde45b6b86184f92b5a2ce0bb"
         }
       ]
     },
@@ -246,7 +316,7 @@
           "model": "SceneLoaded",
           "codec": "net",
           "fingerprint": "sha256:d4ba7fc5758aa40087fe6b0295e7db10bed28c47436c5790a3fd222998f23e8a",
-          "sha256": "12095b8826e41bcc999341e8b845613eded9f5c2eea0b01dc9b9411ea0e036f6"
+          "sha256": "56e2fda8720beedd0f0a8d1a242b7e43b4cd41648c05ab3d9782d678349b91b3"
         }
       ]
     },
@@ -260,7 +330,7 @@
           "model": "SceneUnload",
           "codec": "net",
           "fingerprint": "sha256:4e7375e4e9dc5e6887ad0d0601a1be72e7692932474e4ee4b264147bc980beb7",
-          "sha256": "f90b18fe413846116459ac6b5b95e1f416c23256d11790223839d6786129190a"
+          "sha256": "fb6a9d54eb0a5b3e1809b22c120d44aebc56540cb50accf00a1500e4f38f35f2"
         }
       ]
     },
@@ -274,7 +344,7 @@
           "model": "StateDelta",
           "codec": "net",
           "fingerprint": "sha256:c709753ce0caedb5e7670451807766fa1dac85f57da87f3a52dfad1227ae165c",
-          "sha256": "8645f9291fea1c77bda6b981eaa4f62907dcc72bebdcdc84fca0560ac9837296"
+          "sha256": "f22333184931f1169d8b22d833f5a0f2a91d82c4f83a657af88e780e49dad291"
         }
       ]
     },
@@ -288,7 +358,7 @@
           "model": "StateResync",
           "codec": "net",
           "fingerprint": "sha256:036db9745ffc78fa23426f2ef3ef2280dc5cd08dbbbf8d29833d2aa7aa72f3dd",
-          "sha256": "edc83a259eb36970c86a30301ca652d7f500d37538acf1932c3440985727811b"
+          "sha256": "1503634f7ec5d06d3413eeec98c3909f060a30530829702e530687ef7bd15a42"
         }
       ]
     },
@@ -302,7 +372,7 @@
           "model": "TickPing",
           "codec": "net",
           "fingerprint": "sha256:1d6e28cf0d4b9ab361b7f95524b592406c50d5e9707de7a756d9ddfc70c9d02d",
-          "sha256": "743a9b59e9a5bcb16c455974e5b98ac7326d1f6de94190e884b5aea479d84e23"
+          "sha256": "ffed94f2ab0b54f5d2e72db4b90369de2cd6b0be8083dfda9a5b03f66ad308b5"
         }
       ]
     },
@@ -316,7 +386,7 @@
           "model": "TickPong",
           "codec": "net",
           "fingerprint": "sha256:89fef9f4fb791b95a7bd49fea7f4561222387be3f66218ad068f92f6efcf9981",
-          "sha256": "f7737d82c2f6ca6fbb7a4b630c68caa55a254ee6f5962b2a40baf3822eb85a0b"
+          "sha256": "8cffa1c04eb661a4405ff8ce6c1b7a39ffad271377e98c882a891c7c8a8b5a95"
         }
       ]
     },
@@ -330,7 +400,7 @@
           "model": "TransformSettle",
           "codec": "net",
           "fingerprint": "sha256:671368cb7bbe68d822b56311a3ed8cc74db12fcf9406f2798f6ad42f092f28f5",
-          "sha256": "91cd5f3e9eb875644401c8b2fd0e0290a7748d792c21f1499724ef469845ef0d"
+          "sha256": "8a8a702242808bb094e3f61e2bae634f276beafdd1e7c19424a679f7a94d0845"
         }
       ]
     },
@@ -344,7 +414,7 @@
           "model": "TransformUpdate",
           "codec": "net",
           "fingerprint": "sha256:62cfa8a4088d2d776e87accf044b28b6baf3ff086bef1d73c9ecfc3034a8a68a",
-          "sha256": "4b471d65bab5001f2c4411ee71f64285977700267f7d6f35f699b3be995951b6"
+          "sha256": "6d13d355e805e597816eeeb7d5e9e07cbefde47ad5cffc175559912f22faee65"
         }
       ]
     }
@@ -358,12 +428,12 @@
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/Handshake.cs",
       "kind": "handshake",
-      "sha256": "2aa7d4708eafe064079e6fbea42008030ba74bc0135ac3934f65cfc6665f41ec"
+      "sha256": "af9ae6c6d4b9a49c094fb7d4de0ee219599955421dcd44fb9a0f07b01017c6c3"
     },
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/NetSchema.cs",
       "kind": "net_schema",
-      "sha256": "bb93c72e0414872e0a443607aaf8f3dfe3a2227e18b07fafc9d7d12640aee483"
+      "sha256": "7bf3d5466f40b0715b112e4f5e7efca973b014ce96fabbd2a625e9688437420f"
     }
   ]
 }

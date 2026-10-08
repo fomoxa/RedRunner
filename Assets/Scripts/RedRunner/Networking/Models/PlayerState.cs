@@ -1,4 +1,5 @@
 using Fomoxa;
+using Fomoxa.Networking;
 using Fomoxa.Unity;
 
 namespace RedRunner.Networking.Models

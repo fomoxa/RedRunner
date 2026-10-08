@@ -32,7 +32,7 @@ public static class LocalPeerNetCodec
     public const ulong Fingerprint = 0xA5D4734EF76F4DFC;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.LocalPeer value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.LocalPeer value)
     {
         writer.WriteU64(value.PeerId);
         writer.WriteU16(value.TickRate);
@@ -48,7 +48,7 @@ public static class LocalPeerNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.LocalPeer value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.LocalPeer value)
     {
         value.PeerId = reader.FieldAbsent() ? 0 : reader.ReadU64();
         value.TickRate = reader.FieldAbsent() ? (ushort)0 : reader.ReadU16();

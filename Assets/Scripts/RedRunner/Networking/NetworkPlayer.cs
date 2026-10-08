@@ -1,6 +1,7 @@
 using System;
+using Fomoxa.Networking;
+using Fomoxa.Networking.Simulation;
 using Fomoxa.Unity;
-using Fomoxa.Unity.Simulation;
 using Generated;
 using RedRunner.Characters;
 using RedRunner.Networking.Models;

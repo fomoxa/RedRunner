@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Fomoxa.Networking;
 using Fomoxa.Unity;
 using RedRunner.Networking;
 using RedRunner.TerrainGeneration;

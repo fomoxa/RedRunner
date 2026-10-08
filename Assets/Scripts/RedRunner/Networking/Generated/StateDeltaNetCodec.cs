@@ -30,7 +30,7 @@ public static class StateDeltaNetCodec
     public const ulong Fingerprint = 0xC709753CE0CAEDB5;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.StateDelta value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.StateDelta value)
     {
         writer.WriteBytes(value.Data);
     }
@@ -44,7 +44,7 @@ public static class StateDeltaNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.StateDelta value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.StateDelta value)
     {
         var dataValue = value.Data;
         if (reader.FieldAbsent())

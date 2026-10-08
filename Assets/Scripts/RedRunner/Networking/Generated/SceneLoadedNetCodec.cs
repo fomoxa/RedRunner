@@ -30,7 +30,7 @@ public static class SceneLoadedNetCodec
     public const ulong Fingerprint = 0xD4BA7FC5758AA400;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.SceneLoaded value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.SceneLoaded value)
     {
         writer.WriteArrayCount(value.Scenes.Count);
         foreach (var element in value.Scenes)
@@ -48,7 +48,7 @@ public static class SceneLoadedNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.SceneLoaded value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.SceneLoaded value)
     {
         int scenesValueCount = reader.FieldAbsent() ? 0 : reader.ReadArrayCount();
         var scenesValueList = ArrayField.Reuse(value.Scenes, scenesValueCount);

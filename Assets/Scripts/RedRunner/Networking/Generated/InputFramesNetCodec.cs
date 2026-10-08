@@ -31,7 +31,7 @@ public static class InputFramesNetCodec
     public const ulong Fingerprint = 0x0FF27ABFB43D4C62;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.InputFrames value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.InputFrames value)
     {
         writer.WriteU32(value.Tick);
         writer.WriteArrayCount(value.Frames.Count);
@@ -50,7 +50,7 @@ public static class InputFramesNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.InputFrames value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.InputFrames value)
     {
         value.Tick = reader.FieldAbsent() ? 0 : reader.ReadU32();
         int framesValueCount = reader.FieldAbsent() ? 0 : reader.ReadArrayCount();

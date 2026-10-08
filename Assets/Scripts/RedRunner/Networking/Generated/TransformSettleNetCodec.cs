@@ -33,7 +33,7 @@ public static class TransformSettleNetCodec
     public const ulong Fingerprint = 0x671368CB7BBE68D8;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.TransformSettle value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.TransformSettle value)
     {
         writer.WriteU32(value.Tick);
         writer.WriteU8(value.Mask);
@@ -54,7 +54,7 @@ public static class TransformSettleNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.TransformSettle value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.TransformSettle value)
     {
         value.Tick = reader.FieldAbsent() ? 0 : reader.ReadU32();
         value.Mask = reader.FieldAbsent() ? (byte)0 : reader.ReadU8();

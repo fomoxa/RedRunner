@@ -25,7 +25,7 @@ public static class PeerLeaveNetCodec
     public const ulong Fingerprint = 0x2AC3087C85A89966;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.PeerLeave value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.PeerLeave value)
     {
     }
 
@@ -38,7 +38,7 @@ public static class PeerLeaveNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.PeerLeave value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.PeerLeave value)
     {
     }
 }

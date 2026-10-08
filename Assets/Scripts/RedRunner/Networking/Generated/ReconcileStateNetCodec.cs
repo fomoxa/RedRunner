@@ -31,7 +31,7 @@ public static class ReconcileStateNetCodec
     public const ulong Fingerprint = 0x3D41C0DB5E4F6CC2;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.ReconcileState value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.ReconcileState value)
     {
         writer.WriteU32(value.Tick);
         writer.WriteBytes(value.Data);
@@ -46,7 +46,7 @@ public static class ReconcileStateNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.ReconcileState value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.ReconcileState value)
     {
         value.Tick = reader.FieldAbsent() ? 0 : reader.ReadU32();
         var dataValue = value.Data;

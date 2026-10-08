@@ -25,7 +25,7 @@ public static class StateResyncNetCodec
     public const ulong Fingerprint = 0x036DB9745FFC78FA;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.StateResync value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.StateResync value)
     {
     }
 
@@ -38,7 +38,7 @@ public static class StateResyncNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.StateResync value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.StateResync value)
     {
     }
 }

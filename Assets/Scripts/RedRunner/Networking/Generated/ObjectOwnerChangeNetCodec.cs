@@ -31,7 +31,7 @@ public static class ObjectOwnerChangeNetCodec
     public const ulong Fingerprint = 0x6969477015076F20;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.ObjectOwnerChange value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.ObjectOwnerChange value)
     {
         writer.WriteU32(value.ObjectId);
         writer.WriteU64(value.OwnerId);
@@ -46,7 +46,7 @@ public static class ObjectOwnerChangeNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.ObjectOwnerChange value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.ObjectOwnerChange value)
     {
         value.ObjectId = reader.FieldAbsent() ? 0 : reader.ReadU32();
         value.OwnerId = reader.FieldAbsent() ? 0 : reader.ReadU64();

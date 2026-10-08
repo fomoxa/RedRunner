@@ -11,9 +11,9 @@ METHOD="$2"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(cd "$SCRIPT_DIR/.." && pwd)"
-PACKAGE="$(cd "$REPO/../unity/com.fomoxa.unity" && pwd)"
-PACKAGE_GIT_URL="https://github.com/fomoxa/com.fomoxa.unity.git"
-PACKAGE_LOCAL_PATH="file:../../unity/com.fomoxa.unity"
+PACKAGE="$(cd "$REPO/../unity/com.fomoxa.networking" && pwd)"
+PACKAGE_GIT_URL="https://github.com/fomoxa/com.fomoxa.networking.git"
+PACKAGE_LOCAL_PATH="file:../../unity/com.fomoxa.networking"
 WIN_ROOT="C:\\Users\\$WIN_USER\\redrunner-unity-check"
 ROOT="/mnt/c/Users/$WIN_USER/redrunner-unity-check"
 DST="$ROOT/RedRunner"
@@ -110,12 +110,12 @@ rsync -a --delete \
   --exclude='/Assets/PortChecks' \
   --exclude='/Assets/PortChecks.meta' \
   "$REPO/" "$DST/"
-rsync -a --delete "$PACKAGE/" "$ROOT/unity/com.fomoxa.unity/"
+rsync -a --delete "$PACKAGE/" "$ROOT/unity/com.fomoxa.networking/"
 rm -rf "$DST/Assets/PortChecks"
 mkdir -p "$DST/Assets/PortChecks"
 rsync -a "$SCRIPT_DIR/PortChecks/" "$DST/Assets/PortChecks/"
 sed -i "s|\"$PACKAGE_GIT_URL\"|\"$PACKAGE_LOCAL_PATH\"|" "$DST/Packages/manifest.json"
-python3 -c 'import json, sys; path = sys.argv[1]; lock = json.load(open(path)); lock["dependencies"].pop("com.fomoxa.unity", None); json.dump(lock, open(path, "w"), indent=2)' "$DST/Packages/packages-lock.json"
+python3 -c 'import json, sys; path = sys.argv[1]; lock = json.load(open(path)); lock["dependencies"].pop("com.fomoxa.networking", None); json.dump(lock, open(path, "w"), indent=2)' "$DST/Packages/packages-lock.json"
 rm -f "$DST/unity-$MODE.log"
 
 ARGS=(-batchmode -nographics -projectPath "$WIN_ROOT\\RedRunner" -logFile "$WIN_ROOT\\RedRunner\\unity-$MODE.log")

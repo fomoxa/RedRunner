@@ -1,6 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections;
-using Fomoxa.Unity.Simulation;
+using Fomoxa.Networking.Simulation;
 using RedRunner.Characters;
 using RedRunner.Networking;
 using RedRunner.TerrainGeneration;

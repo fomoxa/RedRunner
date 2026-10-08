@@ -31,7 +31,7 @@ public static class ReliableAckNetCodec
     public const ulong Fingerprint = 0x2919CB926D7C0B4B;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.ReliableAck value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.ReliableAck value)
     {
         writer.WriteU16(value.Next);
         writer.WriteU32(value.Received);
@@ -46,7 +46,7 @@ public static class ReliableAckNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.ReliableAck value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.ReliableAck value)
     {
         value.Next = reader.FieldAbsent() ? (ushort)0 : reader.ReadU16();
         value.Received = reader.FieldAbsent() ? 0 : reader.ReadU32();

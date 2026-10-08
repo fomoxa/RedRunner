@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Fomoxa.Networking;
 using Fomoxa.Unity;
 using RedRunner.Networking;
 using RedRunner.Utilities;

@@ -31,7 +31,7 @@ public static class TickPingNetCodec
     public const ulong Fingerprint = 0x1D6E28CF0D4B9AB3;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.TickPing value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.TickPing value)
     {
         writer.WriteU32(value.ClientTime);
         writer.WriteU16(value.Rtt);
@@ -46,7 +46,7 @@ public static class TickPingNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.TickPing value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.TickPing value)
     {
         value.ClientTime = reader.FieldAbsent() ? 0 : reader.ReadU32();
         value.Rtt = reader.FieldAbsent() ? (ushort)0 : reader.ReadU16();

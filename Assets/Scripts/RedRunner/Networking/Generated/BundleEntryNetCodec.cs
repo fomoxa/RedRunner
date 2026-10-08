@@ -31,7 +31,7 @@ public static class BundleEntryNetCodec
     public const ulong Fingerprint = 0x9ADCA46177A35707;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.BundleEntry value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.BundleEntry value)
     {
         writer.WriteU32(value.MessageId);
         writer.WriteBytes(value.Data);
@@ -46,7 +46,7 @@ public static class BundleEntryNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.BundleEntry value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.BundleEntry value)
     {
         value.MessageId = reader.FieldAbsent() ? 0 : reader.ReadU32();
         var dataValue = value.Data;

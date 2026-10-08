@@ -30,7 +30,7 @@ public static class MessageBundleNetCodec
     public const ulong Fingerprint = 0x50CB0322CC54BE41;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.MessageBundle value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.MessageBundle value)
     {
         writer.WriteArrayCount(value.Entries.Count);
         foreach (var element in value.Entries)
@@ -48,13 +48,13 @@ public static class MessageBundleNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.MessageBundle value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.MessageBundle value)
     {
         int entriesValueCount = reader.FieldAbsent() ? 0 : reader.ReadArrayCount();
         var entriesValueList = ArrayField.Reuse(value.Entries, entriesValueCount);
         for (int i = 0; i < entriesValueCount; i++)
         {
-            var element = i < entriesValueList.Count ? entriesValueList[i] : new Fomoxa.Unity.Messaging.BundleEntry();
+            var element = i < entriesValueList.Count ? entriesValueList[i] : new Fomoxa.Networking.Messaging.BundleEntry();
             BundleEntryNetCodec.Decode(ref reader, ref element);
             if (i < entriesValueList.Count)
             {

@@ -2,7 +2,7 @@ namespace Generated
 {
     public static class FomoxaAdapters
     {
-        public static void RegisterAll(global::Fomoxa.Unity.FomoxaRegistry registry)
+        public static void RegisterAll(global::Fomoxa.Networking.FomoxaRegistry registry)
         {
             registry.SetSchema(NetSchema.Build());
             registry.SetCodec(MessageBundleNetAdapter.Instance);
@@ -25,20 +25,21 @@ namespace Generated
             registry.SetCodec(InputFramesNetAdapter.Instance);
             registry.SetCodec(ReconcileStateNetAdapter.Instance);
             registry.SetCodec(PeerLeaveNetAdapter.Instance);
-            registry.Channels.Set(AnimatorStateNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(LocalPeerNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(ObjectDespawnNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(ObjectOwnerChangeNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(ObjectSceneSpawnNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(ObjectSpawnNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(SceneLoadNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(SceneLoadedNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(SceneUnloadNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(StateDeltaNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(StateResyncNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(TransformSettleNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(LevelStateNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
-            registry.Channels.Set(PlayerStateNetCodec.MessageId, global::Fomoxa.Unity.Channel.ReliableOrdered);
+            registry.SetCodec(SceneFileNetAdapter.Instance);
+            registry.Channels.Set(AnimatorStateNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(LocalPeerNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(ObjectDespawnNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(ObjectOwnerChangeNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(ObjectSceneSpawnNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(ObjectSpawnNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(SceneLoadNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(SceneLoadedNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(SceneUnloadNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(StateDeltaNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(StateResyncNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(TransformSettleNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(LevelStateNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(PlayerStateNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
         }
     }
 }

@@ -30,7 +30,7 @@ public static class ObjectDespawnNetCodec
     public const ulong Fingerprint = 0xDDA307DE04EF4296;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.ObjectDespawn value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.ObjectDespawn value)
     {
         writer.WriteU32(value.ObjectId);
     }
@@ -44,7 +44,7 @@ public static class ObjectDespawnNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.ObjectDespawn value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.ObjectDespawn value)
     {
         value.ObjectId = reader.FieldAbsent() ? 0 : reader.ReadU32();
     }

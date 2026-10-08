@@ -6,7 +6,7 @@ namespace Generated
         [global::UnityEngine.RuntimeInitializeOnLoadMethod(global::UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Register()
         {
-            FomoxaAdapters.RegisterAll(global::Fomoxa.Unity.FomoxaRegistry.Default);
+            FomoxaAdapters.RegisterAll(global::Fomoxa.Networking.FomoxaRegistry.Default);
         }
     }
 }

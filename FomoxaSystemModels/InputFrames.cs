@@ -1,9 +1,9 @@
-// Copied by com.fomoxa.unity from its system models. Edit the package, not this file.
+// Copied by com.fomoxa.networking from its system models. Edit the package, not this file.
 using System;
 using System.Collections.Generic;
 using Fomoxa;
 
-namespace Fomoxa.Unity.Messaging
+namespace Fomoxa.Networking.Messaging
 {
     [Network]
     [Codec("net")]

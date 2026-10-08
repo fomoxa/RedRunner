@@ -1,7 +1,8 @@
 #if UNITY_EDITOR
 using System.Linq;
+using Fomoxa.Networking;
+using Fomoxa.Networking.Sessions;
 using Fomoxa.Unity;
-using Fomoxa.Unity.Sessions;
 using UnityEditor;
 using UnityEngine;
 

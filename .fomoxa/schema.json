@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "fingerprint": "sha256:2f4ad087d5afe68d2b3538905bbafac92380ede1c31cb4f30956500b085308bd",
-  "fingerprint_u64": "0x2F4AD087D5AFE68D",
+  "fingerprint": "sha256:ed154d9b0d52dc519b688eedfee03d1a8f6bd98e9c9ed34f92c8a63fd3e7dfb7",
+  "fingerprint_u64": "0xED154D9B0D52DC51",
   "models": {
     "AnimatorState": {
       "source": "FomoxaSystemModels/AnimatorState.cs",
@@ -984,6 +984,1105 @@
             {
               "name": "Received",
               "type": "u32"
+            }
+          ]
+        }
+      }
+    },
+    "SceneFile": {
+      "source": "FomoxaSystemModels/SceneFile.cs",
+      "fingerprint": "sha256:f723077a848f538ef9eb47a6f1293a8b96001431de315c76b12705747ff607d7",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "SceneId",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Objects",
+          "type": "Array<SceneFileObject>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Colliders",
+          "type": "Array<SceneFileCollider>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Colliders2D",
+          "type": "Array<SceneFileCollider2D>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "LayerCollisions",
+          "type": "Array<u32>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "LayerCollisions2D",
+          "type": "Array<u32>",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0xB4F8C111",
+          "fingerprint": "sha256:294725bdf6a3064559d54047ed9f5ec2d1ae2ed89ad1a5316259484026600e7d",
+          "fingerprint_u64": "0x294725BDF6A30645",
+          "prefixes": [
+            "sha256:5937d43bf2ea0e9599b053e09d8765c612d0bbf55fb984fbfd6e65409078bc70",
+            "sha256:e367205567fbaee0a001c8482a22a2749a2dc3a92e692d491e3802505824188c",
+            "sha256:f99203e64c8c63534f4570e1c262f1b182ce57d8c69cfdd6755e9799ffa1aedc",
+            "sha256:71d4678faaf87f850a22337ab1d192f539b9dbc756dac93311122255c3c14c68",
+            "sha256:6f471da70d9842ddf85d719e95c003fec4dc4d6709ad788eacbb43d88c57e69b",
+            "sha256:294725bdf6a3064559d54047ed9f5ec2d1ae2ed89ad1a5316259484026600e7d"
+          ],
+          "prefixes_u64": [
+            "0x5937D43BF2EA0E95",
+            "0xE367205567FBAEE0",
+            "0xF99203E64C8C6353",
+            "0x71D4678FAAF87F85",
+            "0x6F471DA70D9842DD",
+            "0x294725BDF6A30645"
+          ],
+          "fields": [
+            {
+              "name": "SceneId",
+              "type": "u32"
+            },
+            {
+              "name": "Objects",
+              "type": "Array<SceneFileObject>"
+            },
+            {
+              "name": "Colliders",
+              "type": "Array<SceneFileCollider>"
+            },
+            {
+              "name": "Colliders2D",
+              "type": "Array<SceneFileCollider2D>"
+            },
+            {
+              "name": "LayerCollisions",
+              "type": "Array<u32>"
+            },
+            {
+              "name": "LayerCollisions2D",
+              "type": "Array<u32>"
+            }
+          ]
+        }
+      }
+    },
+    "SceneFileBody": {
+      "source": "FomoxaSystemModels/SceneFile.cs",
+      "fingerprint": "sha256:dd2ce61768de779aca321ca92f8e6bd69dfb773df8c0388675c5f3180cf08d5c",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Kind",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Mass",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Colliders",
+          "type": "Array<SceneFileCollider>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Locks",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "UseGravity",
+          "type": "bool",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "LinearDamping",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "AngularDamping",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x8E2999CF",
+          "fingerprint": "sha256:eb56fb3e68044912e842d329753062fa8cda610dcdb5f02f16ef8dbfdab81023",
+          "fingerprint_u64": "0xEB56FB3E68044912",
+          "prefixes": [
+            "sha256:17f6eac366147eb9f5ba95de3cd54f940ba3308a27b89b43744ab44febef3b1a",
+            "sha256:1536795ae9043869de6889af160c5c7382e72a8524f23a971cbcff2c0c888cff",
+            "sha256:89da94a05c0de9b08a37f5b084b835b565ca1cb7d8900efa9b1437872756ae0b",
+            "sha256:86abb568fb3c61746c117b440cf485c22face2d7aa61786e3111daea9da3779c",
+            "sha256:03c35b9afdd26bf42ea777a05f591ae525884cab7c62493fe10172d9a105ece8",
+            "sha256:4a707b937a12677ec757381db0466561f566d82838f4eef61ac3b87e2fd9a7a5",
+            "sha256:eb56fb3e68044912e842d329753062fa8cda610dcdb5f02f16ef8dbfdab81023"
+          ],
+          "prefixes_u64": [
+            "0x17F6EAC366147EB9",
+            "0x1536795AE9043869",
+            "0x89DA94A05C0DE9B0",
+            "0x86ABB568FB3C6174",
+            "0x03C35B9AFDD26BF4",
+            "0x4A707B937A12677E",
+            "0xEB56FB3E68044912"
+          ],
+          "fields": [
+            {
+              "name": "Kind",
+              "type": "u8"
+            },
+            {
+              "name": "Mass",
+              "type": "f32"
+            },
+            {
+              "name": "Colliders",
+              "type": "Array<SceneFileCollider>"
+            },
+            {
+              "name": "Locks",
+              "type": "u8"
+            },
+            {
+              "name": "UseGravity",
+              "type": "bool"
+            },
+            {
+              "name": "LinearDamping",
+              "type": "f32"
+            },
+            {
+              "name": "AngularDamping",
+              "type": "f32"
+            }
+          ]
+        }
+      }
+    },
+    "SceneFileBody2D": {
+      "source": "FomoxaSystemModels/SceneFile.cs",
+      "fingerprint": "sha256:28cab22c9c4d5a39f2f6504fa56162193e11be02c45899328851b50f54619448",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Kind",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Mass",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Rotation",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Colliders",
+          "type": "Array<SceneFileCollider2D>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Locks",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "GravityScale",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "LinearDamping",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "AngularDamping",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x6B520AFA",
+          "fingerprint": "sha256:eb00129256754e56c8e74b71e3b5e68a485cd961f7337e131b313efd8da8e15a",
+          "fingerprint_u64": "0xEB00129256754E56",
+          "prefixes": [
+            "sha256:5eab39396a0d2044ebf8d0d36262e38509f85c8ea86217c1ab962b9dc81d9e85",
+            "sha256:0000de96ddac112a6dc25d946f76443eab4f1565375e165673cb3d1745cfa54b",
+            "sha256:ccd27c5e2e56530b1d83ae209d56a6b9c109fe0222138bc2aa45109aa680202c",
+            "sha256:8eee3c45ae3e2344bb5020e70b3cfb7fa4eb55dbf176c22bb6c9aaecfbdc1227",
+            "sha256:a71766bad3ffca8368cbe1c6d748ff6bfd3357ee2682554a3020640a4680c416",
+            "sha256:0d3e314a6cf5f9213dc88dcd6c6f8e5a1a76fe75ca96091be0fbae1fead26986",
+            "sha256:c604b2891b2ea00093fea72d34f3057cefbee6671be0d9a7d49dee67502b55cf",
+            "sha256:eb00129256754e56c8e74b71e3b5e68a485cd961f7337e131b313efd8da8e15a"
+          ],
+          "prefixes_u64": [
+            "0x5EAB39396A0D2044",
+            "0x0000DE96DDAC112A",
+            "0xCCD27C5E2E56530B",
+            "0x8EEE3C45AE3E2344",
+            "0xA71766BAD3FFCA83",
+            "0x0D3E314A6CF5F921",
+            "0xC604B2891B2EA000",
+            "0xEB00129256754E56"
+          ],
+          "fields": [
+            {
+              "name": "Kind",
+              "type": "u8"
+            },
+            {
+              "name": "Mass",
+              "type": "f32"
+            },
+            {
+              "name": "Rotation",
+              "type": "f32"
+            },
+            {
+              "name": "Colliders",
+              "type": "Array<SceneFileCollider2D>"
+            },
+            {
+              "name": "Locks",
+              "type": "u8"
+            },
+            {
+              "name": "GravityScale",
+              "type": "f32"
+            },
+            {
+              "name": "LinearDamping",
+              "type": "f32"
+            },
+            {
+              "name": "AngularDamping",
+              "type": "f32"
+            }
+          ]
+        }
+      }
+    },
+    "SceneFileCollider": {
+      "source": "FomoxaSystemModels/SceneFile.cs",
+      "fingerprint": "sha256:835c08f78b4aa90792f08ec7e3407cfae091ddfc48a40b14a400dde8206332b1",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Kind",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "PositionX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "PositionY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "PositionZ",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RotationX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RotationY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RotationZ",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RotationW",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "HalfExtentsX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "HalfExtentsY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "HalfExtentsZ",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Radius",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "HalfHeight",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Points",
+          "type": "Array<f32>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Triangles",
+          "type": "Array<u32>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Material",
+          "type": "SceneFileMaterial",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Layer",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "IsTrigger",
+          "type": "bool",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x5E871785",
+          "fingerprint": "sha256:238cb95ef64c099aba9872a2facb0f50f5e96fd636795e4f74b28d08f1766355",
+          "fingerprint_u64": "0x238CB95EF64C099A",
+          "prefixes": [
+            "sha256:90dc185ed0fd26a48b19dab98bcb985d7d40b258510b1d15d8a2bca0e09234f4",
+            "sha256:498a222d04b730f07d35def56e27c439bec365df013f5dfbd25e2c3d74f1f9b9",
+            "sha256:0f0d03439262da13a4f0fd0c07b1a29110f8fef01452eb398805526a382a935d",
+            "sha256:1822d7882d713f7657ddf6a24fe591322d997e1b98b9e4f8907b52a022b759ad",
+            "sha256:f31f6e8d9367437f0986618d92475b93463546cca017b13db5f5a6fbbe5d380c",
+            "sha256:23fd8ec25e8fa6d9de266991715c883208d70523abd1e9dc24059e67e9ec0b57",
+            "sha256:86df906ec55afe11e168f18d9760160d3753880c2609035f0a2ada6f29c480cb",
+            "sha256:a2451ab8f9e7537e73f8786c1457eb3ed424162b5ce21164be696e02d52fef9d",
+            "sha256:5a869a68d40809f1002396f110cbfb697a4eaffbeda04776c03839805e6a39fa",
+            "sha256:c28d5394ff25a9d4c57dbbab7ff8b0d72933c13b7f54dc148e6b1f1b25d20bf5",
+            "sha256:7071cd49b1ee9b3ffddc2997fd31588034e113216d709e3dae9978d6240d4f4c",
+            "sha256:963bf51377328f3aea08c7b2cd5c06b200b9d72779a326e683211f0b951f7571",
+            "sha256:7ba553b0a0da041c12f4ab1018442c16e3943d6d1b2a3c1a7423f24abcd2fa8f",
+            "sha256:bb3a05c6e8e3f7332a0082b89e13d51f5656696ed1f3359c9a62af0a750c0992",
+            "sha256:27c374312e489e5c6bf7dd2def17b715eab52ce06e0eb5dcc193b96f75a0288a",
+            "sha256:65b7ea76485f7bf3e3030566bfd649517544035fda7019ed31b690355be9c36b",
+            "sha256:b98c64e0fbbac468acc7484abe0eb1c6323b1d2874762f4c6adec2acface8bef",
+            "sha256:238cb95ef64c099aba9872a2facb0f50f5e96fd636795e4f74b28d08f1766355"
+          ],
+          "prefixes_u64": [
+            "0x90DC185ED0FD26A4",
+            "0x498A222D04B730F0",
+            "0x0F0D03439262DA13",
+            "0x1822D7882D713F76",
+            "0xF31F6E8D9367437F",
+            "0x23FD8EC25E8FA6D9",
+            "0x86DF906EC55AFE11",
+            "0xA2451AB8F9E7537E",
+            "0x5A869A68D40809F1",
+            "0xC28D5394FF25A9D4",
+            "0x7071CD49B1EE9B3F",
+            "0x963BF51377328F3A",
+            "0x7BA553B0A0DA041C",
+            "0xBB3A05C6E8E3F733",
+            "0x27C374312E489E5C",
+            "0x65B7EA76485F7BF3",
+            "0xB98C64E0FBBAC468",
+            "0x238CB95EF64C099A"
+          ],
+          "fields": [
+            {
+              "name": "Kind",
+              "type": "u8"
+            },
+            {
+              "name": "PositionX",
+              "type": "f32"
+            },
+            {
+              "name": "PositionY",
+              "type": "f32"
+            },
+            {
+              "name": "PositionZ",
+              "type": "f32"
+            },
+            {
+              "name": "RotationX",
+              "type": "f32"
+            },
+            {
+              "name": "RotationY",
+              "type": "f32"
+            },
+            {
+              "name": "RotationZ",
+              "type": "f32"
+            },
+            {
+              "name": "RotationW",
+              "type": "f32"
+            },
+            {
+              "name": "HalfExtentsX",
+              "type": "f32"
+            },
+            {
+              "name": "HalfExtentsY",
+              "type": "f32"
+            },
+            {
+              "name": "HalfExtentsZ",
+              "type": "f32"
+            },
+            {
+              "name": "Radius",
+              "type": "f32"
+            },
+            {
+              "name": "HalfHeight",
+              "type": "f32"
+            },
+            {
+              "name": "Points",
+              "type": "Array<f32>"
+            },
+            {
+              "name": "Triangles",
+              "type": "Array<u32>"
+            },
+            {
+              "name": "Material",
+              "type": "SceneFileMaterial"
+            },
+            {
+              "name": "Layer",
+              "type": "u8"
+            },
+            {
+              "name": "IsTrigger",
+              "type": "bool"
+            }
+          ]
+        }
+      }
+    },
+    "SceneFileCollider2D": {
+      "source": "FomoxaSystemModels/SceneFile.cs",
+      "fingerprint": "sha256:733658a8ddaf2f7425bfda9baa2a0604ffe3496f46bfecc852336e065ada2664",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Kind",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "PositionX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "PositionY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Rotation",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "HalfExtentsX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "HalfExtentsY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Radius",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "HalfHeight",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Points",
+          "type": "Array<f32>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Material",
+          "type": "SceneFileMaterial",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Layer",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "IsTrigger",
+          "type": "bool",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x5E210AD5",
+          "fingerprint": "sha256:95e8d55e703fd8b46363c7719ac85efdfca870ccafe8276ef1072962327d28ec",
+          "fingerprint_u64": "0x95E8D55E703FD8B4",
+          "prefixes": [
+            "sha256:35651cd08b858bff5c019736c063bc2e171bacd7728639d8f4ea7a7db69dc40b",
+            "sha256:c38207761d2356a926c79c16a9c12dbe2c898284103c431544701f2fbdf37744",
+            "sha256:ed8d363a3ef1bf3fcff04725e1d14e7b4603c6c3a55949ce3bbbd818503fc7c4",
+            "sha256:691dfd56cf4b80dafb263e22bb7fb710ba46295885d707f082e0b455df5b65cd",
+            "sha256:05ba56b644e9e21bc094ca92ebf3bf17564fafe0b23a26b94e8c15f1dff89f91",
+            "sha256:35f9d67f64a9ce4af2a86b068e6ff066fcf4195f6bd2f04376c3519ea54ad53a",
+            "sha256:1b8c3eef7c5b646f1095cd6203839ea61f413ced99847ab1dee9771b553c0369",
+            "sha256:3381c27ef38b9018c0f88cac1f9d96c8e2181c3f544f02fb6ad4ef13f6593d26",
+            "sha256:0ec7bdabbb88fdbe44eb69791361ab39b1f4fa3c902681ea7cac0afb395cc3c1",
+            "sha256:cdfe8fa97ff321730e8ecefc2cb1d0e0097810262ee0253fd41b115d09113239",
+            "sha256:331083bd2d4b4c675b30f2877756f3d85a69a18d9455bcedbc07fb361017c617",
+            "sha256:95e8d55e703fd8b46363c7719ac85efdfca870ccafe8276ef1072962327d28ec"
+          ],
+          "prefixes_u64": [
+            "0x35651CD08B858BFF",
+            "0xC38207761D2356A9",
+            "0xED8D363A3EF1BF3F",
+            "0x691DFD56CF4B80DA",
+            "0x05BA56B644E9E21B",
+            "0x35F9D67F64A9CE4A",
+            "0x1B8C3EEF7C5B646F",
+            "0x3381C27EF38B9018",
+            "0x0EC7BDABBB88FDBE",
+            "0xCDFE8FA97FF32173",
+            "0x331083BD2D4B4C67",
+            "0x95E8D55E703FD8B4"
+          ],
+          "fields": [
+            {
+              "name": "Kind",
+              "type": "u8"
+            },
+            {
+              "name": "PositionX",
+              "type": "f32"
+            },
+            {
+              "name": "PositionY",
+              "type": "f32"
+            },
+            {
+              "name": "Rotation",
+              "type": "f32"
+            },
+            {
+              "name": "HalfExtentsX",
+              "type": "f32"
+            },
+            {
+              "name": "HalfExtentsY",
+              "type": "f32"
+            },
+            {
+              "name": "Radius",
+              "type": "f32"
+            },
+            {
+              "name": "HalfHeight",
+              "type": "f32"
+            },
+            {
+              "name": "Points",
+              "type": "Array<f32>"
+            },
+            {
+              "name": "Material",
+              "type": "SceneFileMaterial"
+            },
+            {
+              "name": "Layer",
+              "type": "u8"
+            },
+            {
+              "name": "IsTrigger",
+              "type": "bool"
+            }
+          ]
+        }
+      }
+    },
+    "SceneFileMaterial": {
+      "source": "FomoxaSystemModels/SceneFile.cs",
+      "fingerprint": "sha256:85826fbd5f0944d05de494e019bfa030e815e8f9ba27bb74df5642784917602e",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Friction",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Restitution",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "FrictionCombine",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RestitutionCombine",
+          "type": "u8",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0xDF07827C",
+          "fingerprint": "sha256:18e04a1f8bc79a1691e7b8d8ef0950172e917a40debcb61ba9cdf68fc6ff69ba",
+          "fingerprint_u64": "0x18E04A1F8BC79A16",
+          "prefixes": [
+            "sha256:e34f77693e709b73a9ba11c55552c35c0337354a5ff1c9ed1623e289f0a3e695",
+            "sha256:c1beff9fdf1b0c7581d9714c3d37052390c0766edfe31dea3fc0f6b2a839e216",
+            "sha256:f01dc45611e91cfe62899ba1b7a64ed9aecaf2f9c1b20dc887bc1de69097ba12",
+            "sha256:18e04a1f8bc79a1691e7b8d8ef0950172e917a40debcb61ba9cdf68fc6ff69ba"
+          ],
+          "prefixes_u64": [
+            "0xE34F77693E709B73",
+            "0xC1BEFF9FDF1B0C75",
+            "0xF01DC45611E91CFE",
+            "0x18E04A1F8BC79A16"
+          ],
+          "fields": [
+            {
+              "name": "Friction",
+              "type": "f32"
+            },
+            {
+              "name": "Restitution",
+              "type": "f32"
+            },
+            {
+              "name": "FrictionCombine",
+              "type": "u8"
+            },
+            {
+              "name": "RestitutionCombine",
+              "type": "u8"
+            }
+          ]
+        }
+      }
+    },
+    "SceneFileObject": {
+      "source": "FomoxaSystemModels/SceneFile.cs",
+      "fingerprint": "sha256:20a3b177ce51fed000498aa0de71129811eb1c6d2b3eb1cee00496b4edfef12a",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "SceneObjectId",
+          "type": "u64",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Fingerprint",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "BehaviourTypes",
+          "type": "Array<string>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Pose",
+          "type": "SceneFilePose",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Body",
+          "type": "SceneFileBody",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Body2D",
+          "type": "SceneFileBody2D",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0xA8BBC53D",
+          "fingerprint": "sha256:e85ab6aa6bb6414b5b97089efacceb8013f7ca5db5f2075efb6694c32642aca1",
+          "fingerprint_u64": "0xE85AB6AA6BB6414B",
+          "prefixes": [
+            "sha256:114c65a161787c67413c8304fb8f8f72167aa75426656f27e4e3a53defb73c15",
+            "sha256:e4a44ba42cacf205ea25390b3c90de000d29fb84e17296063b71435fc94c39c6",
+            "sha256:222d7a923c4159e6515480513046aaf2763ca28fd3dac921d2325f9948e505e9",
+            "sha256:59c69ba0955be7cdc8b6dc66f25786232b64ac879a97e288690d9ec030760b8b",
+            "sha256:92dbb7e9fc2dbd5419890a20cd4717ee9d84126866d460ed48b408195e278b79",
+            "sha256:e85ab6aa6bb6414b5b97089efacceb8013f7ca5db5f2075efb6694c32642aca1"
+          ],
+          "prefixes_u64": [
+            "0x114C65A161787C67",
+            "0xE4A44BA42CACF205",
+            "0x222D7A923C4159E6",
+            "0x59C69BA0955BE7CD",
+            "0x92DBB7E9FC2DBD54",
+            "0xE85AB6AA6BB6414B"
+          ],
+          "fields": [
+            {
+              "name": "SceneObjectId",
+              "type": "u64"
+            },
+            {
+              "name": "Fingerprint",
+              "type": "u32"
+            },
+            {
+              "name": "BehaviourTypes",
+              "type": "Array<string>"
+            },
+            {
+              "name": "Pose",
+              "type": "SceneFilePose"
+            },
+            {
+              "name": "Body",
+              "type": "SceneFileBody"
+            },
+            {
+              "name": "Body2D",
+              "type": "SceneFileBody2D"
+            }
+          ]
+        }
+      }
+    },
+    "SceneFilePose": {
+      "source": "FomoxaSystemModels/SceneFile.cs",
+      "fingerprint": "sha256:e4ffc266767b264576413ffa771b047d9e1746aa51fef70cbb6bdaf13836da6c",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "PositionX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "PositionY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "PositionZ",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RotationX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RotationY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RotationZ",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RotationW",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "ScaleX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "ScaleY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "ScaleZ",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0xA1C331C5",
+          "fingerprint": "sha256:402f32a52f8fc3be9f23697a032122f72f48b9bf8256c2a743e73d5777aa6544",
+          "fingerprint_u64": "0x402F32A52F8FC3BE",
+          "prefixes": [
+            "sha256:93ec6f2b8722348b817bf9980715f08d847681acdb9ee61649b74e91f547ea01",
+            "sha256:bad90437c20c99afbe7746a89ef682c6ad785a7f99efe0c0be2740d768a0b157",
+            "sha256:f42d782306b8349366519e7fb828a3698c1ab2ca537fcbc2466e086176710e41",
+            "sha256:489ee1d38172f89b5f2855bf1367a108ce8ff5438fe10dc21aa2e455d2696a80",
+            "sha256:2ab86457aea42b82dba4a809bbd5d663bc1309621ca7fdcfe67dba5109475a3b",
+            "sha256:0166d3b2dcb68a7270e0a00b6fea10075a408e14bf1849b0b483fe463004d055",
+            "sha256:c80d7c5986eb7f05ef2ebadd87225156e01ee4a637ec222ffea76e973ce03095",
+            "sha256:9ed9d0c81b8a337dc25748549efaba89acd8cbe3b8d96f6bd94fc4c3990a4752",
+            "sha256:32b530eec0f4ac97925c8f31888be45f39d7e4645782fa63683b7f07790a4ad5",
+            "sha256:402f32a52f8fc3be9f23697a032122f72f48b9bf8256c2a743e73d5777aa6544"
+          ],
+          "prefixes_u64": [
+            "0x93EC6F2B8722348B",
+            "0xBAD90437C20C99AF",
+            "0xF42D782306B83493",
+            "0x489EE1D38172F89B",
+            "0x2AB86457AEA42B82",
+            "0x0166D3B2DCB68A72",
+            "0xC80D7C5986EB7F05",
+            "0x9ED9D0C81B8A337D",
+            "0x32B530EEC0F4AC97",
+            "0x402F32A52F8FC3BE"
+          ],
+          "fields": [
+            {
+              "name": "PositionX",
+              "type": "f32"
+            },
+            {
+              "name": "PositionY",
+              "type": "f32"
+            },
+            {
+              "name": "PositionZ",
+              "type": "f32"
+            },
+            {
+              "name": "RotationX",
+              "type": "f32"
+            },
+            {
+              "name": "RotationY",
+              "type": "f32"
+            },
+            {
+              "name": "RotationZ",
+              "type": "f32"
+            },
+            {
+              "name": "RotationW",
+              "type": "f32"
+            },
+            {
+              "name": "ScaleX",
+              "type": "f32"
+            },
+            {
+              "name": "ScaleY",
+              "type": "f32"
+            },
+            {
+              "name": "ScaleZ",
+              "type": "f32"
             }
           ]
         }

@@ -37,7 +37,7 @@ public static class AnimatorStateNetCodec
     public const ulong Fingerprint = 0x946DEA7480B40EB3;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
-    public static void Encode(Writer writer, Fomoxa.Unity.Messaging.AnimatorState value)
+    public static void Encode(Writer writer, Fomoxa.Networking.Messaging.AnimatorState value)
     {
         writer.WriteU32(value.Layout);
         writer.WriteF32(value.Speed);
@@ -82,7 +82,7 @@ public static class AnimatorStateNetCodec
     /// the stream ended inside is an error. Bytes left over after the last field
     /// belong to a newer writer's model and are ignored.
     /// </remarks>
-    public static void Decode(ref Reader reader, ref Fomoxa.Unity.Messaging.AnimatorState value)
+    public static void Decode(ref Reader reader, ref Fomoxa.Networking.Messaging.AnimatorState value)
     {
         value.Layout = reader.FieldAbsent() ? 0 : reader.ReadU32();
         value.Speed = reader.FieldAbsent() ? 0f : reader.ReadF32();
