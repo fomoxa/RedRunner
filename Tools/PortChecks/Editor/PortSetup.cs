@@ -3,6 +3,7 @@ using System.Linq;
 using Fomoxa.Networking;
 using Fomoxa.Unity;
 using Fomoxa.Unity.Editor;
+using Fomoxa.Unity.Rapier;
 using RedRunner.Networking;
 using RedRunner.TerrainGeneration;
 using UnityEditor;
@@ -183,6 +184,25 @@ namespace RedRunner.PortChecks
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log($"PORT-CHECK physics setup: PASS {manager.GetComponent<RigidbodyPhysics>().Simulates}");
+        }
+
+        public static void RapierBackend()
+        {
+            Scene scene = EditorSceneManager.OpenScene(PlayScene, OpenSceneMode.Single);
+            NetworkManager manager = FindInScene<NetworkManager>(scene);
+            RigidbodyPhysics rigidbodies = manager.GetComponent<RigidbodyPhysics>();
+            if (rigidbodies != null)
+            {
+                Object.DestroyImmediate(rigidbodies);
+            }
+
+            RapierPhysics rapier = manager.GetComponent<RapierPhysics>() ?? manager.gameObject.AddComponent<RapierPhysics>();
+            var managerSerialized = new SerializedObject(manager);
+            managerSerialized.FindProperty("physics").objectReferenceValue = rapier;
+            managerSerialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log($"PORT-CHECK rapier setup: PASS {manager.GetComponent<NetworkPhysics>().Backend}");
         }
 
         private static void SimulatePhysics(NetworkManager manager)

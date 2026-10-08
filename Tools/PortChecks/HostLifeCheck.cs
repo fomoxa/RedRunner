@@ -18,7 +18,8 @@ namespace RedRunner.PortChecks
         protected override IEnumerator Verify()
         {
             NetworkPlayer player = Game.LocalPlayer;
-            if (!player.Character.DecidesDeath || !player.Character.CollectsItems)
+            bool decidedByRapier = Game.Manager.TryGetComponent(out Fomoxa.Unity.Rapier.RapierPhysics _);
+            if (!(player.Character.DecidesDeath || decidedByRapier) || !player.Character.CollectsItems)
             {
                 Finish(false, $"the host's character decides death {player.Character.DecidesDeath}, collects {player.Character.CollectsItems}");
                 yield break;

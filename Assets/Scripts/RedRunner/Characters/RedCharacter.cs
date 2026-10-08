@@ -258,6 +258,37 @@ namespace RedRunner.Characters
 			}
 		}
 
+		public System.Func<Fomoxa.Networking.Simulation.PhysicsBody2D> BodySource { get; set; }
+
+		protected Vector2 LinearVelocity
+		{
+			get
+			{
+				if ( BodySource != null )
+				{
+					Fomoxa.Networking.Simulation.PhysicsBody2D body = BodySource ();
+					if ( body.IsValid )
+					{
+						return new Vector2 ( body.Velocity.X, body.Velocity.Y );
+					}
+				}
+				return m_Rigidbody2D.linearVelocity;
+			}
+			set
+			{
+				if ( BodySource != null )
+				{
+					Fomoxa.Networking.Simulation.PhysicsBody2D body = BodySource ();
+					if ( body.IsValid )
+					{
+						body.Velocity = new System.Numerics.Vector2 ( value.x, value.y );
+						return;
+					}
+				}
+				m_Rigidbody2D.linearVelocity = value;
+			}
+		}
+
 		public virtual float RunSmoothVelocity
 		{
 			get
@@ -392,9 +423,9 @@ namespace RedRunner.Characters
 //				{
 //					speed = m_WalkSpeed;
 				//				}
-				Vector2 velocity = m_Rigidbody2D.linearVelocity;
+				Vector2 velocity = LinearVelocity;
 				velocity.x = speed * horizontalAxis;
-				m_Rigidbody2D.linearVelocity = velocity;
+				LinearVelocity = velocity;
 				if ( horizontalAxis > 0f )
 				{
 					Vector3 scale = transform.localScale;
@@ -412,7 +443,7 @@ namespace RedRunner.Characters
 
 		public virtual void Simulate ( float horizontalAxis, bool jump, bool roll, float deltaTime, bool effects )
 		{
-			float speed = Mathf.Abs ( m_Rigidbody2D.linearVelocity.x );
+			float speed = Mathf.Abs ( LinearVelocity.x );
 			m_CurrentRunSpeed = m_RunSpeed;
 			if ( speed >= m_RunSpeed )
 			{
@@ -440,9 +471,9 @@ namespace RedRunner.Characters
 			{
 				if ( m_GroundCheck.Check () )
 				{
-					Vector2 velocity = m_Rigidbody2D.linearVelocity;
+					Vector2 velocity = LinearVelocity;
 					velocity.y = m_JumpStrength;
-					m_Rigidbody2D.linearVelocity = velocity;
+					LinearVelocity = velocity;
 					if ( effects )
 					{
 						m_Animator.ResetTrigger ( "Jump" );
@@ -458,7 +489,15 @@ namespace RedRunner.Characters
 		{
 			if ( !IsDead.Value )
 			{
-				m_Rigidbody2D.AddForce ( new Vector2 ( Mathf.Sign ( transform.localScale.x ) * m_RollForce, 0f ) );
+				Fomoxa.Networking.Simulation.PhysicsBody2D rolled = BodySource != null ? BodySource () : default;
+				if ( rolled.IsValid )
+				{
+					rolled.AddForce ( new System.Numerics.Vector2 ( Mathf.Sign ( transform.localScale.x ) * m_RollForce, 0f ) );
+				}
+				else
+				{
+					m_Rigidbody2D.AddForce ( new Vector2 ( Mathf.Sign ( transform.localScale.x ) * m_RollForce, 0f ) );
+				}
 				if ( effects )
 				{
 					m_Animator.SetTrigger ( "Roll" );
@@ -521,7 +560,7 @@ namespace RedRunner.Characters
 			m_Block = false;
 			m_CurrentFootstepSoundIndex = 0;
 			transform.localScale = m_InitialScale;
-			m_Rigidbody2D.linearVelocity = Vector2.zero;
+			LinearVelocity = Vector2.zero;
 			m_Skeleton.SetActive ( false, m_Rigidbody2D.linearVelocity );
 		}
 

@@ -43,8 +43,17 @@ namespace RedRunner.Utilities
 			m_IsGrounded = grounded;
 		}
 
+		public System.Func<bool> Probe { get; set; }
+
+		public float RayDistance { get { return m_RayDistance; } }
+
+		public Collider2D Collider2D { get { return m_Collider2D; } }
+
 		public bool Check ()
 		{
+			if (Probe != null) {
+				return Probe ();
+			}
 			Vector2 left = new Vector2 (m_Collider2D.bounds.max.x, m_Collider2D.bounds.center.y);
 			Vector2 center = new Vector2 (m_Collider2D.bounds.center.x, m_Collider2D.bounds.center.y);
 			Vector2 right = new Vector2 (m_Collider2D.bounds.min.x, m_Collider2D.bounds.center.y);
