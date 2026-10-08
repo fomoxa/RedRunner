@@ -13,22 +13,24 @@ using RedRunner.Simulation;
 using RedRunner.TerrainGeneration;
 using RedRunner.Utilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace RedRunner.Networking
 {
     public sealed class NetworkLevel : NetworkBehaviour, ISurfaces
     {
+        private const string GroundName = "Ground";
+
         [SerializeField]
         private TerrainGenerator m_Generator;
 
-        private const string GroundName = "Ground";
+        [SerializeField]
+        private TextAsset m_Catalogue;
 
         private readonly LevelState m_State = new LevelState();
-        private readonly List<Collider2D> m_StaticSources = new List<Collider2D>();
-        private readonly Dictionary<int, List<Collider2D>> m_BodySources = new Dictionary<int, List<Collider2D>>();
-        private readonly Dictionary<PathFollower, PhysicsBody2D> m_FollowerBodies = new Dictionary<PathFollower, PhysicsBody2D>();
         private PathFollower[] m_Followers = new PathFollower[0];
         private NetworkGame m_Game;
+        private BuiltLevel m_Built;
 
         public uint Seed => m_State.Seed;
 
@@ -36,7 +38,7 @@ namespace RedRunner.Networking
 
         public PathFollower[] Followers => m_Followers;
 
-        public RapierWorld2D World { get; private set; }
+        public RapierWorld2D World => m_Built?.World;
 
         private void Awake()
         {
@@ -51,25 +53,37 @@ namespace RedRunner.Networking
             }
         }
 
-        public Collider2D SourceOf(RapierCollider collider)
+        public static LevelCatalogue Read(byte[] bytes)
         {
-            if (collider.IsStatic)
-            {
-                return collider.Index < m_StaticSources.Count ? m_StaticSources[collider.Index] : null;
-            }
-
-            return m_BodySources.TryGetValue(collider.Body.Value, out List<Collider2D> sources) && collider.Index < sources.Count ? sources[collider.Index] : null;
+            var catalogue = new LevelCatalogue();
+            LevelCatalogueNetAdapter.Instance.Decode(bytes, ref catalogue);
+            return catalogue;
         }
 
-        public Surface SurfaceOf(RapierCollider collider, out float top)
+        public static void PrepareFollowers(GameObject block)
         {
-            Collider2D source = SourceOf(collider);
-            top = source != null ? source.bounds.max.y : 0f;
-            if (source == null)
+            foreach (PathFollower follower in block.GetComponentsInChildren<PathFollower>())
             {
-                return Surface.None;
+                if (!follower.TryGetComponent(out Rigidbody2D _))
+                {
+                    follower.gameObject.AddComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+                }
             }
+        }
 
+        public static void StaticSources(GameObject block, List<Collider2D> into)
+        {
+            BodyDescriptions.StaticColliders2D(block, into);
+            into.RemoveAll(source => source.GetComponentInParent<Collectable>() != null);
+        }
+
+        public static List<Rigidbody2D> BodyRoots(GameObject block) =>
+            block.GetComponentsInChildren<Rigidbody2D>()
+                .Where(rigidbody => rigidbody.bodyType != RigidbodyType2D.Dynamic && rigidbody.GetComponentInParent<Collectable>() == null)
+                .ToList();
+
+        public static Surface SurfaceOfSource(Collider2D source)
+        {
             switch (source.GetComponentInParent<Enemy>())
             {
                 case Water _:
@@ -83,6 +97,17 @@ namespace RedRunner.Networking
             }
 
             return source.gameObject.layer == LayerMask.NameToLayer(GroundName) && source.CompareTag(GroundName) ? Surface.Ground : Surface.None;
+        }
+
+        public Surface SurfaceOf(RapierCollider collider, out float top)
+        {
+            if (m_Built == null)
+            {
+                top = 0f;
+                return Surface.None;
+            }
+
+            return m_Built.SurfaceOf(collider, out top);
         }
 
         protected override void OnRegisterState(NetworkState state)
@@ -121,76 +146,25 @@ namespace RedRunner.Networking
 
         private void AddToRapier(RapierPhysics rapier)
         {
-            foreach (PathFollower follower in m_Followers)
+            var physics = new RapierLevelPhysics(rapier, gameObject.scene, m_Game.Manager.Scenes.IdOf(gameObject.scene.path));
+            m_Built = BuiltLevel.Build(Read(m_Catalogue.bytes), (int)m_State.Seed, (float)m_Game.Manager.TimeManager.TickDelta, physics);
+            Block[] blocks = FindObjectsByType<Block>(FindObjectsSortMode.None).OrderBy(block => block.transform.position.x).ToArray();
+            foreach (LevelMover mover in m_Built.Movers)
             {
-                if (!follower.TryGetComponent(out Rigidbody2D _))
-                {
-                    follower.gameObject.AddComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
-                }
-            }
-
-            foreach (Block block in FindObjectsByType<Block>(FindObjectsSortMode.None).OrderBy(block => block.transform.position.x))
-            {
-                AddStatics(rapier, block.gameObject);
-                AddBodies(rapier, block.gameObject);
-            }
-
-            World = rapier.Scenes.WorldOf2D(m_Game.Manager.Scenes.IdOf(gameObject.scene.path));
-        }
-
-        private void AddStatics(RapierPhysics rapier, GameObject block)
-        {
-            var listed = new List<Collider2D>();
-            var sources = new List<Collider2D>();
-            var colliders = new List<ColliderDesc2D>();
-            BodyDescriptions.StaticColliders2D(block, listed);
-            for (int index = 0; index < listed.Count; index++)
-            {
-                Collider2D source = listed[index];
-                if ((index > 0 && source == listed[index - 1]) || source.GetComponentInParent<Collectable>() != null)
+                if (mover.Cycle.Count == 0 || mover.Block >= blocks.Length)
                 {
                     continue;
                 }
 
-                BodyDescriptions.DescribeStatic2D(source, null, colliders);
-                while (sources.Count < colliders.Count)
+                List<Rigidbody2D> roots = BodyRoots(blocks[mover.Block].gameObject);
+                if (mover.Body < roots.Count && roots[mover.Body].TryGetComponent(out PathFollower follower))
                 {
-                    sources.Add(source);
-                }
-            }
-
-            StaticGroup group = rapier.AddStatic2D(gameObject.scene, colliders);
-            while (m_StaticSources.Count < group.FirstIndex + sources.Count)
-            {
-                m_StaticSources.Add(null);
-            }
-
-            for (int index = 0; index < sources.Count; index++)
-            {
-                m_StaticSources[group.FirstIndex + index] = sources[index];
-            }
-        }
-
-        private void AddBodies(RapierPhysics rapier, GameObject block)
-        {
-            foreach (Rigidbody2D rigidbody in block.GetComponentsInChildren<Rigidbody2D>())
-            {
-                if (rigidbody.bodyType == RigidbodyType2D.Dynamic || rigidbody.GetComponentInParent<Collectable>() != null)
-                {
-                    continue;
-                }
-
-                var sources = new List<Collider2D>();
-                if (!BodyDescriptions.TryDescribe2D(rigidbody.gameObject, out BodyDesc2D desc, sources))
-                {
-                    continue;
-                }
-
-                PhysicsBody2D body = rapier.AddBody2D(gameObject.scene, desc);
-                m_BodySources[body.Handle.Value] = sources;
-                if (rigidbody.TryGetComponent(out PathFollower follower))
-                {
-                    m_FollowerBodies[follower] = body;
+                    LevelMover driven = mover;
+                    follower.Drive(tick =>
+                    {
+                        System.Numerics.Vector3 position = driven.PositionAt(tick);
+                        return new Vector3(position.X, position.Y, position.Z);
+                    }, mover.Cycle.Count);
                 }
             }
         }
@@ -200,18 +174,31 @@ namespace RedRunner.Networking
             TimeManager time = m_Game.Manager.TimeManager;
             uint tick = time.PredictionTick;
             float tickDelta = (float)time.TickDelta;
+            m_Built?.Move(tick);
             foreach (PathFollower follower in m_Followers)
             {
                 follower.FollowTick(tick, tickDelta);
-                if (follower.CycleLength > 0 && m_FollowerBodies.TryGetValue(follower, out PhysicsBody2D body))
-                {
-                    Vector3 position = follower.PositionAt(tick);
-                    BodyState2D state = body.State;
-                    state.Position = new System.Numerics.Vector2(position.x, position.y);
-                    body.State = state;
-                    follower.transform.position = position;
-                }
             }
+        }
+
+        private sealed class RapierLevelPhysics : ILevelPhysics
+        {
+            private readonly RapierPhysics rapier;
+            private readonly Scene scene;
+            private readonly uint sceneId;
+
+            public RapierLevelPhysics(RapierPhysics rapier, Scene scene, uint sceneId)
+            {
+                this.rapier = rapier;
+                this.scene = scene;
+                this.sceneId = sceneId;
+            }
+
+            public RapierWorld2D World => rapier.Scenes.WorldOf2D(sceneId);
+
+            public StaticGroup AddStatics(IReadOnlyList<ColliderDesc2D> colliders) => rapier.AddStatic2D(scene, colliders);
+
+            public PhysicsBody2D AddBody(in BodyDesc2D body) => rapier.AddBody2D(scene, body);
         }
     }
 }

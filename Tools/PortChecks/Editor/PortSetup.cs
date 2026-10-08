@@ -205,6 +205,19 @@ namespace RedRunner.PortChecks
             Debug.Log($"PORT-CHECK rapier setup: PASS {manager.GetComponent<NetworkPhysics>().Backend}");
         }
 
+        public static void Catalogue()
+        {
+            RedRunner.Editor.Networking.LevelCatalogueExport.Export();
+            Scene scene = EditorSceneManager.OpenScene(PlayScene, OpenSceneMode.Single);
+            NetworkLevel level = FindInScene<NetworkLevel>(scene);
+            var levelSerialized = new SerializedObject(level);
+            levelSerialized.FindProperty("m_Catalogue").objectReferenceValue = AssetDatabase.LoadAssetAtPath<TextAsset>(RedRunner.Editor.Networking.LevelCatalogueExport.CataloguePath);
+            levelSerialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log($"PORT-CHECK catalogue setup: PASS {new System.IO.FileInfo(RedRunner.Editor.Networking.LevelCatalogueExport.CataloguePath).Length} bytes");
+        }
+
         private static void SimulatePhysics(NetworkManager manager)
         {
             RigidbodyPhysics physics = manager.GetComponent<RigidbodyPhysics>() ?? manager.gameObject.AddComponent<RigidbodyPhysics>();

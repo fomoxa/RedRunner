@@ -45,6 +45,10 @@ namespace RedRunner.Networking
 
         public RedCharacter Character => m_Character;
 
+        public float RespawnDelay => m_RespawnDelay;
+
+        public int MaxRepeatedTicks => m_MaxRepeatedTicks;
+
         public bool IsDead => m_State.Dead;
 
         private void Awake()
@@ -56,23 +60,24 @@ namespace RedRunner.Networking
             m_Character.BodySource = () => NetworkObject != null ? NetworkObject.Body2D : default;
             if (m_OnRapier)
             {
-                AddGroundSensor();
+                m_Sensor = AddGroundSensor(m_Character);
                 m_Character.GroundCheck.Probe = Grounded;
             }
         }
 
-        private void AddGroundSensor()
+        public static BoxCollider2D AddGroundSensor(RedCharacter character)
         {
-            GroundCheck check = m_Character.GroundCheck;
+            GroundCheck check = character.GroundCheck;
             Collider2D probe = check.Collider2D;
             Vector2 offset = probe is BoxCollider2D box ? box.offset : probe.offset;
             Vector2 size = probe is BoxCollider2D sized ? sized.size : (Vector2)probe.bounds.size;
-            var sensor = new GameObject("Ground Sensor");
-            sensor.transform.SetParent(probe.transform, false);
-            m_Sensor = sensor.AddComponent<BoxCollider2D>();
-            m_Sensor.isTrigger = true;
-            m_Sensor.size = new Vector2(size.x, check.RayDistance);
-            m_Sensor.offset = new Vector2(offset.x, offset.y - check.RayDistance * 0.5f);
+            var sensorObject = new GameObject("Ground Sensor");
+            sensorObject.transform.SetParent(probe.transform, false);
+            var sensor = sensorObject.AddComponent<BoxCollider2D>();
+            sensor.isTrigger = true;
+            sensor.size = new Vector2(size.x, check.RayDistance);
+            sensor.offset = new Vector2(offset.x, offset.y - check.RayDistance * 0.5f);
+            return sensor;
         }
 
         private bool Grounded() =>

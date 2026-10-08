@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "fingerprint": "sha256:ed154d9b0d52dc519b688eedfee03d1a8f6bd98e9c9ed34f92c8a63fd3e7dfb7",
-  "fingerprint_u64": "0xED154D9B0D52DC51",
+  "fingerprint": "sha256:ee8a65496cb0a482515079a5c2e9ecfb985cea0f6ea6606a186a45b3ce2b6469",
+  "fingerprint_u64": "0xEE8A65496CB0A482",
   "models": {
     "AnimatorState": {
       "source": "FomoxaSystemModels/AnimatorState.cs",
@@ -178,6 +178,384 @@
         }
       }
     },
+    "CatalogueBlock": {
+      "source": "Assets/Scripts/RedRunner/Networking/Models/LevelCatalogue.cs",
+      "fingerprint": "sha256:d14e4d9829d9ce9ab26f8b0c84d1b9efd108bf9ce8c09751e9bfacb8888fd4bf",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Width",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Probability",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Statics",
+          "type": "Array<SceneFileCollider2D>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "StaticSurfaces",
+          "type": "Array<u32>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "StaticTops",
+          "type": "Array<f32>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Bodies",
+          "type": "Array<CatalogueBody>",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x9F674FA9",
+          "fingerprint": "sha256:374e500fa782cb9c3c24147f26ebcb55657502ec6dd1846371a603a5ca9b44fd",
+          "fingerprint_u64": "0x374E500FA782CB9C",
+          "prefixes": [
+            "sha256:72f59ea73d8ada5f014e3c9f0c25ad2d913830d8559cb8464fa77855a52addf4",
+            "sha256:45e6532a6c0f1df082822aeb003c8519f96554f28c143e452fb30e61dba8a7bf",
+            "sha256:179a5487a40b8f3cf5cc8f13f4c6ae3b4fd7385b4ac7dc22d843b32295bfc1d9",
+            "sha256:e4547b7dae1b0feb47c7f141f037c2751c826e3c4f94c7ccf9fa5f374ab3b00a",
+            "sha256:0c702f5ff46e603932d8511089aec2ca0ab0ad3c213be8f7bd19d0dc86df3cc5",
+            "sha256:374e500fa782cb9c3c24147f26ebcb55657502ec6dd1846371a603a5ca9b44fd"
+          ],
+          "prefixes_u64": [
+            "0x72F59EA73D8ADA5F",
+            "0x45E6532A6C0F1DF0",
+            "0x179A5487A40B8F3C",
+            "0xE4547B7DAE1B0FEB",
+            "0x0C702F5FF46E6039",
+            "0x374E500FA782CB9C"
+          ],
+          "fields": [
+            {
+              "name": "Width",
+              "type": "f32"
+            },
+            {
+              "name": "Probability",
+              "type": "f32"
+            },
+            {
+              "name": "Statics",
+              "type": "Array<SceneFileCollider2D>"
+            },
+            {
+              "name": "StaticSurfaces",
+              "type": "Array<u32>"
+            },
+            {
+              "name": "StaticTops",
+              "type": "Array<f32>"
+            },
+            {
+              "name": "Bodies",
+              "type": "Array<CatalogueBody>"
+            }
+          ]
+        }
+      }
+    },
+    "CatalogueBody": {
+      "source": "Assets/Scripts/RedRunner/Networking/Models/LevelCatalogue.cs",
+      "fingerprint": "sha256:99007cebbe463ffae6a4c3e39ab8f96b950ee0a2dd55f1cff910cc81721ed737",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "X",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Y",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Body",
+          "type": "SceneFileBody2D",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Surfaces",
+          "type": "Array<u32>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Tops",
+          "type": "Array<f32>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Cycle",
+          "type": "Array<f32>",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x71065B9C",
+          "fingerprint": "sha256:990d914b938092c5df049d3ade2a9c7a887b63026d6ba59fb047644253bacb37",
+          "fingerprint_u64": "0x990D914B938092C5",
+          "prefixes": [
+            "sha256:510f0b13e9a912861e528e889ac45bf40a7e674284e4a334623f07e6f0013033",
+            "sha256:84e1bfe71fd5e99a04e4700efaf63e3d11372ac7334570389f58f7fff4ffc874",
+            "sha256:cd4e13ce4fd23a38b927f75ee990afa6e3e53d3075627b4fc5fefb6a8fd9781a",
+            "sha256:02cf5a840396cb9c683503518333607073ba50c8ca840845eac1a81f5859f8d9",
+            "sha256:5a713b372a7e4040ac82d9dfc72ce3498828a5c1117b28b9fecd614f6ec636f8",
+            "sha256:990d914b938092c5df049d3ade2a9c7a887b63026d6ba59fb047644253bacb37"
+          ],
+          "prefixes_u64": [
+            "0x510F0B13E9A91286",
+            "0x84E1BFE71FD5E99A",
+            "0xCD4E13CE4FD23A38",
+            "0x02CF5A840396CB9C",
+            "0x5A713B372A7E4040",
+            "0x990D914B938092C5"
+          ],
+          "fields": [
+            {
+              "name": "X",
+              "type": "f32"
+            },
+            {
+              "name": "Y",
+              "type": "f32"
+            },
+            {
+              "name": "Body",
+              "type": "SceneFileBody2D"
+            },
+            {
+              "name": "Surfaces",
+              "type": "Array<u32>"
+            },
+            {
+              "name": "Tops",
+              "type": "Array<f32>"
+            },
+            {
+              "name": "Cycle",
+              "type": "Array<f32>"
+            }
+          ]
+        }
+      }
+    },
+    "CataloguePlayer": {
+      "source": "Assets/Scripts/RedRunner/Networking/Models/LevelCatalogue.cs",
+      "fingerprint": "sha256:6d30b8628757b20c8568b6b3f8a42181f43101e01cef561ca0178ac773995db0",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Body",
+          "type": "SceneFileBody2D",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "SensorIndex",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "BottomOffset",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RunSpeed",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "MaxRunSpeed",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RunSmoothTime",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "JumpStrength",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RollForce",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "SpawnX",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "SpawnY",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "RespawnDelay",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "MaxRepeatedTicks",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x2E5B0371",
+          "fingerprint": "sha256:ba08d74a26cf544d330843f21f33a8cf0993b4a36cb917323307907415d0ae7b",
+          "fingerprint_u64": "0xBA08D74A26CF544D",
+          "prefixes": [
+            "sha256:9b8c69cdf64897738219439ef3a63da106eb217814975cb72a7f5206dcb45904",
+            "sha256:187ea3a04d0c27778388217f240482d8f80a521d663b4285e110b0fbe27d8294",
+            "sha256:3662be221a44d19602efb9cfa3ab01b03d2e40c737ed048840cef28a1b8de055",
+            "sha256:9e738a9f42dc8d09fc3ad5eda7cffad3d2ba172591aaa494d123aefcae09e1d3",
+            "sha256:74f83f38624b5e8b06214f218058854a6c90e9c0b741c7e639cda7330c246696",
+            "sha256:904e0ecaf324024ca3811536381e55577a36d3e434861d7755dd9a6553f2852a",
+            "sha256:209b0ed44097503e0ac94ed1a5bb54f15f47263e9201efa527841091173a3d42",
+            "sha256:0ad5461caeb1f4614ecb29f96bf0b492f734462a7459733d0b4ee2d33209ce1d",
+            "sha256:f51b8f726754253e11c98f9d27ecea322c077f02d687472fca2644c3a347966f",
+            "sha256:5697bc8dd3f4068865525e1b0b037a9e8cdf008c0fa9843635b5a9b746522cd0",
+            "sha256:37ce7d17ff7bdcbf50a484fcb3206c09493885bc3a68a1fbecd986bbdba2688a",
+            "sha256:ba08d74a26cf544d330843f21f33a8cf0993b4a36cb917323307907415d0ae7b"
+          ],
+          "prefixes_u64": [
+            "0x9B8C69CDF6489773",
+            "0x187EA3A04D0C2777",
+            "0x3662BE221A44D196",
+            "0x9E738A9F42DC8D09",
+            "0x74F83F38624B5E8B",
+            "0x904E0ECAF324024C",
+            "0x209B0ED44097503E",
+            "0x0AD5461CAEB1F461",
+            "0xF51B8F726754253E",
+            "0x5697BC8DD3F40688",
+            "0x37CE7D17FF7BDCBF",
+            "0xBA08D74A26CF544D"
+          ],
+          "fields": [
+            {
+              "name": "Body",
+              "type": "SceneFileBody2D"
+            },
+            {
+              "name": "SensorIndex",
+              "type": "u32"
+            },
+            {
+              "name": "BottomOffset",
+              "type": "f32"
+            },
+            {
+              "name": "RunSpeed",
+              "type": "f32"
+            },
+            {
+              "name": "MaxRunSpeed",
+              "type": "f32"
+            },
+            {
+              "name": "RunSmoothTime",
+              "type": "f32"
+            },
+            {
+              "name": "JumpStrength",
+              "type": "f32"
+            },
+            {
+              "name": "RollForce",
+              "type": "f32"
+            },
+            {
+              "name": "SpawnX",
+              "type": "f32"
+            },
+            {
+              "name": "SpawnY",
+              "type": "f32"
+            },
+            {
+              "name": "RespawnDelay",
+              "type": "f32"
+            },
+            {
+              "name": "MaxRepeatedTicks",
+              "type": "u32"
+            }
+          ]
+        }
+      }
+    },
     "InputFrames": {
       "source": "FomoxaSystemModels/InputFrames.cs",
       "fingerprint": "sha256:b0c40ec29f5fc7faa8bc0645e0bb123ec6e0b0fad4db312eb429bc96aa9de0d0",
@@ -221,6 +599,132 @@
             {
               "name": "Frames",
               "type": "Array<bytes>"
+            }
+          ]
+        }
+      }
+    },
+    "LevelCatalogue": {
+      "source": "Assets/Scripts/RedRunner/Networking/Models/LevelCatalogue.cs",
+      "fingerprint": "sha256:8bb661e604e259c89e1f04b471a52ce3b9f4a75f8f2792994a44015a2c8a7656",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "TickDelta",
+          "type": "f32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "StartCount",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "MiddleCount",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "EndCount",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "StartBlocks",
+          "type": "Array<CatalogueBlock>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "MiddleBlocks",
+          "type": "Array<CatalogueBlock>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "EndBlocks",
+          "type": "Array<CatalogueBlock>",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Player",
+          "type": "CataloguePlayer",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x0C16C65C",
+          "fingerprint": "sha256:548b652552375780adf088c8c4e1d2c352bd329559a26b91b813b1b0338cfb85",
+          "fingerprint_u64": "0x548B652552375780",
+          "prefixes": [
+            "sha256:3f923e6f8bc87f51ad9a62f464f61630597fcff53db1c955b357a015b0f7381e",
+            "sha256:828de3a1efd306f3089ea9e165f6d27be0cb67d287d64cbaa947230806765643",
+            "sha256:fa64192d07fb3c0ff2f8bd604860e750f7a29fc48df95e5bcccacb4bd24623c5",
+            "sha256:cf1f5127e6b44cb728c901ae39beb138cf22ee90f2f6a95a2ae7e4aadd4bd2c4",
+            "sha256:d3878c28cebe9528e86adb76e425d09520c711d06d252bbd04505f1995448479",
+            "sha256:552906c06f2201c6d6246dfc00384bafcb39cba6eb62de4a09a85a36863165f4",
+            "sha256:08a11934dbb228d3ac11243c0e2df92327cb2c9358555c73e87a189461e23deb",
+            "sha256:548b652552375780adf088c8c4e1d2c352bd329559a26b91b813b1b0338cfb85"
+          ],
+          "prefixes_u64": [
+            "0x3F923E6F8BC87F51",
+            "0x828DE3A1EFD306F3",
+            "0xFA64192D07FB3C0F",
+            "0xCF1F5127E6B44CB7",
+            "0xD3878C28CEBE9528",
+            "0x552906C06F2201C6",
+            "0x08A11934DBB228D3",
+            "0x548B652552375780"
+          ],
+          "fields": [
+            {
+              "name": "TickDelta",
+              "type": "f32"
+            },
+            {
+              "name": "StartCount",
+              "type": "u32"
+            },
+            {
+              "name": "MiddleCount",
+              "type": "u32"
+            },
+            {
+              "name": "EndCount",
+              "type": "u32"
+            },
+            {
+              "name": "StartBlocks",
+              "type": "Array<CatalogueBlock>"
+            },
+            {
+              "name": "MiddleBlocks",
+              "type": "Array<CatalogueBlock>"
+            },
+            {
+              "name": "EndBlocks",
+              "type": "Array<CatalogueBlock>"
+            },
+            {
+              "name": "Player",
+              "type": "CataloguePlayer"
             }
           ]
         }

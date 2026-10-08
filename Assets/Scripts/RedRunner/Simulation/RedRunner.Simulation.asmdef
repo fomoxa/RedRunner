@@ -3,7 +3,8 @@
     "rootNamespace": "RedRunner.Simulation",
     "references": [
         "Fomoxa.Networking",
-        "Fomoxa.Networking.Rapier"
+        "Fomoxa.Networking.Rapier",
+        "RedRunner.Models"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

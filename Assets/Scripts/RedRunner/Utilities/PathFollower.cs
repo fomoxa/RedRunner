@@ -58,8 +58,26 @@ namespace RedRunner.Utilities
 
 		public virtual int CycleLength {
 			get {
-				return m_Cycle == null ? 0 : m_Cycle.Count;
+				return m_Drive != null ? m_DriveLength : m_Cycle == null ? 0 : m_Cycle.Count;
 			}
+		}
+
+		protected System.Func<uint, Vector3> m_Drive;
+		protected int m_DriveLength;
+
+		public virtual void Drive (System.Func<uint, Vector3> positionAt, int cycleLength)
+		{
+			m_Drive = positionAt;
+			m_DriveLength = cycleLength;
+		}
+
+		public virtual List<System.Numerics.Vector3> CycleAt (float tickDelta)
+		{
+			if (m_PathDefinition == null) {
+				return new List<System.Numerics.Vector3> ();
+			}
+			BuildCycle (tickDelta);
+			return m_Cycle;
 		}
 
 		void Awake ()
@@ -138,12 +156,27 @@ namespace RedRunner.Utilities
 
 		public virtual Vector3 PositionAt (uint tick)
 		{
+			if (m_Drive != null) {
+				return m_Drive (tick);
+			}
 			System.Numerics.Vector3 position = RedRunner.Simulation.PathCycle.PositionAt (m_Cycle, tick);
 			return new Vector3 (position.X, position.Y, position.Z);
 		}
 
 		public virtual void FollowTick (uint tick, float tickDelta)
 		{
+			if (m_Drive != null) {
+				Vector3 driven = m_Drive (tick);
+				m_Velocity = (m_Drive (tick - 1) - driven) / tickDelta;
+				m_Driven = true;
+				StopAllCoroutines ();
+				transform.position = driven;
+				Rigidbody2D drivenBody = GetComponent<Rigidbody2D> ();
+				if (drivenBody != null) {
+					drivenBody.position = driven;
+				}
+				return;
+			}
 			if (m_PathDefinition == null) {
 				return;
 			}
