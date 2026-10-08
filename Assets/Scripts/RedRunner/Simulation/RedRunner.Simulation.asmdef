@@ -1,0 +1,17 @@
+{
+    "name": "RedRunner.Simulation",
+    "rootNamespace": "RedRunner.Simulation",
+    "references": [
+        "Fomoxa.Networking",
+        "Fomoxa.Networking.Rapier"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

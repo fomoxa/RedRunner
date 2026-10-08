@@ -36,7 +36,7 @@ namespace RedRunner.Utilities
 		protected Vector3 m_Velocity;
 		protected Vector3 m_SmoothVelocity;
 		protected float m_OverTimeSpeed = 0f;
-		protected List<Vector3> m_Cycle;
+		protected List<System.Numerics.Vector3> m_Cycle;
 		protected float m_CycleTickDelta;
 		protected Rigidbody2D m_Rigidbody2D;
 		protected bool m_Driven = false;
@@ -138,7 +138,8 @@ namespace RedRunner.Utilities
 
 		public virtual Vector3 PositionAt (uint tick)
 		{
-			return m_Cycle [(int)(tick % (uint)m_Cycle.Count)];
+			System.Numerics.Vector3 position = RedRunner.Simulation.PathCycle.PositionAt (m_Cycle, tick);
+			return new Vector3 (position.X, position.Y, position.Z);
 		}
 
 		public virtual void FollowTick (uint tick, float tickDelta)
@@ -169,55 +170,22 @@ namespace RedRunner.Utilities
 		protected virtual void BuildCycle (float tickDelta)
 		{
 			m_CycleTickDelta = tickDelta;
-			m_Cycle = new List<Vector3> ();
-			IEnumerator<PathPoint> point = m_PathDefinition.GetPathEnumerator ();
-			if (!point.MoveNext () || point.Current == null) {
-				m_Cycle.Add (transform.position);
+			var stops = new List<RedRunner.Simulation.PathStop> ();
+			var points = new List<PathPoint> ();
+			foreach (PathPoint point in m_PathDefinition.Points) {
+				if (point == null) {
+					break;
+				}
+				Vector3 position = point.transform.position;
+				stops.Add (new RedRunner.Simulation.PathStop (new System.Numerics.Vector3 (position.x, position.y, position.z), (RedRunner.Simulation.PathMove)point.moveType, point.speed, point.smoothTime, point.acceleration, point.maxSpeed, point.delay));
+				points.Add (point);
+			}
+			if (stops.Count == 0) {
+				Vector3 here = transform.position;
+				m_Cycle = new List<System.Numerics.Vector3> { new System.Numerics.Vector3 (here.x, here.y, here.z) };
 				return;
 			}
-			PathPoint first = point.Current;
-			Vector3 position = first.transform.position;
-			if (m_PathDefinition.Points.Count < 2) {
-				m_Cycle.Add (position);
-				return;
-			}
-			Vector3 smoothVelocity = Vector3.zero;
-			float overTimeSpeed = 0f;
-			int waitTicks = 0;
-			bool left = false;
-			int limit = Mathf.CeilToInt (600f / tickDelta);
-			while (m_Cycle.Count < limit) {
-				m_Cycle.Add (position);
-				if (waitTicks > 0) {
-					waitTicks--;
-					if (waitTicks == 0) {
-						overTimeSpeed = 0f;
-						point.MoveNext ();
-						left |= point.Current != first;
-					}
-					continue;
-				}
-				PathPoint target = point.Current;
-				Vector3 destination = target.transform.position;
-				if (target.moveType == PathPoint.MoveType.MoveTowards) {
-					position = Vector3.MoveTowards (position, destination, tickDelta * target.speed);
-				} else if (target.moveType == PathPoint.MoveType.Lerp) {
-					position = Vector3.Lerp (position, destination, tickDelta * target.speed);
-				} else if (target.moveType == PathPoint.MoveType.SmoothDamp) {
-					position = Vector3.SmoothDamp (position, destination, ref smoothVelocity, target.smoothTime, Mathf.Infinity, tickDelta);
-				} else if (target.moveType == PathPoint.MoveType.Acceleration) {
-					position = Vector3.MoveTowards (position, destination, overTimeSpeed);
-					overTimeSpeed = Mathf.Min (overTimeSpeed + target.acceleration, target.maxSpeed);
-				}
-				if ((position - destination).sqrMagnitude < m_Step * m_Step) {
-					position = destination;
-					smoothVelocity = Vector3.zero;
-					if (left && target == first) {
-						return;
-					}
-					waitTicks = Mathf.Max (1, Mathf.CeilToInt (DelayAt (target) / tickDelta));
-				}
-			}
+			m_Cycle = RedRunner.Simulation.PathCycle.Build (stops, m_PathDefinition.ContinueToStart, m_Step, tickDelta, index => DelayAt (points [index]));
 		}
 
 		protected virtual float DelayAt (PathPoint point)

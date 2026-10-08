@@ -73,6 +73,7 @@ namespace RedRunner.Characters
 		protected Vector2 m_Speed = Vector2.zero;
 		protected float m_CurrentRunSpeed = 0f;
 		protected float m_CurrentSmoothVelocity = 0f;
+		protected readonly RedRunner.Simulation.RunnerMotion m_Motion = new RedRunner.Simulation.RunnerMotion ();
 		protected int m_CurrentFootstepSoundIndex = 0;
 		protected Vector3 m_InitialScale;
 		protected Vector3 m_InitialPosition;
@@ -293,11 +294,19 @@ namespace RedRunner.Characters
 		{
 			get
 			{
-				return m_CurrentSmoothVelocity;
+				return m_Motion.RunSmoothVelocity;
 			}
 			set
 			{
-				m_CurrentSmoothVelocity = value;
+				m_Motion.RunSmoothVelocity = value;
+			}
+		}
+
+		public RedRunner.Simulation.RunnerSettings Settings
+		{
+			get
+			{
+				return new RedRunner.Simulation.RunnerSettings ( m_RunSpeed, m_MaxRunSpeed, m_RunSmoothTime, m_JumpStrength, m_RollForce );
 			}
 		}
 
@@ -443,20 +452,28 @@ namespace RedRunner.Characters
 
 		public virtual void Simulate ( float horizontalAxis, bool jump, bool roll, float deltaTime, bool effects )
 		{
-			float speed = Mathf.Abs ( LinearVelocity.x );
-			m_CurrentRunSpeed = m_RunSpeed;
-			if ( speed >= m_RunSpeed )
+			Fomoxa.Networking.Simulation.PhysicsBody2D body = BodySource != null ? BodySource () : default;
+			if ( !body.IsValid )
 			{
-				m_CurrentRunSpeed = Mathf.SmoothDamp ( speed, m_MaxRunSpeed, ref m_CurrentSmoothVelocity, m_RunSmoothTime, Mathf.Infinity, deltaTime );
+				return;
 			}
-			Move ( horizontalAxis );
-			if ( jump )
+			RedRunner.Simulation.RunnerActions actions = m_Motion.Simulate ( body, Settings, horizontalAxis, jump, roll, jump && m_GroundCheck.Check (), IsDead.Value, deltaTime );
+			if ( !IsDead.Value )
 			{
-				Jump ( effects );
+				Vector3 scale = transform.localScale;
+				scale.x = m_Motion.Facing;
+				transform.localScale = scale;
 			}
-			if ( roll )
+			if ( effects && ( actions & RedRunner.Simulation.RunnerActions.Jumped ) != 0 )
 			{
-				Roll ( effects );
+				m_Animator.ResetTrigger ( "Jump" );
+				m_Animator.SetTrigger ( "Jump" );
+				m_JumpParticleSystem.Play ();
+				AudioManager.Singleton.PlayJumpSound ( m_JumpAndGroundedAudioSource );
+			}
+			if ( effects && ( actions & RedRunner.Simulation.RunnerActions.Rolled ) != 0 )
+			{
+				m_Animator.SetTrigger ( "Roll" );
 			}
 		}
 
@@ -560,6 +577,7 @@ namespace RedRunner.Characters
 			m_Block = false;
 			m_CurrentFootstepSoundIndex = 0;
 			transform.localScale = m_InitialScale;
+			m_Motion.Facing = m_InitialScale.x < 0f ? -1 : 1;
 			LinearVelocity = Vector2.zero;
 			m_Skeleton.SetActive ( false, m_Rigidbody2D.linearVelocity );
 		}

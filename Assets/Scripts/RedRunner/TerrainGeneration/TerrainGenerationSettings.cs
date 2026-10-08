@@ -80,27 +80,23 @@ namespace RedRunner.TerrainGeneration
 			{
 				throw new System.InvalidOperationException ( name + " needs positive start, middle and end block counts to lay out a seeded level" );
 			}
-			System.Random random = new System.Random ( seed );
 			List<LevelBlock> layout = new List<LevelBlock> ();
-			float x = 0f;
-			AddBlocks ( layout, m_StartBlocks, m_StartBlocksCount, LevelPart.Start, random, ref x );
-			AddBlocks ( layout, m_MiddleBlocks, m_MiddleBlocksCount, LevelPart.Middle, random, ref x );
-			AddBlocks ( layout, m_EndBlocks, m_EndBlocksCount, LevelPart.End, random, ref x );
+			foreach ( RedRunner.Simulation.PlacedBlock placed in RedRunner.Simulation.LevelLayout.Lay ( seed, Choices ( m_StartBlocks ), m_StartBlocksCount, Choices ( m_MiddleBlocks ), m_MiddleBlocksCount, Choices ( m_EndBlocks ), m_EndBlocksCount ) )
+			{
+				Block[] blocks = placed.Part == RedRunner.Simulation.LevelPart.Start ? m_StartBlocks : placed.Part == RedRunner.Simulation.LevelPart.Middle ? m_MiddleBlocks : m_EndBlocks;
+				layout.Add ( new LevelBlock ( blocks [ placed.Choice ], placed.X, ( LevelPart )placed.Part ) );
+			}
 			return layout;
 		}
 
-		private static void AddBlocks ( List<LevelBlock> layout, Block[] blocks, int count, LevelPart part, System.Random random, ref float x )
+		public static List<RedRunner.Simulation.BlockChoice> Choices ( Block[] blocks )
 		{
-			for ( int i = 0; i < count; i++ )
+			List<RedRunner.Simulation.BlockChoice> choices = new List<RedRunner.Simulation.BlockChoice> ( blocks.Length );
+			foreach ( Block block in blocks )
 			{
-				Block block = TerrainGenerator.ChooseFrom ( blocks, ( float )random.NextDouble () );
-				if ( block == null )
-				{
-					throw new System.InvalidOperationException ( "no " + part + " block to choose from" );
-				}
-				layout.Add ( new LevelBlock ( block, x, part ) );
-				x += block.Width;
+				choices.Add ( new RedRunner.Simulation.BlockChoice ( block.Width, block.Probability ) );
 			}
+			return choices;
 		}
 
 	}

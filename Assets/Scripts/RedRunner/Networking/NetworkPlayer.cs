@@ -7,8 +7,8 @@ using Fomoxa.Unity;
 using Fomoxa.Unity.Rapier;
 using Generated;
 using RedRunner.Characters;
-using RedRunner.Enemies;
 using RedRunner.Networking.Models;
+using RedRunner.Simulation;
 using RedRunner.TerrainGeneration;
 using RedRunner.Utilities;
 using UnityEngine;
@@ -21,8 +21,6 @@ namespace RedRunner.Networking
     {
         private const float PositionTolerance = 0.01f;
         private const float VelocityTolerance = 0.05f;
-        private const float SpikeMargin = 0.2f;
-        private const string GroundName = "Ground";
 
         [SerializeField]
         private float m_RespawnDelay = 2f;
@@ -55,9 +53,9 @@ namespace RedRunner.Networking
             m_NetworkTransform = GetComponent<NetworkTransform>();
             m_Game = FindFirstObjectByType<NetworkGame>();
             m_OnRapier = m_Game.Manager.TryGetComponent(out RapierPhysics _);
+            m_Character.BodySource = () => NetworkObject != null ? NetworkObject.Body2D : default;
             if (m_OnRapier)
             {
-                m_Character.BodySource = () => NetworkObject != null ? NetworkObject.Body2D : default;
                 AddGroundSensor();
                 m_Character.GroundCheck.Probe = Grounded;
             }
@@ -77,35 +75,44 @@ namespace RedRunner.Networking
             m_Sensor.offset = new Vector2(offset.x, offset.y - check.RayDistance * 0.5f);
         }
 
-        private bool Grounded()
+        private bool Grounded() =>
+            TryGetWorld(out RapierWorld2D world, out BodyHandle body) && RunnerContacts.Grounded(world, body, m_Sources.IndexOf(m_Sensor), m_Level, m_Touching);
+
+        private void DieOfHazards()
         {
-            if (!TryGetContacts(m_Sensor))
+            if (!TryGetWorld(out RapierWorld2D world, out BodyHandle body))
             {
-                return false;
+                return;
             }
 
-            foreach (RapierCollider other in m_Touching)
+            switch (RunnerContacts.Hazard(world, body, m_Sources.Count, Bottom(), m_Level, m_Touching))
             {
-                Collider2D source = m_Level.SourceOf(other);
-                if (source != null && source.gameObject.layer == LayerMask.NameToLayer(GroundName) && source.CompareTag(GroundName))
-                {
-                    return true;
-                }
+                case Surface.Water:
+                    m_Character.Die(DeathCause.Water);
+                    break;
+                case Surface.Saw:
+                    m_Character.Die(DeathCause.Saw);
+                    break;
+                case Surface.Spike:
+                    m_Character.Die(DeathCause.Spike);
+                    break;
+                case Surface.Mace:
+                    m_Character.Die(DeathCause.Mace);
+                    break;
             }
-
-            return false;
         }
 
-        private bool TryGetContacts(Collider2D only)
+        private bool TryGetWorld(out RapierWorld2D world, out BodyHandle body)
         {
-            m_Touching.Clear();
             if (m_Level == null)
             {
                 m_Level = FindFirstObjectByType<NetworkLevel>();
             }
 
-            PhysicsBody2D body = NetworkObject != null ? NetworkObject.Body2D : default;
-            if (m_Level == null || m_Level.World == null || !body.IsValid)
+            PhysicsBody2D physicsBody = NetworkObject != null ? NetworkObject.Body2D : default;
+            world = m_Level != null ? m_Level.World : null;
+            body = physicsBody.Handle;
+            if (world == null || !physicsBody.IsValid)
             {
                 return false;
             }
@@ -115,50 +122,7 @@ namespace RedRunner.Networking
                 BodyDescriptions.TryDescribe2D(gameObject, out _, m_Sources);
             }
 
-            for (int index = 0; index < m_Sources.Count; index++)
-            {
-                if (only == null || m_Sources[index] == only)
-                {
-                    m_Level.World.Touching(RapierCollider.OfBody(body.Handle, index), m_Touching);
-                }
-            }
-
             return true;
-        }
-
-        private void DieOfHazards()
-        {
-            if (!TryGetContacts(null))
-            {
-                return;
-            }
-
-            foreach (RapierCollider other in m_Touching)
-            {
-                Collider2D source = m_Level.SourceOf(other);
-                Enemy enemy = source != null ? source.GetComponentInParent<Enemy>() : null;
-                if (enemy is Water)
-                {
-                    m_Character.Die(DeathCause.Water);
-                }
-                else if (enemy is Saw)
-                {
-                    m_Character.Die(DeathCause.Saw);
-                }
-                else if (enemy is Mace)
-                {
-                    m_Character.Die(DeathCause.Mace);
-                }
-                else if (enemy is Spike && Bottom() >= source.bounds.max.y - SpikeMargin)
-                {
-                    m_Character.Die(DeathCause.Spike);
-                }
-
-                if (m_Character.IsDead.Value)
-                {
-                    return;
-                }
-            }
         }
 
         private void HoldWhileDead()

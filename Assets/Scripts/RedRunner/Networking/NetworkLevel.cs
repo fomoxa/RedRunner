@@ -7,17 +7,21 @@ using Fomoxa.Unity;
 using Fomoxa.Unity.Rapier;
 using Generated;
 using RedRunner.Collectables;
+using RedRunner.Enemies;
 using RedRunner.Networking.Models;
+using RedRunner.Simulation;
 using RedRunner.TerrainGeneration;
 using RedRunner.Utilities;
 using UnityEngine;
 
 namespace RedRunner.Networking
 {
-    public sealed class NetworkLevel : NetworkBehaviour
+    public sealed class NetworkLevel : NetworkBehaviour, ISurfaces
     {
         [SerializeField]
         private TerrainGenerator m_Generator;
+
+        private const string GroundName = "Ground";
 
         private readonly LevelState m_State = new LevelState();
         private readonly List<Collider2D> m_StaticSources = new List<Collider2D>();
@@ -55,6 +59,30 @@ namespace RedRunner.Networking
             }
 
             return m_BodySources.TryGetValue(collider.Body.Value, out List<Collider2D> sources) && collider.Index < sources.Count ? sources[collider.Index] : null;
+        }
+
+        public Surface SurfaceOf(RapierCollider collider, out float top)
+        {
+            Collider2D source = SourceOf(collider);
+            top = source != null ? source.bounds.max.y : 0f;
+            if (source == null)
+            {
+                return Surface.None;
+            }
+
+            switch (source.GetComponentInParent<Enemy>())
+            {
+                case Water _:
+                    return Surface.Water;
+                case Saw _:
+                    return Surface.Saw;
+                case Spike _:
+                    return Surface.Spike;
+                case Mace _:
+                    return Surface.Mace;
+            }
+
+            return source.gameObject.layer == LayerMask.NameToLayer(GroundName) && source.CompareTag(GroundName) ? Surface.Ground : Surface.None;
         }
 
         protected override void OnRegisterState(NetworkState state)
