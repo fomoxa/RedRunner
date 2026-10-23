@@ -69,7 +69,7 @@ start_server() {
 start_console_server() {
   local project="$WIN_ROOT\\RedRunner\\Server~"
   sed -i 's|<TargetFramework>net8.0</TargetFramework>|<TargetFramework>net9.0</TargetFramework>|' "$DST/Server~/RedRunner.Server.csproj"
-  if ! "$DOTNET_WIN" build -c Release "$project\\RedRunner.Server.csproj" > "$LOG_DIR/unity-windows-console-build.log" 2>&1; then
+  if ! "$DOTNET_WIN" build -c Release "-p:Core=$WIN_ROOT\\unity\\com.fomoxa.networking" "$project\\RedRunner.Server.csproj" > "$LOG_DIR/unity-windows-console-build.log" 2>&1; then
     grep -E " error " "$LOG_DIR/unity-windows-console-build.log" | sort -u >&2
     echo "the console server did not build; see $LOG_DIR/unity-windows-console-build.log" >&2
     exit 1

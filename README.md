@@ -4,7 +4,7 @@ Red Runner, Awesome Platformer Game.
 
 It is now free and open source and always will be. :clap: :tada:
 
-This fork is the online version of Red Runner, built on the [`com.fomoxa.networking`](https://github.com/fomoxa/com.fomoxa.networking) networking package: a dedicated server, several players in the same seeded level, client-side prediction and server-side deaths. [docs/README.md](docs/README.md) explains how to run it and links to the step-by-step guide of the port. The original single-player game is commit `2b675b5` and [BayatGames/RedRunner](https://github.com/BayatGames/RedRunner).
+This fork is the online version of Red Runner, built on the [`com.fomoxa.networking`](https://github.com/fomoxa/com.fomoxa.networking) networking package: a dedicated server, built with Unity or as a .NET console application without Unity, several players in the same seeded level, client-side prediction and server-side deaths. [docs/README.md](docs/README.md) explains how to run it and links to the step-by-step guide of the port. The original single-player game is commit `2b675b5` and [BayatGames/RedRunner](https://github.com/BayatGames/RedRunner).
 
 | [:sparkles: Getting Started](#getting-started) | [:rocket: Download](#download) | [:camera: Screenshots](#screenshots) |
 | --------------- | -------- | ----------- |

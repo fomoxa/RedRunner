@@ -10,8 +10,8 @@
     <AssemblyName>RedRunner.Server</AssemblyName>
     <RootNamespace>RedRunner.Server</RootNamespace>
     <Game>..</Game>
-    <Core>$(Game)/../unity/com.fomoxa.networking</Core>
-    <Rapier>$(Game)/../networking-rapier/com.fomoxa.networking.rapier</Rapier>
+    <Core Condition="'$(Core)' == ''">$(Game)/../com.fomoxa.networking</Core>
+    <Rapier Condition="'$(Rapier)' == ''">$(Game)/../networking-rapier/com.fomoxa.networking.rapier</Rapier>
   </PropertyGroup>
 
   <ItemGroup>
