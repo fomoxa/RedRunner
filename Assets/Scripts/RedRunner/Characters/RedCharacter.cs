@@ -345,7 +345,12 @@ namespace RedRunner.Characters
 		void LateUpdate ()
 		{
 			Vector2 velocity = m_Rigidbody2D.linearVelocity;
-			if ( m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic && Time.deltaTime > 0f )
+			Fomoxa.Networking.Simulation.PhysicsBody2D body = BodySource != null ? BodySource () : default;
+			if ( body.IsValid )
+			{
+				velocity = new Vector2 ( body.Velocity.X, body.Velocity.Y );
+			}
+			else if ( m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic && Time.deltaTime > 0f )
 			{
 				Vector2 moved = transform.position - m_LastPosition;
 				velocity = moved.magnitude > m_TeleportDistance ? Vector2.zero : Vector2.ClampMagnitude ( moved / Time.deltaTime, m_MaxRunSpeed + m_JumpStrength );
