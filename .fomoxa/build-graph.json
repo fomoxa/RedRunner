@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "schema_fingerprint": "sha256:ee8a65496cb0a482515079a5c2e9ecfb985cea0f6ea6606a186a45b3ce2b6469",
+  "schema_fingerprint": "sha256:982d386e8f5589f161dc1969e7cc1cfa606267601d776bea492b1c5fdd909861",
   "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
   "sources": {
     "Assets/Scripts/RedRunner/Networking/Models/LevelCatalogue.cs": {
@@ -109,6 +109,34 @@
           "codec": "net",
           "fingerprint": "sha256:946dea7480b40eb311c883b63d50dfe5b44739433bfe17780a05bbf5102edc27",
           "sha256": "8f7684f64322dfbd0678be7b89d1ff76405740c6912a5baacd9ba3efecce1c43"
+        }
+      ]
+    },
+    "FomoxaSystemModels/FragmentPart.cs": {
+      "models": [
+        "FragmentPart"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/FragmentPartNetCodec.cs",
+          "model": "FragmentPart",
+          "codec": "net",
+          "fingerprint": "sha256:b56c76e7e9461508d9857285adcdaafeb1368f34e9797e0436e4703c9f462b61",
+          "sha256": "494317b6187291fa73577a582ffb8eef168ef242af9cafd92d16326df95d1346"
+        }
+      ]
+    },
+    "FomoxaSystemModels/FragmentStart.cs": {
+      "models": [
+        "FragmentStart"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/FragmentStartNetCodec.cs",
+          "model": "FragmentStart",
+          "codec": "net",
+          "fingerprint": "sha256:f3f3d65e5a07559896ff6837f6ad6f4319005e610a09edbb9340f8f8d50732b6",
+          "sha256": "704c2dc1be0d898cdeaeaac1df90cd63c76c5300e791a37ad1f84c4766199fc1"
         }
       ]
     },
@@ -466,12 +494,12 @@
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/Handshake.cs",
       "kind": "handshake",
-      "sha256": "8f492db2a398bc68d739dc6fa1fd7fb3d0a48ea57c67d746c80b4c91fa7a321e"
+      "sha256": "63ee88474c15addf63b8d51b0ef0e6f1a59f74a4ae65b10c443f8f71591a33a4"
     },
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/NetSchema.cs",
       "kind": "net_schema",
-      "sha256": "3c0c865a255c7802005e558a9b0afae0aed0a1a95b568204d038be4c4f49885e"
+      "sha256": "0fa15041068477c1a4fa5e0e1076378f6a03190c1639defe9507027ebbf0c25a"
     }
   ]
 }

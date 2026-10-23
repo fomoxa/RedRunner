@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "fingerprint": "sha256:ee8a65496cb0a482515079a5c2e9ecfb985cea0f6ea6606a186a45b3ce2b6469",
-  "fingerprint_u64": "0xEE8A65496CB0A482",
+  "fingerprint": "sha256:982d386e8f5589f161dc1969e7cc1cfa606267601d776bea492b1c5fdd909861",
+  "fingerprint_u64": "0x982D386E8F5589F1",
   "models": {
     "AnimatorState": {
       "source": "FomoxaSystemModels/AnimatorState.cs",
@@ -551,6 +551,102 @@
             {
               "name": "MaxRepeatedTicks",
               "type": "u32"
+            }
+          ]
+        }
+      }
+    },
+    "FragmentPart": {
+      "source": "FomoxaSystemModels/FragmentPart.cs",
+      "fingerprint": "sha256:d62ffd6f48e44a00a7d8ccc11e3cc319b2ef9e6dac097637cfe6c71cb5b503ca",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "Data",
+          "type": "bytes",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0xA81E5B83",
+          "fingerprint": "sha256:b56c76e7e9461508d9857285adcdaafeb1368f34e9797e0436e4703c9f462b61",
+          "fingerprint_u64": "0xB56C76E7E9461508",
+          "prefixes": [
+            "sha256:b56c76e7e9461508d9857285adcdaafeb1368f34e9797e0436e4703c9f462b61"
+          ],
+          "prefixes_u64": [
+            "0xB56C76E7E9461508"
+          ],
+          "fields": [
+            {
+              "name": "Data",
+              "type": "bytes"
+            }
+          ]
+        }
+      }
+    },
+    "FragmentStart": {
+      "source": "FomoxaSystemModels/FragmentStart.cs",
+      "fingerprint": "sha256:85067cee10899e471abc264943a47bea689cff5c0a869dfd7bbd4d4e7861e2b8",
+      "codecs": [
+        "net"
+      ],
+      "fields": [
+        {
+          "name": "MessageId",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Length",
+          "type": "u32",
+          "codecs": [
+            "net"
+          ]
+        },
+        {
+          "name": "Data",
+          "type": "bytes",
+          "codecs": [
+            "net"
+          ]
+        }
+      ],
+      "messages": {
+        "net": {
+          "id": "0x0D00CAB1",
+          "fingerprint": "sha256:f3f3d65e5a07559896ff6837f6ad6f4319005e610a09edbb9340f8f8d50732b6",
+          "fingerprint_u64": "0xF3F3D65E5A075598",
+          "prefixes": [
+            "sha256:ffeb1d524e9ae0788c475d7b5fa92428d531ee76d6eaf7d733849d49d952fa3a",
+            "sha256:f6f88c41e1535c6bb9c1e5ba69e2dd9caf8a20087567bf453413466904daede3",
+            "sha256:f3f3d65e5a07559896ff6837f6ad6f4319005e610a09edbb9340f8f8d50732b6"
+          ],
+          "prefixes_u64": [
+            "0xFFEB1D524E9AE078",
+            "0xF6F88C41E1535C6B",
+            "0xF3F3D65E5A075598"
+          ],
+          "fields": [
+            {
+              "name": "MessageId",
+              "type": "u32"
+            },
+            {
+              "name": "Length",
+              "type": "u32"
+            },
+            {
+              "name": "Data",
+              "type": "bytes"
             }
           ]
         }

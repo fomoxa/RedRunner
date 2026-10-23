@@ -25,8 +25,12 @@ namespace Generated
             registry.SetCodec(InputFramesNetAdapter.Instance);
             registry.SetCodec(ReconcileStateNetAdapter.Instance);
             registry.SetCodec(PeerLeaveNetAdapter.Instance);
+            registry.SetCodec(FragmentStartNetAdapter.Instance);
+            registry.SetCodec(FragmentPartNetAdapter.Instance);
             registry.SetCodec(SceneFileNetAdapter.Instance);
             registry.Channels.Set(AnimatorStateNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(FragmentPartNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
+            registry.Channels.Set(FragmentStartNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
             registry.Channels.Set(LocalPeerNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
             registry.Channels.Set(ObjectDespawnNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
             registry.Channels.Set(ObjectOwnerChangeNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
