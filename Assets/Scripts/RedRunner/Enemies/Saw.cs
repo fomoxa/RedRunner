@@ -63,6 +63,7 @@ namespace RedRunner.Enemies
 				if (m_AudioSource.clip != m_SawingSound) {
 					m_AudioSource.clip = m_SawingSound;
 				} else if (!m_AudioSource.isPlaying) {
+					m_AudioSource.volume = AudioManager.Singleton.VolumeAt (transform.position);
 					m_AudioSource.Play ();
 				}
 			}
@@ -74,6 +75,7 @@ namespace RedRunner.Enemies
 				if (m_AudioSource.clip != m_DefaultSound) {
 					m_AudioSource.clip = m_DefaultSound;
 				}
+				m_AudioSource.volume = AudioManager.Singleton.VolumeAt (transform.position);
 				m_AudioSource.Play ();
 			}
 		}

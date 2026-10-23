@@ -63,6 +63,11 @@ namespace RedRunner
 		[SerializeField]
 		protected AudioClip m_ButtonClickSound;
 
+		[Header ("Hearing")]
+		[Space]
+		[SerializeField]
+		protected float m_HearingDistance = 15f;
+
 		#endregion
 
 		#region MonoBehaviour Messages
@@ -94,54 +99,72 @@ namespace RedRunner
 			audio.Play ();
 		}
 
+		public void PlaySoundOn (AudioSource audio, AudioClip clip, Vector3 position)
+		{
+			float volume = VolumeAt (position);
+			if (volume > 0f && clip != null) {
+				audio.PlayOneShot (clip, volume);
+			}
+		}
+
+		public float VolumeAt (Vector3 position)
+		{
+			Camera listener = Camera.main;
+			if (listener == null || m_HearingDistance <= 0f) {
+				return 1f;
+			}
+			Vector2 offset = position - listener.transform.position;
+			return Mathf.Clamp01 (1f - offset.magnitude / m_HearingDistance);
+		}
+
 		public void PlayChestSound (Vector3 position)
 		{
-			PlaySoundOn (m_CoinAudioSource, m_ChestSound);
+			PlaySoundOn (m_CoinAudioSource, m_ChestSound, position);
 		}
 
 		public void PlayCoinSound (Vector3 position)
 		{
-			PlaySoundOn (m_CoinAudioSource, m_CoinSound);
+			PlaySoundOn (m_CoinAudioSource, m_CoinSound, position);
 		}
 
 		public void PlayWaterSplashSound (Vector3 position)
 		{
-			PlaySoundOn (m_DieAudioSource, m_WaterSplashSound);
+			PlaySoundOn (m_DieAudioSource, m_WaterSplashSound, position);
 		}
 
 		public void PlayMaceSlamSound (Vector3 position)
 		{
-			PlaySoundOn (m_MaceSlamAudioSource, m_MaceSlamSound);
+			PlaySoundOn (m_MaceSlamAudioSource, m_MaceSlamSound, position);
 		}
 
 		public void PlaySpikeSound (Vector3 position)
 		{
-			PlaySoundOn (m_DieAudioSource, m_SpikeSound);
+			PlaySoundOn (m_DieAudioSource, m_SpikeSound, position);
 		}
 
 		public void PlayGroundedSound (AudioSource audio)
 		{
 			if (m_GroundedSounds.Length > 0) {
-				PlaySoundOn (audio, GetRandomClip (m_GroundedSounds));
+				PlaySoundOn (audio, GetRandomClip (m_GroundedSounds), audio.transform.position);
 			}
 		}
 
 		public void PlayJumpSound (AudioSource audio)
 		{
-			PlaySoundOn (audio, m_JumpSound);
+			PlaySoundOn (audio, m_JumpSound, audio.transform.position);
 		}
 
 		public void PlayFootstepSound (AudioSource audio)
 		{
 			if (m_FootstepSounds.Length > 0) {
-				PlaySoundOn (audio, GetRandomClip (m_FootstepSounds));
+				PlaySoundOn (audio, GetRandomClip (m_FootstepSounds), audio.transform.position);
 			}
 		}
 
 		public void PlayFootstepSound (AudioSource audio, ref int index)
 		{
 			if (m_FootstepSounds.Length > 0) {
-				PlaySoundOn (audio, m_FootstepSounds [index]);
+				PlaySoundOn (audio, m_FootstepSounds [index], audio.transform.position);
 				if (index < m_FootstepSounds.Length - 1) {
 					index++;
 				} else {
