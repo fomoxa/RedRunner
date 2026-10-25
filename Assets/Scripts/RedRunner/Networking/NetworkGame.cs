@@ -29,7 +29,7 @@ namespace RedRunner.Networking
 
         public event Action<NetworkPlayer> LocalPlayerChanged;
 
-        public event Action<ConnectionState> ClientStateChanged;
+        public event Action<ConnectionStateArgs> ClientStateChanged;
 
         public NetworkManager Manager => m_Manager;
 
@@ -133,7 +133,7 @@ namespace RedRunner.Networking
 
         private void OnClientConnectionState(ConnectionStateArgs args)
         {
-            ClientStateChanged?.Invoke(args.State);
+            ClientStateChanged?.Invoke(args);
         }
 
         private ushort ReadPort(string[] arguments)

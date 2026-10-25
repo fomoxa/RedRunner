@@ -47,9 +47,9 @@ namespace RedRunner.UI
             Network.ClientStateChanged -= Network_ClientStateChanged;
         }
 
-        private void Network_ClientStateChanged(ConnectionState state)
+        private void Network_ClientStateChanged(ConnectionStateArgs args)
         {
-            if (state == ConnectionState.Stopped && GameManager.Singleton.gameStarted)
+            if (args.State == ConnectionState.Stopped && !args.WillRetry && GameManager.Singleton.gameStarted)
             {
                 GameManager.Singleton.EndGame();
                 UIManager.Singleton.OpenScreen(this);
