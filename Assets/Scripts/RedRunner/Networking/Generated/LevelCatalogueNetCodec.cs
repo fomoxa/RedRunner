@@ -3,9 +3,9 @@
 // source: Assets/Scripts/RedRunner/Networking/Models/LevelCatalogue.cs
 // model: LevelCatalogue
 // codec: net
-// fingerprint: sha256:548b652552375780adf088c8c4e1d2c352bd329559a26b91b813b1b0338cfb85
+// fingerprint: sha256:767e9a6b7ca96eba11f3d34108cdfa90acf5a70ee33149eaca9b2383e1a203b9
 // fomoxac-version: 0.2.2
-// generated-at: 2026-10-08T06:59:53Z
+// generated-at: 2026-11-09T15:25:12Z
 
 namespace Generated
 {
@@ -34,7 +34,7 @@ public static class LevelCatalogueNetCodec
 
     /// <summary>This message's wire-contract fingerprint - the same value
     /// <c>Handshake.cs</c> publishes, and the one a peer compares against.</summary>
-    public const ulong Fingerprint = 0x548B652552375780;
+    public const ulong Fingerprint = 0x767E9A6B7CA96EBA;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
     public static void Encode(Writer writer, RedRunner.Networking.Models.LevelCatalogue value)

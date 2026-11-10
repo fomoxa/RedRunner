@@ -47,6 +47,9 @@ namespace Generated
             registry.SetCodec(StringValueNetAdapter.Instance);
             registry.SetCodec(PeerTransferNetAdapter.Instance);
             registry.SetCodec(TransferTicketNetAdapter.Instance);
+            registry.SetCodec(ConnectTokenNetAdapter.Instance);
+            registry.SetCodec(ConnectTokenSecretNetAdapter.Instance);
+            registry.SetCodec(ConnectionGrantNetAdapter.Instance);
             registry.Channels.Set(AnimatorStateNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
             registry.Channels.Set(CollectionChangesNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);
             registry.Channels.Set(CollectionContentNetCodec.MessageId, global::Fomoxa.Networking.Channel.ReliableOrdered);

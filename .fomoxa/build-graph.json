@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.2",
-  "schema_fingerprint": "sha256:3b34e220dcd0e6508229d0c3a2535e5c8e7b5b412c4f6b5a4f88bc9c8533642b",
+  "schema_fingerprint": "sha256:4f6f422073814fd26ecb116b5fcebf58532ca310de2055f417ee9a0a8556b083",
   "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
   "sources": {
     "Assets/Scripts/RedRunner/Networking/Models/LevelCatalogue.cs": {
@@ -16,29 +16,29 @@
           "path": "Assets/Scripts/RedRunner/Networking/Generated/CatalogueBlockNetCodec.cs",
           "model": "CatalogueBlock",
           "codec": "net",
-          "fingerprint": "sha256:374e500fa782cb9c3c24147f26ebcb55657502ec6dd1846371a603a5ca9b44fd",
-          "sha256": "2db3fffa3432231489b421bb7a4f38683c6cd198ed267713346e46ab74337e2b"
+          "fingerprint": "sha256:7cc3349e49a96ef328e709117d6c9efe5c02ea9b2e42024f3cad5a4af65ebf86",
+          "sha256": "63e769fea2014f8c1ece72cf11585f8b65aa9f25805022cfcebf4547a9fb927b"
         },
         {
           "path": "Assets/Scripts/RedRunner/Networking/Generated/CatalogueBodyNetCodec.cs",
           "model": "CatalogueBody",
           "codec": "net",
-          "fingerprint": "sha256:990d914b938092c5df049d3ade2a9c7a887b63026d6ba59fb047644253bacb37",
-          "sha256": "1cdd59edf2f2ee86aef5bdf912295ed4164864b918b97725010a2bdc1b8d2984"
+          "fingerprint": "sha256:b2dae741cb37241b350497194054a8daae3d6deef58ec0fe237b92c613d17932",
+          "sha256": "ab434e7523474bf62841fb530dbfc0a4b35dbaa94b3204e729d9cfdbb061cae0"
         },
         {
           "path": "Assets/Scripts/RedRunner/Networking/Generated/CataloguePlayerNetCodec.cs",
           "model": "CataloguePlayer",
           "codec": "net",
-          "fingerprint": "sha256:ba08d74a26cf544d330843f21f33a8cf0993b4a36cb917323307907415d0ae7b",
-          "sha256": "80efc9cd308c1193f60870c8b8f90768fc07dc5cf5c5d5fc8929646379264088"
+          "fingerprint": "sha256:eca41f9bc4e5af4b6d8a4cca65d2367bb924c68534a40fbcdb74fc1ea27a189e",
+          "sha256": "b98aec12f3658aa8e20bde659aa6da65b4c42d601e08f0a208061baf1160f34c"
         },
         {
           "path": "Assets/Scripts/RedRunner/Networking/Generated/LevelCatalogueNetCodec.cs",
           "model": "LevelCatalogue",
           "codec": "net",
-          "fingerprint": "sha256:548b652552375780adf088c8c4e1d2c352bd329559a26b91b813b1b0338cfb85",
-          "sha256": "847c4b42b6e70ba6f89582536c711c07bc6a85543c519af7e628419e27d0a909"
+          "fingerprint": "sha256:767e9a6b7ca96eba11f3d34108cdfa90acf5a70ee33149eaca9b2383e1a203b9",
+          "sha256": "02f503c6420056637bc611e4bc5ae36bae076da3ed1112da1f56e89d284ed245"
         }
       ]
     },
@@ -264,6 +264,48 @@
         }
       ]
     },
+    "FomoxaSystemModels/ConnectToken.cs": {
+      "models": [
+        "ConnectToken"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/ConnectTokenNetCodec.cs",
+          "model": "ConnectToken",
+          "codec": "net",
+          "fingerprint": "sha256:6f09034f66b2d8cc38188f647d5a5b8a626644b0093e835b4bd9fae5a992c1f9",
+          "sha256": "1bbdf885eccf575e0834fc08153dbbeb722ba5affe9b07d5526eb3523a7a173b"
+        }
+      ]
+    },
+    "FomoxaSystemModels/ConnectTokenSecret.cs": {
+      "models": [
+        "ConnectTokenSecret"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/ConnectTokenSecretNetCodec.cs",
+          "model": "ConnectTokenSecret",
+          "codec": "net",
+          "fingerprint": "sha256:0c607b2e36c3881160b6c9a605b58b1ce927942706863fc88f5fdcc3cf6fb0ec",
+          "sha256": "6d2a4f74b1a3ed39c1592bdd4579220b7de0004187470b45d7b7a98dca1f0326"
+        }
+      ]
+    },
+    "FomoxaSystemModels/ConnectionGrant.cs": {
+      "models": [
+        "ConnectionGrant"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/ConnectionGrantNetCodec.cs",
+          "model": "ConnectionGrant",
+          "codec": "net",
+          "fingerprint": "sha256:04bcd6e8c0c4cdb2ba61b71da51ab2804f5d979073c6bed54c8cbd136029297f",
+          "sha256": "eb7b1bb318c7d9ca1ef36e0def264f71a79f0421618842e5f6d0912bda7b54e7"
+        }
+      ]
+    },
     "FomoxaSystemModels/FragmentPart.cs": {
       "models": [
         "FragmentPart"
@@ -421,8 +463,8 @@
           "path": "Assets/Scripts/RedRunner/Networking/Generated/PeerTransferNetCodec.cs",
           "model": "PeerTransfer",
           "codec": "net",
-          "fingerprint": "sha256:7ec90e78362176cfd030695ffba7687839d50f9eaba8f90fdbeeb0477cc5cb63",
-          "sha256": "18f34df6018752788f64d547565254b39619c0673f8e1c126d2c066041ebadf5"
+          "fingerprint": "sha256:389f08ce5ffd51b9fdaac4e519f14a40ec775c375482efeebb7b8b8fafe9bc3d",
+          "sha256": "386431f41a1bd18cd47e72e7fe77d469308979e5f75c3e39568c63cf66903b33"
         }
       ]
     },
@@ -459,8 +501,11 @@
         "SceneFile",
         "SceneFileBody",
         "SceneFileBody2D",
+        "SceneFileChildBody",
+        "SceneFileChildBody2D",
         "SceneFileCollider",
         "SceneFileCollider2D",
+        "SceneFileEffector2D",
         "SceneFileMaterial",
         "SceneFileObject",
         "SceneFilePose"
@@ -470,22 +515,36 @@
           "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileNetCodec.cs",
           "model": "SceneFile",
           "codec": "net",
-          "fingerprint": "sha256:294725bdf6a3064559d54047ed9f5ec2d1ae2ed89ad1a5316259484026600e7d",
-          "sha256": "f8509e68a0773bdf52b1b8d5a20f75800eb0f73d28acf91c769145d09512c1ac"
+          "fingerprint": "sha256:8deb75043bc97ec277e3521d073aa5c90be1cfd4754e17b3d78e79e3616fb671",
+          "sha256": "36fac454de8e54125b39b71cd21041e1045dca7d986bff21868ac8538cdd22f9"
         },
         {
           "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileBodyNetCodec.cs",
           "model": "SceneFileBody",
           "codec": "net",
-          "fingerprint": "sha256:eb56fb3e68044912e842d329753062fa8cda610dcdb5f02f16ef8dbfdab81023",
-          "sha256": "a3d20f3a46d3dff64fa8f4cbbd84cf5654dcfce17034942b6d1331f4edfeee72"
+          "fingerprint": "sha256:0cbd5189c9f84622e8d64e780c82067754d97599d2427d6cf8c51eb95360dda1",
+          "sha256": "2f6fca0d5c2db1504d86dc9cb9404dfce7b682bb030849b1baa2f6feba8b70be"
         },
         {
           "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileBody2DNetCodec.cs",
           "model": "SceneFileBody2D",
           "codec": "net",
-          "fingerprint": "sha256:eb00129256754e56c8e74b71e3b5e68a485cd961f7337e131b313efd8da8e15a",
-          "sha256": "a87bafd20e5be8f6473ddecb6e90628fa2da6009020da1a6adda9d46e731092e"
+          "fingerprint": "sha256:417651cb5ee051084858c8107598594368c72af1fadee5f2b7ee7d997a6f4ef9",
+          "sha256": "a60d5c5bf6f2ea4d74070ef490e2470675b28f2255d19bf2717da3ecf6824b59"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileChildBodyNetCodec.cs",
+          "model": "SceneFileChildBody",
+          "codec": "net",
+          "fingerprint": "sha256:85f8f108a1a50d11eddb20783bef4e7e40de7e3455de3a673b309eaf33343888",
+          "sha256": "a082c671c8ac9ce80d4c0329f2e4f38ef2a82089524093bb2f560c03d17dc749"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileChildBody2DNetCodec.cs",
+          "model": "SceneFileChildBody2D",
+          "codec": "net",
+          "fingerprint": "sha256:9ec638646981c745c6e9423e799c0caa55a9d7733a9987daeb5465834b4ba37f",
+          "sha256": "c06812c82528c7d990678f2769bec9ca2234c99be1f2e6698f394f03ca9a120b"
         },
         {
           "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileColliderNetCodec.cs",
@@ -498,8 +557,15 @@
           "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileCollider2DNetCodec.cs",
           "model": "SceneFileCollider2D",
           "codec": "net",
-          "fingerprint": "sha256:95e8d55e703fd8b46363c7719ac85efdfca870ccafe8276ef1072962327d28ec",
-          "sha256": "145f6b2b894aa873ad5f2657059706dfb529fcffc71ff36faf9047fd4fe9e1cb"
+          "fingerprint": "sha256:516e36597924113719c0134fa569c54a07ed5a67a49c79a777ae4af473025648",
+          "sha256": "baf974632ecddef7b5a7194ccb1652a7ea2459e234766b0d38bc9bbca375d563"
+        },
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileEffector2DNetCodec.cs",
+          "model": "SceneFileEffector2D",
+          "codec": "net",
+          "fingerprint": "sha256:8e65ef010387a36758c24fc6251fc858b8ab399d1ea7c7cd359e72511f67da12",
+          "sha256": "07c0cc745bb2384940326dea5ef3034f9a3eaf45d0785cde2722d961d061fe62"
         },
         {
           "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileMaterialNetCodec.cs",
@@ -512,8 +578,8 @@
           "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFileObjectNetCodec.cs",
           "model": "SceneFileObject",
           "codec": "net",
-          "fingerprint": "sha256:e85ab6aa6bb6414b5b97089efacceb8013f7ca5db5f2075efb6694c32642aca1",
-          "sha256": "6f7e040ed4386436b7d30c9f7e68234dd6c3daa87654ec12912b4ca0a4df3b7a"
+          "fingerprint": "sha256:8bd7a5e83890af02b1bf1cc0498b1b5c7a1c37de413a6cbe8f136bfeab8e4457",
+          "sha256": "03ce1c420fa5b44c86db01fc9e30cfadf2687db9944284550e40b96738639a5a"
         },
         {
           "path": "Assets/Scripts/RedRunner/Networking/Generated/SceneFilePoseNetCodec.cs",
@@ -688,12 +754,12 @@
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/Handshake.cs",
       "kind": "handshake",
-      "sha256": "f531bd82da0ea78069e8af093fc7a1652ae596e7b0aa778453a6a1c4010718e2"
+      "sha256": "969e6156ca766b509a95599f41c4a98a7e1ced11da9c2dd4c06cb16854d748be"
     },
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/NetSchema.cs",
       "kind": "net_schema",
-      "sha256": "f86bd5f1f28e6a93acf623f9deb80e61528d10aa0383667711fc3b5c88336df9"
+      "sha256": "97fae00f1f2c950ba4642b60ccb6137294dabb04e7b08be96afa40e9835039c4"
     }
   ]
 }

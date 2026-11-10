@@ -38,6 +38,10 @@
     <Reference Include="Fomoxa.Net">
       <HintPath>$(Core)/Runtime/Plugins/Fomoxa.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Fomoxa.Net.WebSockets">
+      <HintPath>$(Core)/Runtime/Plugins/Fomoxa.Net.WebSockets.dll</HintPath>
+    </Reference>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
   </ItemGroup>
 
 </Project>

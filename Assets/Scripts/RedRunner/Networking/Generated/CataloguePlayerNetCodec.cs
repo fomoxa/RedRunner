@@ -3,9 +3,9 @@
 // source: Assets/Scripts/RedRunner/Networking/Models/LevelCatalogue.cs
 // model: CataloguePlayer
 // codec: net
-// fingerprint: sha256:ba08d74a26cf544d330843f21f33a8cf0993b4a36cb917323307907415d0ae7b
+// fingerprint: sha256:eca41f9bc4e5af4b6d8a4cca65d2367bb924c68534a40fbcdb74fc1ea27a189e
 // fomoxac-version: 0.2.2
-// generated-at: 2026-10-08T06:59:53Z
+// generated-at: 2026-11-09T15:25:12Z
 
 namespace Generated
 {
@@ -38,7 +38,7 @@ public static class CataloguePlayerNetCodec
 
     /// <summary>This message's wire-contract fingerprint - the same value
     /// <c>Handshake.cs</c> publishes, and the one a peer compares against.</summary>
-    public const ulong Fingerprint = 0xBA08D74A26CF544D;
+    public const ulong Fingerprint = 0xECA41F9BC4E5AF4B;
 
     /// <summary>Writes the <c>net</c> fields of <paramref name="value"/>, in declaration order.</summary>
     public static void Encode(Writer writer, RedRunner.Networking.Models.CataloguePlayer value)
