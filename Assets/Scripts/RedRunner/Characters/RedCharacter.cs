@@ -346,7 +346,7 @@ namespace RedRunner.Characters
 		{
 			Vector2 velocity = m_Rigidbody2D.linearVelocity;
 			Fomoxa.Networking.Simulation.PhysicsBody2D body = BodySource != null ? BodySource () : default;
-			if ( body.IsValid )
+			if ( body.IsValid && !body.IsKinematic )
 			{
 				velocity = new Vector2 ( body.Velocity.X, body.Velocity.Y );
 			}
