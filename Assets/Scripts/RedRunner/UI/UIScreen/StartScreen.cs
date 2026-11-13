@@ -30,7 +30,11 @@ namespace RedRunner.UI
                 var InGameScreen = uiManager.UISCREENS.Find(el => el.ScreenInfo == UIScreenInfo.IN_GAME_SCREEN);
                 if (InGameScreen != null)
                 {
-                    Network.Join(AddressField.text);
+                    if (!Network.IsClientRunning)
+                    {
+                        Network.Join(AddressField.text);
+                    }
+
                     uiManager.OpenScreen(InGameScreen);
                     GameManager.Singleton.StartGame();
                 }

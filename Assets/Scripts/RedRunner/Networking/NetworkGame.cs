@@ -39,6 +39,8 @@ namespace RedRunner.Networking
 
         public bool IsServer => m_Manager.ServerManager.State == ServerState.Started;
 
+        public bool IsClientRunning => m_Manager.ClientManager.State != ConnectionState.Stopped;
+
         private void Start()
         {
             m_Manager.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;

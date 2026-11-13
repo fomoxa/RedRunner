@@ -14,6 +14,8 @@ namespace RedRunner.PortChecks
 
         public static void Host() => Enter<HostCheck>();
 
+        public static void HostPlay() => Enter<HostPlayCheck>();
+
         public static void Move() => Enter<MoveCheck>();
 
         public static void HostLife() => Enter<HostLifeCheck>();
