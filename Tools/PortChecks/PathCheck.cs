@@ -40,7 +40,15 @@ namespace RedRunner.PortChecks
             using (var stream = new FileStream("server.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var reader = new StreamReader(stream))
             {
-                foreach (Match line in Regex.Matches(reader.ReadToEnd(), @"PORT-PATH (\d+) (-?[\d.]+) (-?[\d.]+)"))
+                string log = reader.ReadToEnd();
+                Match chosen = Regex.Match(log, @"PORT-PATH-FOLLOWER ([^\r\n]+)");
+                if (chosen.Success && chosen.Groups[1].Value != PathLog.Describe(m_Follower))
+                {
+                    Finish(false, $"the server logs {chosen.Groups[1].Value}, the client follows {PathLog.Describe(m_Follower)}");
+                    yield break;
+                }
+
+                foreach (Match line in Regex.Matches(log, @"PORT-PATH (\d+) (-?[\d.]+) (-?[\d.]+)"))
                 {
                     server[uint.Parse(line.Groups[1].Value)] = new Vector2(float.Parse(line.Groups[2].Value, CultureInfo.InvariantCulture), float.Parse(line.Groups[3].Value, CultureInfo.InvariantCulture));
                 }
