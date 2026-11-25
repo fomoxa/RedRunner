@@ -4,6 +4,62 @@
   "schema_fingerprint": "sha256:4f6f422073814fd26ecb116b5fcebf58532ca310de2055f417ee9a0a8556b083",
   "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
   "sources": {
+    "Assets/Scripts/RedRunner/Networking/Generated/StateModels/LevelState.cs": {
+      "models": [
+        "LevelState"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/LevelStateNetCodec.cs",
+          "model": "LevelState",
+          "codec": "net",
+          "fingerprint": "sha256:e5bf31398fd224e97328ec2d21d97316db0f0a03bce2cf9d1ef767481e1319e0",
+          "sha256": "ea357035316eaa08b3e00c65bcb7ab1f064c75dfe6e7d042b7d506d4247ad46e"
+        }
+      ]
+    },
+    "Assets/Scripts/RedRunner/Networking/Generated/StateModels/PlayerInput.cs": {
+      "models": [
+        "PlayerInput"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/PlayerInputNetCodec.cs",
+          "model": "PlayerInput",
+          "codec": "net",
+          "fingerprint": "sha256:51afd23f3e82970700c68a77ebbfcb4e0a02f7d639187d4df0479e049367a1d3",
+          "sha256": "8d95feb3646a7ae34203decb67b3a448251483eb90c75162c3d8b8ddb177b0ce"
+        }
+      ]
+    },
+    "Assets/Scripts/RedRunner/Networking/Generated/StateModels/PlayerMotion.cs": {
+      "models": [
+        "PlayerMotion"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/PlayerMotionNetCodec.cs",
+          "model": "PlayerMotion",
+          "codec": "net",
+          "fingerprint": "sha256:3d93acdaaa551f1c0db1c6cbe72165a41bb65d91dbec2dc4aaf3e31c1322e665",
+          "sha256": "b5806486c52cfe133b6e84f57878664529abee0fd2be5d38b010f3d8e8c28f46"
+        }
+      ]
+    },
+    "Assets/Scripts/RedRunner/Networking/Generated/StateModels/PlayerState.cs": {
+      "models": [
+        "PlayerState"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/PlayerStateNetCodec.cs",
+          "model": "PlayerState",
+          "codec": "net",
+          "fingerprint": "sha256:3a80b150290b08c5190b88dc3ab832231e89506186f08bc58362364584cf2cd2",
+          "sha256": "4a69412e54eed7a3317d75dbccced56178c0c30eb5877d47eac81fff4c706705"
+        }
+      ]
+    },
     "Assets/Scripts/RedRunner/Networking/Models/LevelCatalogue.cs": {
       "models": [
         "CatalogueBlock",
@@ -39,62 +95,6 @@
           "codec": "net",
           "fingerprint": "sha256:767e9a6b7ca96eba11f3d34108cdfa90acf5a70ee33149eaca9b2383e1a203b9",
           "sha256": "0d4a3edc9efeaa925a984423346f0a08910913afef3b8e0bf9fe879ae700944b"
-        }
-      ]
-    },
-    "Assets/Scripts/RedRunner/Networking/Models/LevelState.cs": {
-      "models": [
-        "LevelState"
-      ],
-      "outputs": [
-        {
-          "path": "Assets/Scripts/RedRunner/Networking/Generated/LevelStateNetCodec.cs",
-          "model": "LevelState",
-          "codec": "net",
-          "fingerprint": "sha256:e5bf31398fd224e97328ec2d21d97316db0f0a03bce2cf9d1ef767481e1319e0",
-          "sha256": "ad4188c511f5e4cc6ace14adb3b750c24c1a6ff99da05e1c8aa7d39b933c0b67"
-        }
-      ]
-    },
-    "Assets/Scripts/RedRunner/Networking/Models/PlayerInput.cs": {
-      "models": [
-        "PlayerInput"
-      ],
-      "outputs": [
-        {
-          "path": "Assets/Scripts/RedRunner/Networking/Generated/PlayerInputNetCodec.cs",
-          "model": "PlayerInput",
-          "codec": "net",
-          "fingerprint": "sha256:51afd23f3e82970700c68a77ebbfcb4e0a02f7d639187d4df0479e049367a1d3",
-          "sha256": "d78b471a5f52f51c2a1248cc2cffb752a4a2cd49e3883e352d8ddf67e3e454b9"
-        }
-      ]
-    },
-    "Assets/Scripts/RedRunner/Networking/Models/PlayerMotion.cs": {
-      "models": [
-        "PlayerMotion"
-      ],
-      "outputs": [
-        {
-          "path": "Assets/Scripts/RedRunner/Networking/Generated/PlayerMotionNetCodec.cs",
-          "model": "PlayerMotion",
-          "codec": "net",
-          "fingerprint": "sha256:3d93acdaaa551f1c0db1c6cbe72165a41bb65d91dbec2dc4aaf3e31c1322e665",
-          "sha256": "f7ab3c267b4793a28ee273f6656308e14ed3ae027981bd431b00097c078629cb"
-        }
-      ]
-    },
-    "Assets/Scripts/RedRunner/Networking/Models/PlayerState.cs": {
-      "models": [
-        "PlayerState"
-      ],
-      "outputs": [
-        {
-          "path": "Assets/Scripts/RedRunner/Networking/Generated/PlayerStateNetCodec.cs",
-          "model": "PlayerState",
-          "codec": "net",
-          "fingerprint": "sha256:3a80b150290b08c5190b88dc3ab832231e89506186f08bc58362364584cf2cd2",
-          "sha256": "a7ecf8f86a87a8cbbb23cc48537647f92ed857065b70e661595998383728d98d"
         }
       ]
     },

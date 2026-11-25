@@ -1,7 +1,7 @@
 using System;
 using Fomoxa.Networking;
+using FomoxaStateModels;
 using Generated;
-using RedRunner.Networking.Models;
 
 namespace RedRunner.Server
 {

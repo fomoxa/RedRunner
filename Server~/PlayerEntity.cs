@@ -7,6 +7,7 @@ using Fomoxa.Networking.Objects;
 using Fomoxa.Networking.Rapier;
 using Fomoxa.Networking.Simulation;
 using Fomoxa.Networking.Standalone;
+using FomoxaStateModels;
 using Generated;
 using RedRunner.Networking.Models;
 using RedRunner.Simulation;

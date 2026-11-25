@@ -2,7 +2,7 @@
 namespace Generated
 {
     [global::Fomoxa.Networking.MessageAdapter("net")]
-    public sealed class PlayerInputNetAdapter : global::Fomoxa.Networking.Messaging.IMessageCodec<global::RedRunner.Networking.Models.PlayerInput>
+    public sealed class PlayerInputNetAdapter : global::Fomoxa.Networking.Messaging.IMessageCodec<global::FomoxaStateModels.PlayerInput>
     {
         public static readonly PlayerInputNetAdapter Instance = new PlayerInputNetAdapter();
 
@@ -10,14 +10,14 @@ namespace Generated
 
         public uint MessageId => PlayerInputNetCodec.MessageId;
 
-        public global::System.ReadOnlyMemory<byte> Encode(global::RedRunner.Networking.Models.PlayerInput value)
+        public global::System.ReadOnlyMemory<byte> Encode(global::FomoxaStateModels.PlayerInput value)
         {
             writer.Clear();
             PlayerInputNetCodec.Encode(writer, value);
             return writer.WrittenMemory;
         }
 
-        public void Decode(global::System.ReadOnlyMemory<byte> payload, ref global::RedRunner.Networking.Models.PlayerInput value)
+        public void Decode(global::System.ReadOnlyMemory<byte> payload, ref global::FomoxaStateModels.PlayerInput value)
         {
             var reader = new Reader(payload);
             try

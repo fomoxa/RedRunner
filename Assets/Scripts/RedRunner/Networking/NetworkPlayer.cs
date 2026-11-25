@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Fomoxa.Networking;
 using Fomoxa.Networking.Rapier;
 using Fomoxa.Networking.Simulation;
 using Fomoxa.Unity;
 using Fomoxa.Unity.Rapier;
-using Generated;
 using RedRunner.Characters;
-using RedRunner.Networking.Models;
 using RedRunner.Simulation;
 using RedRunner.TerrainGeneration;
 using RedRunner.Utilities;
@@ -17,7 +14,10 @@ using UnityStandardAssets.CrossPlatformInput;
 namespace RedRunner.Networking
 {
     [RequireComponent(typeof(RedCharacter))]
-    public sealed class NetworkPlayer : NetworkBehaviour
+    [NetworkStateModel("PlayerState")]
+    [NetworkInputModel("PlayerInput")]
+    [NetworkReconcileModel("PlayerMotion")]
+    public sealed partial class NetworkPlayer : NetworkBehaviour
     {
         private const float PositionTolerance = 0.01f;
         private const float VelocityTolerance = 0.05f;
@@ -28,7 +28,36 @@ namespace RedRunner.Networking
         [SerializeField]
         private int m_MaxRepeatedTicks = 10;
 
-        private readonly PlayerState m_State = new PlayerState();
+        [NetworkState(OnChanged = nameof(OnDeathChanged))]
+        private bool dead;
+
+        [NetworkState(OnChanged = nameof(OnCauseChanged))]
+        private byte cause;
+
+        [NetworkInput]
+        private float move;
+
+        [NetworkInput]
+        private bool jump;
+
+        [NetworkInput]
+        private bool roll;
+
+        [NetworkReconcile(Tolerance = PositionTolerance)]
+        private float x;
+
+        [NetworkReconcile(Tolerance = PositionTolerance)]
+        private float y;
+
+        [NetworkReconcile(Tolerance = VelocityTolerance)]
+        private float velocityX;
+
+        [NetworkReconcile(Tolerance = VelocityTolerance)]
+        private float velocityY;
+
+        [NetworkReconcile(Tolerance = VelocityTolerance)]
+        private float runSmoothVelocity;
+
         private RedCharacter m_Character;
         private NetworkTransform m_NetworkTransform;
         private NetworkGame m_Game;
@@ -49,7 +78,7 @@ namespace RedRunner.Networking
 
         public int MaxRepeatedTicks => m_MaxRepeatedTicks;
 
-        public bool IsDead => m_State.Dead;
+        public bool IsDead => dead;
 
         private void Awake()
         {
@@ -159,17 +188,6 @@ namespace RedRunner.Networking
             return NetworkObject.Body2D.Position.Y + capsule.offset.y - capsule.size.y * 0.5f;
         }
 
-        protected override void OnRegisterInput(NetworkInput input)
-        {
-            input.Use(PlayerInputNetAdapter.Instance, Gather, Apply);
-            input.Reconcile(PlayerMotionNetAdapter.Instance, Capture, Restore, Matches);
-        }
-
-        protected override void OnRegisterState(NetworkState state)
-        {
-            state.Use(PlayerStateNetAdapter.Instance, m_State, previous => ShowState());
-        }
-
         public override void OnStartServer()
         {
             m_Character.DecidesDeath = !m_OnRapier;
@@ -213,29 +231,29 @@ namespace RedRunner.Networking
             m_RollPressed |= CrossPlatformInputManager.GetButtonDown("Roll");
         }
 
-        private void Gather(PlayerInput input)
+        protected override void OnGatherInput()
         {
             bool playing = GameManager.Singleton.gameRunning;
-            input.Move = playing ? CrossPlatformInputManager.GetAxis("Horizontal") : 0f;
-            input.Jump = playing && m_JumpPressed;
-            input.Roll = playing && m_RollPressed;
+            move = playing ? CrossPlatformInputManager.GetAxis("Horizontal") : 0f;
+            jump = playing && m_JumpPressed;
+            roll = playing && m_RollPressed;
             m_JumpPressed = false;
             m_RollPressed = false;
         }
 
-        private void Apply(PlayerInput input, InputContext context)
+        protected override void OnApplyInput(InputContext context)
         {
             float tickDelta = (float)m_Game.Manager.TimeManager.TickDelta;
             bool fresh = !context.Repeated;
-            float move = context.RepeatedTicks > m_MaxRepeatedTicks ? 0f : input.Move;
-            m_Character.Simulate(move, fresh && input.Jump, fresh && input.Roll, tickDelta, !context.Replaying);
+            float axis = context.RepeatedTicks > m_MaxRepeatedTicks ? 0f : move;
+            m_Character.Simulate(axis, fresh && jump, fresh && roll, tickDelta, !context.Replaying);
             HoldWhileDead();
         }
 
         private void ServerTick()
         {
             TimeManager time = m_Game.Manager.TimeManager;
-            if (m_State.Dead)
+            if (dead)
             {
                 if (time.Tick >= m_RespawnTick)
                 {
@@ -259,8 +277,8 @@ namespace RedRunner.Networking
 
             if (m_Character.IsDead.Value)
             {
-                m_State.Dead = true;
-                m_State.Cause = (byte)m_Character.DeathCause;
+                dead = true;
+                cause = (byte)m_Character.DeathCause;
                 m_RespawnTick = time.Tick + (uint)Mathf.CeilToInt(m_RespawnDelay * time.TickRate);
                 Debug.Log($"[RedRunner] player {NetworkObject.OwnerId} died: {m_Character.DeathCause}");
             }
@@ -282,9 +300,13 @@ namespace RedRunner.Networking
             transform.position = new Vector3(m_Game.SpawnPoint.x, m_Game.SpawnPoint.y, transform.position.z);
             m_NetworkTransform.Teleport();
             m_Character.RunSmoothVelocity = 0f;
-            m_State.Dead = false;
-            m_State.Cause = 0;
+            dead = false;
+            cause = 0;
         }
+
+        private void OnDeathChanged(bool previous, bool current) => ShowState();
+
+        private void OnCauseChanged(byte previous, byte current) => ShowState();
 
         private void ShowState()
         {
@@ -293,41 +315,34 @@ namespace RedRunner.Networking
                 return;
             }
 
-            if (m_State.Dead && !m_Character.IsDead.Value)
+            if (dead && !m_Character.IsDead.Value)
             {
-                m_Character.Die((DeathCause)m_State.Cause);
+                m_Character.Die((DeathCause)cause);
             }
-            else if (!m_State.Dead && m_Character.IsDead.Value)
+            else if (!dead && m_Character.IsDead.Value)
             {
                 m_Character.Reset();
             }
         }
 
-        private void Capture(PlayerMotion motion)
+        protected override void OnCaptureState()
         {
             BodyState2D state = NetworkObject.Body2D.State;
-            motion.X = state.Position.X;
-            motion.Y = state.Position.Y;
-            motion.VelocityX = state.Velocity.X;
-            motion.VelocityY = state.Velocity.Y;
-            motion.RunSmoothVelocity = m_Character.RunSmoothVelocity;
+            x = state.Position.X;
+            y = state.Position.Y;
+            velocityX = state.Velocity.X;
+            velocityY = state.Velocity.Y;
+            runSmoothVelocity = m_Character.RunSmoothVelocity;
         }
 
-        private void Restore(PlayerMotion motion)
+        protected override void OnRestoreState()
         {
             PhysicsBody2D body = NetworkObject.Body2D;
             BodyState2D state = body.State;
-            state.Position = new System.Numerics.Vector2(motion.X, motion.Y);
-            state.Velocity = new System.Numerics.Vector2(motion.VelocityX, motion.VelocityY);
+            state.Position = new System.Numerics.Vector2(x, y);
+            state.Velocity = new System.Numerics.Vector2(velocityX, velocityY);
             body.State = state;
-            m_Character.RunSmoothVelocity = motion.RunSmoothVelocity;
+            m_Character.RunSmoothVelocity = runSmoothVelocity;
         }
-
-        private static bool Matches(PlayerMotion server, PlayerMotion predicted) =>
-            Math.Abs(server.X - predicted.X) <= PositionTolerance
-            && Math.Abs(server.Y - predicted.Y) <= PositionTolerance
-            && Math.Abs(server.VelocityX - predicted.VelocityX) <= VelocityTolerance
-            && Math.Abs(server.VelocityY - predicted.VelocityY) <= VelocityTolerance
-            && Math.Abs(server.RunSmoothVelocity - predicted.RunSmoothVelocity) <= VelocityTolerance;
     }
 }

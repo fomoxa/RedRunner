@@ -2,7 +2,7 @@
 namespace Generated
 {
     [global::Fomoxa.Networking.MessageAdapter("net")]
-    public sealed class LevelStateNetAdapter : global::Fomoxa.Networking.Messaging.IMessageCodec<global::RedRunner.Networking.Models.LevelState>
+    public sealed class LevelStateNetAdapter : global::Fomoxa.Networking.Messaging.IMessageCodec<global::FomoxaStateModels.LevelState>
     {
         public static readonly LevelStateNetAdapter Instance = new LevelStateNetAdapter();
 
@@ -10,14 +10,14 @@ namespace Generated
 
         public uint MessageId => LevelStateNetCodec.MessageId;
 
-        public global::System.ReadOnlyMemory<byte> Encode(global::RedRunner.Networking.Models.LevelState value)
+        public global::System.ReadOnlyMemory<byte> Encode(global::FomoxaStateModels.LevelState value)
         {
             writer.Clear();
             LevelStateNetCodec.Encode(writer, value);
             return writer.WrittenMemory;
         }
 
-        public void Decode(global::System.ReadOnlyMemory<byte> payload, ref global::RedRunner.Networking.Models.LevelState value)
+        public void Decode(global::System.ReadOnlyMemory<byte> payload, ref global::FomoxaStateModels.LevelState value)
         {
             var reader = new Reader(payload);
             try

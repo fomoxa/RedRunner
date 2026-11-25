@@ -17,7 +17,8 @@ using UnityEngine.SceneManagement;
 
 namespace RedRunner.Networking
 {
-    public sealed class NetworkLevel : NetworkBehaviour, ISurfaces
+    [NetworkStateModel("LevelState")]
+    public sealed partial class NetworkLevel : NetworkBehaviour, ISurfaces
     {
         private const string GroundName = "Ground";
 
@@ -27,12 +28,14 @@ namespace RedRunner.Networking
         [SerializeField]
         private TextAsset m_Catalogue;
 
-        private readonly LevelState m_State = new LevelState();
+        [NetworkState(OnChanged = nameof(OnSeedChanged))]
+        private uint seed;
+
         private PathFollower[] m_Followers = new PathFollower[0];
         private NetworkGame m_Game;
         private BuiltLevel m_Built;
 
-        public uint Seed => m_State.Seed;
+        public uint Seed => seed;
 
         public TerrainGenerator Generator => m_Generator;
 
@@ -110,15 +113,10 @@ namespace RedRunner.Networking
             return m_Built.SurfaceOf(collider, out top);
         }
 
-        protected override void OnRegisterState(NetworkState state)
-        {
-            state.Use(LevelStateNetAdapter.Instance, m_State, previous => Build());
-        }
-
         public override void OnStartServer()
         {
-            m_State.Seed = (uint)new System.Random().Next(1, int.MaxValue);
-            Debug.Log($"[RedRunner] level seed {m_State.Seed}");
+            seed = (uint)new System.Random().Next(1, int.MaxValue);
+            Debug.Log($"[RedRunner] level seed {seed}");
             Build();
         }
 
@@ -127,14 +125,16 @@ namespace RedRunner.Networking
             Build();
         }
 
+        private void OnSeedChanged(uint previous, uint current) => Build();
+
         private void Build()
         {
-            if (m_State.Seed == 0 || m_Generator.IsBuilt)
+            if (seed == 0 || m_Generator.IsBuilt)
             {
                 return;
             }
 
-            m_Generator.Build((int)m_State.Seed);
+            m_Generator.Build((int)seed);
             m_Followers = FindObjectsByType<PathFollower>(FindObjectsSortMode.None);
             if (m_Game.Manager.TryGetComponent(out RapierPhysics rapier))
             {
@@ -147,7 +147,7 @@ namespace RedRunner.Networking
         private void AddToRapier(RapierPhysics rapier)
         {
             var physics = new RapierLevelPhysics(rapier, gameObject.scene, m_Game.Manager.Scenes.IdOf(gameObject.scene.path));
-            m_Built = BuiltLevel.Build(Read(m_Catalogue.bytes), (int)m_State.Seed, (float)m_Game.Manager.TimeManager.TickDelta, physics);
+            m_Built = BuiltLevel.Build(Read(m_Catalogue.bytes), (int)seed, (float)m_Game.Manager.TimeManager.TickDelta, physics);
             Block[] blocks = FindObjectsByType<Block>(FindObjectsSortMode.None).OrderBy(block => block.transform.position.x).ToArray();
             foreach (LevelMover mover in m_Built.Movers)
             {
