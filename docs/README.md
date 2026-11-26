@@ -23,11 +23,11 @@ Run with the left and right arrow keys, jump with Space, W or the up arrow, and 
 
 `Server~/` is a dedicated server that runs without Unity, on .NET 8 on Windows x64 or Linux x64. Clients built from the Unity project join it as they join the Unity server. It builds the level from the seed with the same rules as the Unity server and runs the player on the Rapier physics backend, so deaths and respawns follow the same rules too. Unity ignores the folder because its name ends with `~`.
 
-The project compiles the networking package from source, so clone the package and its Rapier backend next to this repository:
+The project compiles the networking package from source, so clone the package and its Rapier backend next to this repository, at the tags that `Packages/manifest.json` installs:
 
 ```
-git clone https://github.com/fomoxa/com.fomoxa.networking.git
-git clone https://github.com/fomoxa/networking-rapier.git
+git clone --branch 0.4.0 https://github.com/fomoxa/com.fomoxa.networking.git
+git clone --branch 0.2.6 https://github.com/fomoxa/networking-rapier.git
 git clone https://github.com/fomoxa/RedRunner.git
 ```
 
@@ -40,7 +40,7 @@ dotnet run --project Server~ -c Release -- -port 7777 -logFile server.log
 
 The server targets .NET 8. If only a newer runtime is installed, `dotnet run` stops with "You must install or update .NET to run this application"; install the .NET 8 runtime, or set `DOTNET_ROLL_FORWARD=LatestMajor` before `dotnet run` to run it on the newer one.
 
-`Packages/manifest.json` installs both packages from the default branch of their Git URLs, which is what these clones check out. When Unity resolves them, it records the commit of each in `Packages/packages-lock.json` (`hash`); if that commit is older than your clones, check it out in the clone, so that the server and the clients run the same package code.
+`Packages/manifest.json` installs `com.fomoxa.networking` 0.4.0 and its Rapier backend 0.2.6 from their Git tags, and the clones above check out the same tags, so that the server and the clients run the same package code. When the manifest moves to other versions, check out the same tags in the clones.
 
 `-port` is the UDP port (7777 by default), and `-logFile` copies every log line to a file. To use other locations for the two packages, pass `-p:Core=<path to com.fomoxa.networking>` and `-p:Rapier=<path to com.fomoxa.networking.rapier>` to `dotnet build` or `dotnet run`. The build copies `LevelCatalogue.bytes`, the scene file of `Play.unity` and the native Rapier libraries for Windows x64 and Linux x64 next to the server.
 
