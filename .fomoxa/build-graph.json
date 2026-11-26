@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generator": "fomoxac 0.2.3",
-  "schema_fingerprint": "sha256:4f6f422073814fd26ecb116b5fcebf58532ca310de2055f417ee9a0a8556b083",
+  "schema_fingerprint": "sha256:6419be69b387fea013edbb63f3569325f6dde2fc720f3fe729531143b139d18c",
   "sha256_of": "each file with its `// generated-at:` line emptied, so an unchanged schema keeps an unchanged digest",
   "sources": {
     "Assets/Scripts/RedRunner/Networking/Generated/StateModels/LevelState.cs": {
@@ -716,6 +716,20 @@
         }
       ]
     },
+    "FomoxaSystemModels/TransformAuthority.cs": {
+      "models": [
+        "TransformAuthority"
+      ],
+      "outputs": [
+        {
+          "path": "Assets/Scripts/RedRunner/Networking/Generated/TransformAuthorityNetCodec.cs",
+          "model": "TransformAuthority",
+          "codec": "net",
+          "fingerprint": "sha256:2e6aca390d4c220fd221f2730a9b70f6ef2ebabceda06cfb19cc87cc95227d9e",
+          "sha256": "dad049702fdf4bab65c7634e8bb5ef1a8a6290a0577be71d56143904fb623167"
+        }
+      ]
+    },
     "FomoxaSystemModels/TransformSettle.cs": {
       "models": [
         "TransformSettle"
@@ -754,12 +768,12 @@
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/Handshake.cs",
       "kind": "handshake",
-      "sha256": "ef09a58228cfbb5d3e87ce2af9054dca17a351b0afd738ee998b0012f1431678"
+      "sha256": "3ca30025d72a4eba1e859b1d06ddc9211d1e486777bd67b896e8d1c1a97662ae"
     },
     {
       "path": "Assets/Scripts/RedRunner/Networking/Generated/NetSchema.cs",
       "kind": "net_schema",
-      "sha256": "96be1a7e4d6d4fd87a360059814bdbb5ef99d93fb54bf77a077bef7a38d5fa3e"
+      "sha256": "8f596102a297f5f9fce9774ecb7950cff36cd81d036e93d188b07853f4417f34"
     }
   ]
 }

@@ -136,18 +136,18 @@ namespace RedRunner.Networking
 
             m_Generator.Build((int)seed);
             m_Followers = FindObjectsByType<PathFollower>(FindObjectsSortMode.None);
-            if (m_Game.Manager.TryGetComponent(out RapierPhysics rapier))
+            if (NetworkManager.TryGetComponent(out RapierPhysics rapier))
             {
                 AddToRapier(rapier);
             }
 
-            m_Game.Manager.TimeManager.OnPreTick += MoveFollowers;
+            NetworkManager.TimeManager.OnPreTick += MoveFollowers;
         }
 
         private void AddToRapier(RapierPhysics rapier)
         {
-            var physics = new RapierLevelPhysics(rapier, gameObject.scene, m_Game.Manager.Scenes.IdOf(gameObject.scene.path));
-            m_Built = BuiltLevel.Build(Read(m_Catalogue.bytes), (int)seed, (float)m_Game.Manager.TimeManager.TickDelta, physics);
+            var physics = new RapierLevelPhysics(rapier, gameObject.scene, NetworkManager.Scenes.IdOf(gameObject.scene.path));
+            m_Built = BuiltLevel.Build(Read(m_Catalogue.bytes), (int)seed, (float)NetworkManager.TimeManager.TickDelta, physics);
             Block[] blocks = FindObjectsByType<Block>(FindObjectsSortMode.None).OrderBy(block => block.transform.position.x).ToArray();
             foreach (LevelMover mover in m_Built.Movers)
             {
@@ -171,7 +171,7 @@ namespace RedRunner.Networking
 
         private void MoveFollowers()
         {
-            TimeManager time = m_Game.Manager.TimeManager;
+            TimeManager time = NetworkManager.TimeManager;
             uint tick = time.PredictionTick;
             float tickDelta = (float)time.TickDelta;
             m_Built?.Move(tick);

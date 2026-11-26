@@ -1,6 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections;
-using Fomoxa.Networking.Simulation;
+using Fomoxa.Unity;
 using RedRunner.Characters;
 using RedRunner.Networking;
 using RedRunner.TerrainGeneration;
@@ -61,10 +61,10 @@ namespace RedRunner.PortChecks
 
         private static void Teleport(NetworkPlayer player, Vector2 position)
         {
-            PhysicsBody2D body = player.NetworkObject.Body2D;
-            BodyState2D state = body.State;
-            state.Position = new System.Numerics.Vector2(position.x, position.y);
-            state.Velocity = System.Numerics.Vector2.Zero;
+            NetworkBody2D body = player.NetworkObject.Body2D;
+            NetworkBodyState2D state = body.State;
+            state.Position = position;
+            state.Velocity = Vector2.zero;
             body.State = state;
         }
     }

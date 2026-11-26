@@ -66,7 +66,7 @@ namespace RedRunner.Networking
         private uint m_RespawnTick;
         private bool m_OnRapier;
         private bool m_Held;
-        private System.Numerics.Vector2 m_HeldAt;
+        private Vector2 m_HeldAt;
         private BoxCollider2D m_Sensor;
         private NetworkLevel m_Level;
         private readonly List<Collider2D> m_Sources = new List<Collider2D>();
@@ -143,10 +143,10 @@ namespace RedRunner.Networking
                 m_Level = FindFirstObjectByType<NetworkLevel>();
             }
 
-            PhysicsBody2D physicsBody = NetworkObject != null ? NetworkObject.Body2D : default;
+            NetworkBody2D networkBody = NetworkObject != null ? NetworkObject.Body2D : default;
             world = m_Level != null ? m_Level.World : null;
-            body = physicsBody.Handle;
-            if (world == null || !physicsBody.IsValid)
+            body = networkBody.Handle;
+            if (world == null || !networkBody.IsValid)
             {
                 return false;
             }
@@ -161,7 +161,7 @@ namespace RedRunner.Networking
 
         private void HoldWhileDead()
         {
-            PhysicsBody2D body = NetworkObject != null ? NetworkObject.Body2D : default;
+            NetworkBody2D body = NetworkObject != null ? NetworkObject.Body2D : default;
             if (!m_OnRapier || !body.IsValid)
             {
                 return;
@@ -179,25 +179,25 @@ namespace RedRunner.Networking
                 m_HeldAt = body.Position;
             }
 
-            body.State = new BodyState2D { Position = m_HeldAt, Rotation = body.Rotation };
+            body.State = new NetworkBodyState2D { Position = m_HeldAt, Rotation = body.Rotation };
         }
 
         private float Bottom()
         {
             var capsule = (CapsuleCollider2D)m_Character.Collider2D;
-            return NetworkObject.Body2D.Position.Y + capsule.offset.y - capsule.size.y * 0.5f;
+            return NetworkObject.Body2D.Position.y + capsule.offset.y - capsule.size.y * 0.5f;
         }
 
         public override void OnStartServer()
         {
             m_Character.DecidesDeath = !m_OnRapier;
             m_Character.CollectsItems = false;
-            m_Game.Manager.TimeManager.OnTick += ServerTick;
+            NetworkManager.TimeManager.OnTick += ServerTick;
         }
 
         public override void OnStopServer()
         {
-            m_Game.Manager.TimeManager.OnTick -= ServerTick;
+            NetworkManager.TimeManager.OnTick -= ServerTick;
         }
 
         public override void OnStartClient()
@@ -243,7 +243,7 @@ namespace RedRunner.Networking
 
         protected override void OnApplyInput(InputContext context)
         {
-            float tickDelta = (float)m_Game.Manager.TimeManager.TickDelta;
+            float tickDelta = (float)NetworkManager.TimeManager.TickDelta;
             bool fresh = !context.Repeated;
             float axis = context.RepeatedTicks > m_MaxRepeatedTicks ? 0f : move;
             m_Character.Simulate(axis, fresh && jump, fresh && roll, tickDelta, !context.Replaying);
@@ -252,7 +252,7 @@ namespace RedRunner.Networking
 
         private void ServerTick()
         {
-            TimeManager time = m_Game.Manager.TimeManager;
+            TimeManager time = NetworkManager.TimeManager;
             if (dead)
             {
                 if (time.Tick >= m_RespawnTick)
@@ -292,10 +292,10 @@ namespace RedRunner.Networking
         private void Respawn()
         {
             m_Character.Reset();
-            PhysicsBody2D body = NetworkObject.Body2D;
-            BodyState2D state = body.State;
-            state.Position = new System.Numerics.Vector2(m_Game.SpawnPoint.x, m_Game.SpawnPoint.y);
-            state.Velocity = System.Numerics.Vector2.Zero;
+            NetworkBody2D body = NetworkObject.Body2D;
+            NetworkBodyState2D state = body.State;
+            state.Position = m_Game.SpawnPoint;
+            state.Velocity = Vector2.zero;
             body.State = state;
             transform.position = new Vector3(m_Game.SpawnPoint.x, m_Game.SpawnPoint.y, transform.position.z);
             m_NetworkTransform.Teleport();
@@ -327,20 +327,20 @@ namespace RedRunner.Networking
 
         protected override void OnCaptureState()
         {
-            BodyState2D state = NetworkObject.Body2D.State;
-            x = state.Position.X;
-            y = state.Position.Y;
-            velocityX = state.Velocity.X;
-            velocityY = state.Velocity.Y;
+            NetworkBodyState2D state = NetworkObject.Body2D.State;
+            x = state.Position.x;
+            y = state.Position.y;
+            velocityX = state.Velocity.x;
+            velocityY = state.Velocity.y;
             runSmoothVelocity = m_Character.RunSmoothVelocity;
         }
 
         protected override void OnRestoreState()
         {
-            PhysicsBody2D body = NetworkObject.Body2D;
-            BodyState2D state = body.State;
-            state.Position = new System.Numerics.Vector2(x, y);
-            state.Velocity = new System.Numerics.Vector2(velocityX, velocityY);
+            NetworkBody2D body = NetworkObject.Body2D;
+            NetworkBodyState2D state = body.State;
+            state.Position = new Vector2(x, y);
+            state.Velocity = new Vector2(velocityX, velocityY);
             body.State = state;
             m_Character.RunSmoothVelocity = runSmoothVelocity;
         }

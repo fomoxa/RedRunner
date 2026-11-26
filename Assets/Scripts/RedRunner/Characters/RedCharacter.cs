@@ -259,7 +259,7 @@ namespace RedRunner.Characters
 			}
 		}
 
-		public System.Func<Fomoxa.Networking.Simulation.PhysicsBody2D> BodySource { get; set; }
+		public System.Func<Fomoxa.Unity.NetworkBody2D> BodySource { get; set; }
 
 		protected Vector2 LinearVelocity
 		{
@@ -267,10 +267,10 @@ namespace RedRunner.Characters
 			{
 				if ( BodySource != null )
 				{
-					Fomoxa.Networking.Simulation.PhysicsBody2D body = BodySource ();
+					Fomoxa.Unity.NetworkBody2D body = BodySource ();
 					if ( body.IsValid )
 					{
-						return new Vector2 ( body.Velocity.X, body.Velocity.Y );
+						return body.Velocity;
 					}
 				}
 				return m_Rigidbody2D.linearVelocity;
@@ -279,10 +279,10 @@ namespace RedRunner.Characters
 			{
 				if ( BodySource != null )
 				{
-					Fomoxa.Networking.Simulation.PhysicsBody2D body = BodySource ();
+					Fomoxa.Unity.NetworkBody2D body = BodySource ();
 					if ( body.IsValid )
 					{
-						body.Velocity = new System.Numerics.Vector2 ( value.x, value.y );
+						body.Velocity = value;
 						return;
 					}
 				}
@@ -345,10 +345,10 @@ namespace RedRunner.Characters
 		void LateUpdate ()
 		{
 			Vector2 velocity = m_Rigidbody2D.linearVelocity;
-			Fomoxa.Networking.Simulation.PhysicsBody2D body = BodySource != null ? BodySource () : default;
+			Fomoxa.Unity.NetworkBody2D body = BodySource != null ? BodySource () : default;
 			if ( body.IsValid && !body.IsKinematic )
 			{
-				velocity = new Vector2 ( body.Velocity.X, body.Velocity.Y );
+				velocity = body.Velocity;
 			}
 			else if ( m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic && Time.deltaTime > 0f )
 			{
@@ -457,12 +457,12 @@ namespace RedRunner.Characters
 
 		public virtual void Simulate ( float horizontalAxis, bool jump, bool roll, float deltaTime, bool effects )
 		{
-			Fomoxa.Networking.Simulation.PhysicsBody2D body = BodySource != null ? BodySource () : default;
+			Fomoxa.Unity.NetworkBody2D body = BodySource != null ? BodySource () : default;
 			if ( !body.IsValid )
 			{
 				return;
 			}
-			RedRunner.Simulation.RunnerActions actions = m_Motion.Simulate ( body, Settings, horizontalAxis, jump, roll, jump && m_GroundCheck.Check (), IsDead.Value, deltaTime );
+			RedRunner.Simulation.RunnerActions actions = m_Motion.Simulate ( body.Core, Settings, horizontalAxis, jump, roll, jump && m_GroundCheck.Check (), IsDead.Value, deltaTime );
 			if ( !IsDead.Value )
 			{
 				Vector3 scale = transform.localScale;
@@ -511,10 +511,10 @@ namespace RedRunner.Characters
 		{
 			if ( !IsDead.Value )
 			{
-				Fomoxa.Networking.Simulation.PhysicsBody2D rolled = BodySource != null ? BodySource () : default;
+				Fomoxa.Unity.NetworkBody2D rolled = BodySource != null ? BodySource () : default;
 				if ( rolled.IsValid )
 				{
-					rolled.AddForce ( new System.Numerics.Vector2 ( Mathf.Sign ( transform.localScale.x ) * m_RollForce, 0f ) );
+					rolled.AddForce ( new Vector2 ( Mathf.Sign ( transform.localScale.x ) * m_RollForce, 0f ) );
 				}
 				else
 				{
