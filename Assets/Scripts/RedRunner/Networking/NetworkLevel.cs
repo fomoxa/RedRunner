@@ -146,7 +146,7 @@ namespace RedRunner.Networking
 
         private void AddToRapier(RapierPhysics rapier)
         {
-            var physics = new RapierLevelPhysics(rapier, gameObject.scene, NetworkManager.Scenes.IdOf(gameObject.scene.path));
+            var physics = new RapierLevelPhysics(rapier, gameObject.scene, InstanceOf(gameObject.scene));
             m_Built = BuiltLevel.Build(Read(m_Catalogue.bytes), (int)seed, (float)NetworkManager.TimeManager.TickDelta, physics);
             Block[] blocks = FindObjectsByType<Block>(FindObjectsSortMode.None).OrderBy(block => block.transform.position.x).ToArray();
             foreach (LevelMover mover in m_Built.Movers)
@@ -169,6 +169,16 @@ namespace RedRunner.Networking
             }
         }
 
+        private NetworkScene InstanceOf(Scene scene)
+        {
+            if (NetworkManager.ServerManager.Scenes.TryGetNetworkScene(scene, out NetworkScene instance))
+            {
+                return instance;
+            }
+
+            return NetworkManager.ClientManager.Scenes.TryGetNetworkScene(scene, out instance) ? instance : default;
+        }
+
         private void MoveFollowers()
         {
             TimeManager time = NetworkManager.TimeManager;
@@ -185,16 +195,16 @@ namespace RedRunner.Networking
         {
             private readonly RapierPhysics rapier;
             private readonly Scene scene;
-            private readonly uint sceneId;
+            private readonly NetworkScene instance;
 
-            public RapierLevelPhysics(RapierPhysics rapier, Scene scene, uint sceneId)
+            public RapierLevelPhysics(RapierPhysics rapier, Scene scene, NetworkScene instance)
             {
                 this.rapier = rapier;
                 this.scene = scene;
-                this.sceneId = sceneId;
+                this.instance = instance;
             }
 
-            public RapierWorld2D World => rapier.Scenes.WorldOf2D(sceneId);
+            public RapierWorld2D World => rapier.Scenes.WorldOf2D(instance);
 
             public StaticGroup AddStatics(IReadOnlyList<ColliderDesc2D> colliders) => rapier.AddStatic2D(scene, colliders);
 

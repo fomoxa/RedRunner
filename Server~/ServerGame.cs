@@ -66,7 +66,7 @@ namespace RedRunner.Server
 
         public void BuildLevel(uint seed)
         {
-            Level = BuiltLevel.Build(Catalogue, (int)seed, (float)Runtime.TimeManager.TickDelta, new ConsoleLevelPhysics(physics, FomoxaScenes.PlayId));
+            Level = BuiltLevel.Build(Catalogue, (int)seed, (float)Runtime.TimeManager.TickDelta, new ConsoleLevelPhysics(physics));
             pathMover = Level.Movers
                 .Where(mover => mover.Cycle.Count > 1)
                 .OrderBy(mover => mover.PositionAt(0).X)
@@ -93,7 +93,6 @@ namespace RedRunner.Server
             CataloguePlayer player = Catalogue.Player;
             var entity = new PlayerEntity(this)
             {
-                SceneId = FomoxaScenes.PlayId,
                 Position = new Vector3(player.SpawnX, player.SpawnY, 0f),
             };
             Runtime.ServerManager.Spawn(entity, args.PeerId);
@@ -114,20 +113,19 @@ namespace RedRunner.Server
 
         private sealed class ConsoleLevelPhysics : ILevelPhysics
         {
+            private static readonly NetworkScene PlayScene = default;
             private readonly RapierScenes physics;
-            private readonly uint sceneId;
 
-            public ConsoleLevelPhysics(RapierScenes physics, uint sceneId)
+            public ConsoleLevelPhysics(RapierScenes physics)
             {
                 this.physics = physics;
-                this.sceneId = sceneId;
             }
 
-            public RapierWorld2D World => physics.WorldOf2D(sceneId);
+            public RapierWorld2D World => physics.WorldOf2D(PlayScene);
 
-            public StaticGroup AddStatics(IReadOnlyList<ColliderDesc2D> colliders) => physics.AddStatic2D(sceneId, colliders);
+            public StaticGroup AddStatics(IReadOnlyList<ColliderDesc2D> colliders) => physics.AddStatic2D(PlayScene, colliders);
 
-            public PhysicsBody2D AddBody(in BodyDesc2D body) => physics.AddBody2D(sceneId, body);
+            public PhysicsBody2D AddBody(in BodyDesc2D body) => physics.AddBody2D(PlayScene, body);
         }
     }
 }
